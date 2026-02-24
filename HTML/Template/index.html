@@ -1,10 +1,124 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!-- BASIC BUILDING BLOCKS FOR MODERN HTML WEBPAGES (https://www.freecodecamp.org/news/html-starter-template-a-basic-html5-boilerplate-for-index-html/)-->
+
+<!DOCTYPE html> <!-- !DOCTYPE: Declaration of the HTML file -->
+
+<!--
+* Set of tags that can be used throughout the code base:
+    * Use consistent tags:
+        * TODO:
+        * FIXME:
+-->
+
+<html lang="en"> <!-- HTLM/lang: Root of the HTML document, lang="en" used to specify the language of the text on the website -->
+
+<head> <!-- HEAD: Houses the metadata of your website, provides the websites content for SEO -->
+
+<!--
+META:
+* The metadata element used to add more metadata to your website than the kind that non-meta tags like title provide.
+* Adding metadata for social media, description, character, etc.
+-->
+
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<!-- TITLE: Used to specify the title for your website also allows search engines show title for your website -->
+
+    <title>Lorem Ipsum - Practice Content</title>
+
+<!-- LINK: used to link to another document -->
+<!-- FAVICON: the small image that will display when you select a URL... -->
+
+<!--    <link rel="stylesheet" href="./style.css"> -->
+<!--    <link rel="icon" href="./favicon.ico" type="image/x-icon"> -->
+
 </head>
+
 <body>
 
+<!-- MAIN: location of your headings (h1, h2, h3, h4, h5 and h6) -->
+
+<main>
+    <h1>Lorem Ipsum</h1>
+    <h2>Purpose</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+        </p>
+
+        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.
+        </p>
+
+    <div>
+    <figure>
+    <!-- There should be an "alt" attribute here... -->
+    <img width="50%"
+            style="border: 3px solid black; padding: 2px;"
+            src="./assets/images/lorem_ipsum.png" alt="Should be an image showing Lorem Ipsum here." class="center">
+        <figcaption> Fig. 1 - Lorem Ipsum (ref. <span style="color:blue;">here</span>) </figcaption>
+    </figure>
+    </div>
+
+    <div>
+
+        <h2>The Reasons Lorem Ipsum is Useful</h2>
+
+        <!-- Unordered List Provides Bullet Points -->
+        <ul>
+            <li>It makes spacing much easier.</li>
+            <li>It takes the thinking out of spacing.</li>
+            <li>It's fool-proof!</li>
+        </ul>
+
+    </div>
+
+    <div>
+
+        <h2>The Zen of Python Brief</h2>
+
+        <!-- Ordered List -->
+
+        <ol>
+
+            <li>Beautiful is better than ugly.</li>
+            <li>Explicit is better than implicit.</li>
+            <li>Simple is better than complex.</li>
+            <li>...</li>
+
+        </ol>
+
+    </div>
+
+
+    <h3>Example of Table Creation</h3>
+
+    <table>
+
+        <thead> <!-- Header -->
+
+            <tr> <!-- Table Row -->
+
+                <!-- Table Data (individual cell of information) -->
+                <td>First Name</td>
+                <td>Last Name</td>
+                <td>DOB (YYYY-MM-DD)</td>
+            </tr>
+
+        </thead>
+
+        <tbody>
+            <td>Chuma</td>
+            <td>Humphrey</td>
+            <td>1998-03-06</td>
+        </tbody>
+
+
+    </table>
+
+    <h4>Conclusion</h4>
+
+</main>
+
+<!-- SCRIPT: points to specific JS needed to make your page interactive -->
+<!-- <script src="index.js"></script> -->
 </body>
 </html>
