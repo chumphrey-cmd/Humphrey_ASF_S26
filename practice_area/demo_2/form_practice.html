@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Form Setup Practice</title>
+</head>
+<body>
+
+<h1 style="text-align:center;"> Job Application Submission</h1>
+<!-- Required Tag to input information inside a form document... -->
+<!-- NOTE: by default the contents of the form will automatically be sent as a GET request (sent through the URL where everyone can see it! -->
+
+    <form style="text-align:center;" action="" method="GET">
+<!--    User input  for submission    -->
+
+        <!-- NOTE: ensure that there's a label attached to all of our inputs! -->
+        <label>Fist Name:
+            <input
+                    type="text"
+                    name="first_name"
+                    id="first_name"
+                    required
+
+            />
+        </label>
+
+        <br/>
+        <br/>
+
+        <label>Last Name:
+            <input
+                    type="text"
+                    name="last_name"
+                    id="last_name"
+                    required
+            />
+        </label>
+
+        <br/>
+        <br/>
+
+        <label>Please Select Your Sex:
+
+            <input type="radio" name="bio_sex" value="male"/>Male
+            <input type="radio" name="bio_sex" value="female"/>Female
+            <input type="radio" name="bio_sex" value="other"/>Other
+
+        </label>
+
+        <br/>
+        <br/>
+
+        <label>Password:
+            <input
+                    type="password"
+                    id="pass"
+            />
+        </label>
+
+        <br/>
+        <br/>
+
+        <label>Email:
+            <input
+                    type="email"
+                    id="email"
+            />
+        </label>
+
+        <br/>
+        <br/>
+
+        <label>Phone Number (Optional):
+
+            <input
+                type="tel"
+                name="phone"
+                id="phone"
+                placeholder = "(123) 456-7890"
+
+            />
+
+        </label>
+
+        <br/>
+        <br/>
+
+            <button Type="submit">Submit</button>
+
+    </form>
+
+</body>
+</html>
