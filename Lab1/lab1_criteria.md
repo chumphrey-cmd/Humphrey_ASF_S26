@@ -1,23 +1,23 @@
 ### General Rules & Constraints
 
-* [ ] Use **HTML and CSS only**.
-* [ ] Do **not** use Bootstrap or JavaScript.
-* [ ] Use an **external stylesheet only** (named `styles.css`).
-* [ ] Do **not** use `<br>` tags (use CSS margins/padding for spacing).
-* [ ] Keep layout, brand, and theme consistent across all pages.
+* [X] Use **HTML and CSS only**.
+* [X] Do **not** use Bootstrap or JavaScript.
+* [X] Use an **external stylesheet only** (named `styles.css`).
+* [X] Do **not** use `<br>` tags (use CSS margins/padding for spacing).
+* [X] Keep layout, brand, and theme consistent across all pages.
 
 ---
 
 ### Folder & File Structure
 
-* [ ] Create a main folder named `restaurant-site`.
-* [ ] Create `index.html` (Home Page).
-* [ ] Create `menu.html` (Menu Page).
-* [ ] Create `reservations.html` (Reservations Page).
-* [ ] Create `styles.css`.
-* [ ] Create an `images` folder containing:
-* [ ] 1 Logo image (`logo.png`).
-* [ ] 3 Content images (`img1.jpg`, `img2.jpg`, `img3.jpg`).
+* [X] Create a main folder named `restaurant-site`.
+* [X] Create `index.html` (Home Page).
+* [X] Create `menu.html` (Menu Page).
+* [X] Create `reservations.html` (Reservations Page).
+* [X] Create `styles.css`.
+* [X] Create an `images` folder containing:
+* [X] 1 Logo image (`logo.png`).
+* [X] 3 Content images (`img1.jpg`, `img2.jpg`, `img3.jpg`).
 
 
 
@@ -25,31 +25,29 @@
 
 ### Global Elements (All Pages)
 
-* [ ] Include a Navbar with links to Home, Menu, and Reservations.
-* [ ] Ensure the logo image is present (usually in the header/navbar).
+* [X] Include a Navbar with links to Home, Menu, and Reservations.
+* [X] Ensure the logo image is present (usually in the header/navbar).
 
 ---
 
 ### 1. Home Page (`index.html`)
 
-* [ ] Create a Hero section containing:
-* [ ] An `<h1>` tag with the restaurant name.
-* [ ] A short tagline.
-* [ ] One content image (Image #1) with `alt` text.
-
-
+* [X] Create a Hero section containing:
+* [X] An `<h1>` tag with the restaurant name.
+* [X] A short tagline.
+* [X] One content image (Image #1) with `alt` text.
 
 ---
 
 ### 2. Menu Page (`menu.html`)
 
-* [ ] Include an intro paragraph describing the menu style.
-* [ ] Include one content image (Image #3) near the menu section.
-* [ ] Create one HTML table containing:
-* [ ] `<caption>`
-* [ ] `<thead>` and `<tbody>`
-* [ ] At least 6 rows of menu items.
-* [ ] *Suggestion:* Columns for Combo, Includes, Price, and Notes (e.g., "Spicy").
+* [X] Include an intro paragraph describing the menu style.
+* [X] Include one content image (Image #3) near the menu section.
+* [X] Create one HTML table containing:
+* [X] `<caption>`
+* [X] `<thead>` and `<tbody>`
+* [X] At least 6 rows of menu items.
+* [X] *Suggestion:* Columns for Combo, Includes, Price, and Notes (e.g., "Spicy").
 
 
 
@@ -77,9 +75,9 @@
 
 ### Image Placement Check
 
-* [ ] Logo used.
-* [ ] Content Image #1 used on Home Page.
-* [ ] Content Image #3 used on Menu Page.
+* [X] Logo used.
+* [X] Content Image #1 used on Home Page.
+* [X] Content Image #3 used on Menu Page.
 * [ ] Content Image #2 used somewhere on the site (Home, Menu, or Reservations).
 
 ---
