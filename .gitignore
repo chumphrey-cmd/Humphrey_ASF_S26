@@ -25,3 +25,6 @@ replay_pid*
 
 # IntelliJ configs removal
 .idea/
+
+# MacOS Stuff
+.DS_Store

@@ -78,7 +78,7 @@
 * [X] Logo used.
 * [X] Content Image #1 used on Home Page.
 * [X] Content Image #3 used on Menu Page.
-* [ ] Content Image #2 used somewhere on the site (Home, Menu, or Reservations).
+* [X] Content Image #2 used somewhere on the site (Home, Menu, or Reservations).
 
 ---
 

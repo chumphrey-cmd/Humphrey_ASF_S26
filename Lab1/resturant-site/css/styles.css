@@ -1,0 +1,73 @@
+/*
+==========================================================================
+Universal & Themed Variables (Modify later for something more elegant)
+NOTE: USE rem as the default and standard for webpages!!
+==========================================================================
+*/
+
+/* --- Universal Variables (Do NOT change between themes) --- */
+:root {
+    /* Core Palette */
+    --primary-color: #d8ff43;
+    --primary-color-rgb: 216, 255, 67;
+    --secondary-color: #c4e63c; /* For hover states */
+    --text-on-primary: #121212; /* Text on yellow buttons, always dark */
+    --message-color: #65a30d; /*continue discussion background message color */
+
+    /* Feedback Colors */
+    --error-color: #ef4444;
+    --error-color-rgb: 239, 68, 68;
+    --success-color: #22c55e;
+    --success-color-rgb: 34, 197, 94;
+
+    /* Borders & Spacing */
+    --border-radius-pill: 50px;
+    --border-radius-card: 16px;
+    --border-radius-sm: 8px;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+
+    /* Effects */
+    --backdrop-blur: 15px;
+    --shadow-soft: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+}
+
+
+/*
+==========================================================================
+Menu Modifications (menu.html)
+==========================================================================
+*/
+
+/* The Main Table Container */
+table {
+    border-collapse: collapse; /* This merges the double borders into a single clean line */
+    width: 100%;               /* Makes the table stretch nicely across its container */
+    margin: 20px 0;            /* Adds a little breathing room above and below */
+}
+
+/* Table Caption Styling */
+caption {
+    text-align: center;
+    font-weight: bold;
+    padding-bottom: 10px;
+    font-size: 1.2rem; /* Makes the text slightly larger */
+}
+
+/* The Cells (Headers and Data) */
+th, td {
+    border: 1px solid #333;    /* This is what actually draws the visible lines! */
+    padding: 12px;             /* Gives the text room to breathe inside the box */
+    text-align: center;          /* Keeps everything neatly aligned to the left */
+}
+
+/* The Header Row */
+th {
+    background-color: rgba(153, 161, 164, 0.78);
+    font-weight: bold;
+}
+
+/* Zebra Striping for Table Rows */
+tbody tr:nth-child(even) {
+    background-color: rgba(153, 161, 164, 0.36);
+}
