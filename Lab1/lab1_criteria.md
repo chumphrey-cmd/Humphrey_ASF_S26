@@ -55,16 +55,16 @@
 
 ### 3. Reservations Page (`reservations.html`)
 
-* [ ] Include a short paragraph explaining reservations are "request only".
-* [ ] Create a form with basic HTML validation:
-* [ ] **Name:** Text input (Required, maximum 20 characters).
-* [ ] **Email:** Email input (Required).
-* [ ] **Party size:** `<select>` dropdown (Values from 1 to 8).
-* [ ] **Date:** Date input (Required).
-* [ ] **Time:** Time input (Required).
-* [ ] **Seating preference:** Radio buttons (At least 3 options, e.g., Indoor, Outdoor, Bar).
-* [ ] **Dietary notes:** `<textarea>` (Optional, maximum 30 characters).
-* [ ] **Newsletter opt-in:** Checkbox (Optional).
+* [X] Include a short paragraph explaining reservations are "request only".
+* [X] Create a form with basic HTML validation:
+* [X] **Name:** Text input (Required, maximum 20 characters).
+* [X] **Email:** Email input (Required).
+* [X] **Party size:** `<select>` dropdown (Values from 1 to 8).
+* [X] **Date:** Date input (Required).
+* [X] **Time:** Time input (Required).
+* [X] **Seating preference:** Radio buttons (At least 3 options, e.g., Indoor, Outdoor, Bar).
+* [X] **Dietary notes:** `<textarea>` (Optional, maximum 30 characters).
+* [X] **Newsletter opt-in:** Checkbox (Optional).
 
 
 * [ ] Group the radio buttons using a `<fieldset>` with a clear `<legend>`.

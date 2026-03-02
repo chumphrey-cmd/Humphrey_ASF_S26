@@ -4,12 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Lorem Ipsum Cafe<</title>
-
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
 
 </head>
 <body>
@@ -22,7 +17,153 @@
     <a href="./index.html">Home</a>
     <a href="./menu.html">Menu</a>
     <a href="./reservations.html">Reservations</a>
-
 </nav>
+
+    <h2 class="form-title">Reservations</h2>
+
+<div class="main-center">
+    <div class="form-container">
+        <form
+                method="POST"
+                enctype="multipart/form-data"
+        >
+            <div style="margin-bottom: 2rem">
+                <p class="form-desc">
+                    Please provide your reservation details below. Fields marked
+                    with * are required.
+                </p>
+            </div>
+
+            <label for="fullname" class="form-label">Full Name*</label>
+            <input
+                    type="text"
+                    name="fullname"
+                    id="fullname"
+                    class="form-input"
+                    placeholder="Enter your full name"
+                    maxlength="20"
+                    required
+            />
+
+            <label for="email" class="form-label">Email Address*</label>
+            <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    class="form-input"
+                    placeholder="Enter your email"
+                    required
+            />
+
+            <label for="phone" class="form-label"
+            >Phone Number (Optional)</label
+            >
+            <input
+                    type="tel"
+                    name="phone"
+                    id="phone"
+                    class="form-input"
+                    placeholder="Enter your phone number"
+            />
+
+            <label for="party-size" class="form-label">Party Size (Including Yourself)*</label>
+            <select name="party-size" id="party-size" class="form-select" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+            </select>
+
+            <label for="request-date" class="form-label"
+            >Date of Reservation*</label
+            >
+            <input
+                    type="date"
+                    name="request-date"
+                    id="request-date"
+                    class="form-input"
+                    required
+            />
+
+            <!-- How to make this update dynamic (e.g., other customers have these time selected -->
+            <label for="time" class="form-label"> Reservation Time* </label>
+            <input
+                    type="time"
+                    name="time"
+                    id="time"
+                    class="form-input"
+                    required
+            />
+
+            <fieldset class="preference-radio-spacing">
+                <label for="indoor" class="form-label"> Seating Preference*</label>
+                <div class="radio-option">
+                    <input
+                            type="radio"
+                            name="seat-preference"
+                            id="indoor"
+                            class="preference-radio"
+                    />
+                    <label for="indoor" class="form-label"> Indoor </label>
+                </div>
+
+
+                <div class="radio-option">
+                    <input
+                            type="radio"
+                            name="seat-preference"
+                            id="outdoor"
+                            class="preference-radio"
+                    />
+                    <label for="outdoor" class="form-label"> Outdoor </label>
+                </div>
+
+                <div class="radio-option">
+                    <input
+                            type="radio"
+                            name="seat-preference"
+                            id="bar"
+                            class="preference-radio"
+                    />
+                    <label for="bar" class="form-label"> Bar </label>
+                </div>
+            </fieldset>
+
+            <div>
+                <label for="message" class="form-label"> Dietary Notes (optional) </label>
+                <textarea
+                        rows="6"
+                        name="message"
+                        id="message"
+                        placeholder="Type your message"
+                        class="message-form-input"
+                ></textarea>
+            </div>
+
+            <div class="form-checkbox-row">
+                <input
+                        type="checkbox"
+                        id="declaration"
+                        class="form-checkbox"
+                        required
+                />
+                <label
+                        for="declaration"
+                        style="margin: 0; font-weight: bold"
+                        class="form-label"
+                >
+                    Opt-in for newsletter
+                </label>
+            </div>
+
+            <button class="form-btn">Submit Reservation</button>
+        </form>
+    </div>
+</div>
+
 </body>
 </html>
