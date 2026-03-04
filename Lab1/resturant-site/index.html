@@ -3,32 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lorem Ipsum Cafe</title>
+    <title> Lorem Ipsum Cafe </title>
 
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://kit.fontawesome.com/c5ef0c99ee.js" crossorigin="anonymous"></script>
 
 </head>
 <body>
-<!-- Floating Nav Bar Here -->
-
-<nav class="floating-nav-bar">
-
-    <div class="resturant-logo">
-        <img src="./images/logo.png" alt="generic PNG logo" width="10%" height ="10%">
+<nav class="sticky-nav">
+    <div class="nav-logo">
+<!--        <img src="./images/logo.png" alt="generic PNG logo" width="10%" height ="10%">-->
+        <span class="logo-text">Lorem Ipsum Cafe</span>
     </div>
 
-    <a href="./index.html">Home</a>
-    <a href="./menu.html">Menu</a>
-    <a href="./reservations.html">Reservations</a>
-
+    <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="reservations.html">Reservations</a></li>
+    </ul>
 </nav>
 
-<h1>Lorem Ipsum Cafe</h1>
-<h2>When you don't know what to say...</h2>
+<header class="hero-section">
 
-<!-- Modify with style.css later -->
-<img src="./images/atmosphere.jpg" alt="Lorem Ipsum atmosphere and design" class="center" width=50% height="50%">
+    <img src="./images/atmosphere.jpg" alt="Lorem Ipsum atmosphere and design" class="hero-bg">
+    <!-- delete the <img class="hero-bg"> tag and replace it with a <video class="hero-bg" autoplay loop muted> later  -->
+
+<!--    <div class="hero-overlay"></div>-->
+
+    <div class="hero-content">
+        <h1 class="hero-title">Lorem Ipsum Cafe</h1>
+        <p class="hero-subtitle">When you don't know what to say...</p>
+    </div>
+
+</header>
 
 </body>
 </html>
