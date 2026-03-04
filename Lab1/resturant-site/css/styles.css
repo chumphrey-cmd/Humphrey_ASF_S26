@@ -1,65 +1,30 @@
-/*
-==========================================================================
-Universal & Themed Variables (Modify later for something more elegant)
-NOTE: USE rem as the default and standard for webpages!!
-==========================================================================
-*/
-
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
 
 /*
 ==========================================================================
-Menu Modifications (menu.html)
+Color Theme Explanation:
+....
 ==========================================================================
 */
 
-/* The Main Table Container */
-table {
-    border-collapse: collapse; /* This merges the double borders into a single clean line */
-    width: 100%;               /* Makes the table stretch nicely across its container */
-    margin: 20px 0;            /* Adds a little breathing room above and below */
-}
-
-/* Table Caption Styling */
-caption {
-    text-align: center;
-    font-weight: bold;
-    padding-bottom: 10px;
-    font-size: 1.2rem; /* Makes the text slightly larger */
-}
-
-/* The Cells (Headers and Data) */
-th, td {
-    border: 1px solid #333;    /* This is what actually draws the visible lines! */
-    padding: 12px;             /* Gives the text room to breathe inside the box */
-    text-align: center;          /* Keeps everything neatly aligned to the left */
-}
-
-/* The Header Row */
-th {
-    background-color: rgba(153, 161, 164, 0.78);
-    font-weight: bold;
-}
-
-/* Zebra Striping for Table Rows */
-tbody tr:nth-child(even) {
-    background-color: rgba(153, 161, 164, 0.36);
+/*
+==========================================================================
+1. Global & Base Styles
+==========================================================================
+*/
+body {
+    font-family: 'Quicksand', serif;
+    font-optical-sizing: auto;
+    background-color: #f3f4f6;
+    margin: 0;
+    padding: 0;
 }
 
 /*
 ==========================================================================
-Reservation form spacing (reservations.html)
+2. Layout & Containers
 ==========================================================================
 */
-
-/* General Body Styles */
- body {
-     font-family: "Inter", sans-serif;
-     background-color: #f3f4f6; /* A light gray background */
-     margin: 0;
-     padding: 0;
- }
-
-/* Main container to center the form */
 .main-center {
     display: flex;
     align-items: center;
@@ -69,97 +34,201 @@ Reservation form spacing (reservations.html)
     box-sizing: border-box;
 }
 
-/* The form card itself */
-.form-container {
-    margin: 0 auto;
-    max-width: 570px;
-    width: 100%;
-    background: white;
-    padding: 2.5rem; /* 40px */
-    border-radius: 0.75rem; /* 12px */
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+/* --- Navigation Bar --- */
+nav {
+    background-color: rgba(153, 161, 164, 0.78);
+    padding: 1rem;
+    text-align: center;
 }
 
-/* Form image styling */
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav li {
+    display: inline-block; /* This makes the links sit horizontally! */
+    margin: 0 1.25rem;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: color 0.3s;
+}
+
+/* Hover State */
+nav a:hover {
+    color: #6a64f1;
+}
+
+.form-container {
+    margin: 0 auto;
+    max-width: 35.625rem; /* Converted from 570px */
+    width: 100%;
+    background: white;
+    padding: 2.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 0.625rem 0.9375rem -0.1875rem rgba(0, 0, 0, 0.1),
+    0 0.25rem 0.375rem -0.25rem rgba(0, 0, 0, 0.1); /* Converted box-shadow px to rem */
+}
+
 .form-img {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 2rem; /* 32px */
+    margin-bottom: 2rem;
     width: 100%;
-    max-width: 200px;
-    height: auto; /* Maintain aspect ratio */
+    max-width: 12.5rem; /* Converted from 200px */
+    height: auto;
 }
 
-/* Form title and description */
+/*
+==========================================================================
+3. Form Customization
+==========================================================================
+*/
 .form-title {
-    font-size: 1.875rem; /* 30px */
+    font-family: 'Quicksand', serif;
+    font-optical-sizing: auto;
     font-weight: 700;
-    color: #111827; /* Dark gray */
-    margin-bottom: 0.5rem; /* 8px */
+    font-size: 1.875rem;
+    color: #111827;
+    margin-bottom: 0.5rem;
     text-align: center;
 }
 
 .form-desc {
-    color: #6b7280; /* Medium gray */
-    margin-bottom: 2rem; /* 32px */
-    font-size: 0.875rem; /* 14px */
+    color: #6b7280;
+    margin-bottom: 2rem;
+    font-size: 0.875rem;
     text-align: center;
     line-height: 1.5;
 }
 
-/* Styling for form labels */
-.form-label {
-    display: block;
-    margin-bottom: 0.5rem; /* 8px */
-    font-size: 0.875rem; /* 14px */
-    font-weight: 600;
-    color: #374151; /* Slightly lighter dark gray */
+/*
+==========================================================================
+4. Menu Table Styles (menu.html)
+==========================================================================
+*/
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1.25rem 0; /* Converted from 20px */
 }
 
-/* Unified styling for text inputs and select dropdowns */
+caption {
+    text-align: center;
+    font-weight: bold;
+    padding-bottom: 0.625rem; /* Converted from 10px */
+    font-size: 1.2rem;
+}
+
+th, td {
+    border: 1px solid #333; /* Kept as 1px */
+    padding: 0.75rem; /* Converted from 12px */
+    text-align: center;
+}
+
+th {
+    background-color: rgba(153, 161, 164, 0.78);
+    font-weight: bold;
+}
+
+tbody tr:nth-child(even) {
+    background-color: rgba(153, 161, 164, 0.36);
+}
+
+/*
+==========================================================================
+5. Form Elements (reservations.html)
+==========================================================================
+*/
+
+/* --- Labels --- */
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.message-form-label {
+    color: #07074D;
+    font-size: 0.875rem; /* Converted from 14px */
+    line-height: 1.5rem; /* Converted from 24px */
+    display: block;
+    margin-bottom: 0.625rem; /* Converted from 10px */
+}
+
+/* --- Standard Inputs & Selects --- */
 .form-input,
 .form-select {
     width: 100%;
-    padding: 0.875rem 1.25rem; /* 14px 20px */
-    border: 1px solid #d1d5db; /* Light gray border */
-    border-radius: 0.5rem; /* 8px */
+    padding: 0.875rem 1.25rem;
+    border: 1px solid #d1d5db; /* Kept as 1px */
+    border-radius: 0.5rem;
     background: #ffffff;
     font-weight: 500;
-    font-size: 1rem; /* 16px */
+    font-size: 1rem;
     color: #111827;
     outline: none;
     box-sizing: border-box;
     transition: border-color 0.2s, box-shadow 0.2s;
-    margin-bottom: 1.25rem; /* 20px */
+    margin-bottom: 1.25rem;
 }
 
 .form-input::placeholder {
-    color: #9ca3af; /* Lighter gray for placeholder */
+    color: #9ca3af;
 }
 
-/* Focus state for inputs and selects */
 .form-input:focus,
 .form-select:focus {
-    border-color: #6a64f1; /* Purple accent color */
+    border-color: #6a64f1;
     box-shadow: 0 0 0 0.188rem rgba(106, 100, 241, 0.2);
 }
 
-/* Styling for the file input */
+/* --- Message Textarea --- */
+.message-form-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    border-radius: 0.9375rem;
+    border: 1px solid #DDE3EC; /* Kept as 1px */
+    background: #FFFFFF;
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: #07074D;
+    outline: none;
+    resize: none;
+}
+
+.message-form-input::placeholder {
+    color: #536387;
+}
+
+.message-form-input:focus {
+    border-color: #6a64f1;
+    box-shadow: 0 0.1875rem 0.5rem rgba(0, 0, 0, 0.05); /* Converted from 3px 8px */
+}
+
+/* --- File Input --- */
 .form-file {
     display: block;
     width: 100%;
-    margin-bottom: 1.25rem; /* 20px */
-    font-size: 0.875rem; /* 14px */
+    margin-bottom: 1.25rem;
+    font-size: 0.875rem;
     color: #374151;
 }
 
-/* Custom styling for file input button */
 .form-file::file-selector-button {
     margin-right: 1rem;
     padding: 0.5rem 1rem;
-    border: 1px solid #d1d5db;
+    border: 1px solid #d1d5db; /* Kept as 1px */
     border-radius: 0.375rem;
     background-color: #f9fafb;
     color: #374151;
@@ -172,22 +241,22 @@ Reservation form spacing (reservations.html)
     background-color: #f3f4f6;
 }
 
-/* Container for the checkbox and its label */
+/* --- Checkboxes & Radios --- */
 .form-checkbox-row {
     display: flex;
     align-items: flex-start;
     gap: 0.75rem;
     margin-top: 1rem;
     margin-bottom: -0.5rem;
+    font-weight: bold;
 }
 
-/* Styling for the checkbox */
 .form-checkbox {
     margin-top: 0.125rem;
     height: 1rem;
     width: 1rem;
     border-radius: 0.25rem;
-    border: 1px solid #d1d5db;
+    border: 1px solid #d1d5db; /* Kept as 1px */
     cursor: pointer;
     flex-shrink: 0;
 }
@@ -197,7 +266,23 @@ Reservation form spacing (reservations.html)
     border-color: #6a64f1;
 }
 
-/* Submit button styling */
+.preference-radio-spacing {
+    margin-bottom: 1.25rem;
+    border: none;
+    padding: 0;
+}
+
+.radio-option {
+    display: inline-block;
+    margin-right: 1.25rem;
+}
+
+.preference-radio {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/* --- Buttons --- */
 .form-btn {
     text-align: center;
     width: 100%;
@@ -209,61 +294,17 @@ Reservation form spacing (reservations.html)
     background-color: #6a64f1;
     color: white;
     cursor: pointer;
-    margin-top: 1.5rem; /* 24px */
+    margin-top: 1.5rem;
     transition: background-color 0.2s, box-shadow 0.2s;
 }
 
 .form-btn:hover {
-    background-color: #5a54d1; /* Darker purple on hover */
+    background-color: #5a54d1;
     box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
 }
 
-/* Modifies the radio buttons */
-.preference-radio {
-    width: 1.25rem;
-    height: 1.25rem;
-}
-
-/* Controls radio spacing */
-.preference-radio-spacing {
-    margin-bottom: 1.25rem;
-    border: none;
-    padding: 0;
-}
-
-/* Aligns the choices side-by-side with a little gap */
-.radio-option {
-    display: inline-block; /* This prevents them from stacking on top of each other */
-    margin-right: 1.25rem;    /* Adds space between the indoor, outdoor, and bar options */
-}
-
-/* Message Box for Dietary Notes! */
-.message-form-input {
-    width: 100%;
-    box-sizing: border-box; /* Forces padding and borders to stay inside the 100% width */
-
-    padding: 0.5rem;
-    border-radius: 0.9375rem;
-    border: 1px solid #DDE3EC;
-
-    background: #FFFFFF;
-    font-weight: 500;
-    font-size: 0.85rem;
-    color: #07074D;
-    outline: none;
-    resize: none;
-}
-.message-form-input::placeholder {
-    color: #536387;
-}
-.message-form-input:focus {
-    border-color: #6a64f1;
-    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
-}
-.message-form-label {
-    color: #07074D;
-    font-size: 14px;
-    line-height: 24px;
-    display: block;
-    margin-bottom: 10px;
-}
+/* ==========================================================================
+FONT AWESOME LOCATION:
+* Used for my submit and reset buttons within `reservations.html`
+==========================================================================
+*/

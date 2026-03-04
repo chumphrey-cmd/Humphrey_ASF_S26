@@ -67,9 +67,9 @@
 * [X] **Newsletter opt-in:** Checkbox (Optional).
 
 
-* [ ] Group the radio buttons using a `<fieldset>` with a clear `<legend>`.
-* [ ] Associate **every** input with a `<label>` element.
-* [ ] Include a **Submit** button and a **Reset** button.
+* [X] Group the radio buttons using a `<fieldset>` with a clear `<legend>`.
+* [X] Associate **every** input with a `<label>` element.
+* [X] Include a **Submit** button and a **Reset** button.
 
 ---
 
@@ -84,14 +84,14 @@
 
 ### CSS Requirements (`styles.css`)
 
-* [ ] Add a comment at the top explaining your color theme choices.
-* [ ] Import and use a **Google Font** for the restaurant name.
-* [ ] Style the Navbar (horizontal layout and a hover state).
-* [ ] Create a reusable `.card` class (background, padding, border; shadow is optional).
-* [ ] Style all images so they do not overflow their containers (e.g., `max-width: 100%;`).
-* [ ] Style the table (add borders, zebra striping, and style the caption).
-* [ ] Style the form (align labels, add spacing, and ensure consistent input widths).
-* [ ] Include **Font Awesome** icons somewhere on the site.
-* [ ] Add a comment in the CSS file stating exactly where Font Awesome is being used.
+* [X] Add a comment at the top explaining your color theme choices.
+* [X] Import and use a **Google Font** for the restaurant name.
+* [X] Style the Navbar (horizontal layout and a hover state).
+* [X] Create a reusable `.card` class (background, padding, border; shadow is optional).
+* [X] Style all images so they do not overflow their containers (e.g., `max-width: 100%;`).
+* [X] Style the table (add borders, zebra striping, and style the caption).
+* [X] Style the form (align labels, add spacing, and ensure consistent input widths).
+* [X] Include **Font Awesome** icons somewhere on the site.
+* [X] Add a comment in the CSS file stating exactly where Font Awesome is being used.
 
 ---
