@@ -22,6 +22,20 @@ body {
 
 /*
 ==========================================================================
+Editorial Dividers
+==========================================================================
+*/
+.section-divider {
+    border: none; /* Removes the default ugly 3D line */
+    border-top: 1px solid #111827; /* Top thin line */
+    border-bottom: 1px solid #111827; /* Bottom slightly thicker line */
+    height: 4px; /* Creates the space between the two lines */
+    margin: 4rem auto; /* Adds breathing room above and below the line */
+    max-width: 900px; /* Keeps the line the exact same width as your menu items */
+}
+
+/*
+==========================================================================
 2. Layout & Containers
 ==========================================================================
 */
@@ -53,12 +67,6 @@ Floating Navbar
     /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); !* A subtle float effect *!*/
 }
 
-
-/*
-==========================================================================
-Floating Navbar
-==========================================================================
-*/
 
 /* Potentially incorporate an interactive scroll where when you scroll further up the screen the navigation bar populates with the Home, Menu, and Reservations */
 
@@ -241,6 +249,75 @@ Hero / Ambiance Section (Home Page)
     line-height: 1.5;
 }
 
+
+/*
+==========================================================================
+Signature Menu Items (Flexbox Layout)
+==========================================================================
+*/
+.menu-highlights {
+    max-width: 900px; /* Keeps the content from stretching too wide on big screens */
+    margin: 3rem auto; /* Centers the whole section and adds space top/bottom */
+    padding: 0 2rem;
+}
+
+/* The Container for each Item */
+.menu-item-card {
+    display: flex;
+    align-items: flex-start; /* Aligns the image and text to the top */
+    gap: 2.5rem; /* Creates the space between the image and the text */
+    margin-bottom: 4rem; /* Space between different menu items */
+}
+
+/* --- The Image Frame (Trader Joe's Effect) --- */
+.menu-image-frame {
+    flex: 0 0 45%; /* Forces the image to take up exactly 45% of the row */
+
+    /* The Magic Picture Frame styling */
+    border: 1px solid #111827; /* The crisp dark outer line */
+    padding: 0.5rem; /* The white "matte" space inside the line */
+    background-color: #ffffff;
+}
+
+.menu-image-frame img {
+    width: 100%; /* Makes the image fill the frame */
+    height: auto;
+    display: block; /* Removes weird invisible margins below images */
+}
+
+/* --- The Text Details --- */
+.menu-item-details {
+    flex: 1; /* Tells the text to take up whatever space is left */
+    padding-top: 1rem; /* Pushes the text down slightly to align with the image inside the frame */
+}
+
+.menu-category {
+    font-family: 'Inter', sans-serif;
+    color: #8b2e2e; /* A rustic red, similar to the inspiration image */
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.menu-item-title {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 1rem 0;
+}
+
+.menu-item-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #374151;
+    margin: 0;
+}
+
 /*
 ==========================================================================
 4. Menu Table Styles (menu.html)
@@ -249,29 +326,55 @@ Hero / Ambiance Section (Home Page)
 table {
     border-collapse: collapse;
     width: 100%;
-    margin: 1.25rem 0; /* Converted from 20px */
+    max-width: 1000px; /* Keeps the table from stretching endlessly on wide screens */
+    margin: 4rem auto; /* Centers the table and adds generous breathing room above/below */
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); /* Adds a very soft, elegant shadow */
 }
 
 caption {
+    font-family: 'Quicksand', sans-serif;
     text-align: center;
-    font-weight: bold;
-    padding-bottom: 0.625rem; /* Converted from 10px */
-    font-size: 1.2rem;
+    font-weight: 700;
+    padding-bottom: 1.5rem;
+    font-size: 2rem;
+    color: #111827;
 }
 
+/* Base styling for cells */
 th, td {
-    border: 1px solid #333; /* Kept as 1px */
-    padding: 0.75rem; /* Converted from 12px */
+    padding: 1.25rem 1rem; /* Much more vertical padding for an airy feel */
     text-align: center;
+    border-bottom: 1px solid #e5e7eb; /* Only horizontal lines! Extremely clean. */
 }
 
+/* Table Headers */
 th {
-    background-color: rgba(153, 161, 164, 0.78);
-    font-weight: bold;
+    font-family: 'Quicksand', sans-serif;
+    text-transform: uppercase; /* Makes headers look more like a printed menu */
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: #111827;
+    background-color: #ffffff;
+    border-bottom: 2px solid #111827; /* A strong, grounding line under the headers */
 }
 
+/* Table Data */
+td {
+    font-family: 'Inter', sans-serif; /* A clean, highly readable font for details */
+    color: #374151;
+    font-size: 1.05rem;
+}
+
+/* Subtle, Warm Zebra Striping */
 tbody tr:nth-child(even) {
-    background-color: rgba(153, 161, 164, 0.36);
+    background-color: #fcfbf9; /* Uses the same warm off-white from your hero card! */
+}
+
+/* Hover Effect for Interactivity */
+tbody tr:hover {
+    background-color: #f3f4f6; /* A slightly cooler gray when the user hovers over a row */
+    transition: background-color 0.2s ease-in-out;
 }
 
 /*
@@ -318,10 +421,26 @@ tbody tr:nth-child(even) {
     color: #9ca3af;
 }
 
+/* Custom Dropdown Arrow for Select Menu */
+.form-select {
+    appearance: none; /* Hides the ugly default browser arrow */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    /* Adds a sleek, custom SVG chevron arrow */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111827' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1.25rem center; /* Perfectly positions it on the right */
+    background-size: 1rem;
+    padding-right: 2.5rem; /* Prevents text from typing over the arrow */
+}
+
+/* Removes the purple glow and replaces it with a crisp, editorial dark border */
 .form-input:focus,
-.form-select:focus {
-    border-color: #6a64f1;
-    box-shadow: 0 0 0 0.188rem rgba(106, 100, 241, 0.2);
+.form-select:focus,
+.message-form-input:focus {
+    border-color: #111827;
+    box-shadow: 0 0 0 1px #111827;
+    outline: none;
 }
 
 /* --- Message Textarea --- */
@@ -334,17 +453,17 @@ tbody tr:nth-child(even) {
     background: #FFFFFF;
     font-weight: 500;
     font-size: 0.85rem;
-    color: #07074D;
+    color: #111827;
     outline: none;
     resize: none;
 }
 
 .message-form-input::placeholder {
-    color: #536387;
+    color: #111827;
 }
 
 .message-form-input:focus {
-    border-color: #6a64f1;
+    border-color: #111827;
     box-shadow: 0 0.1875rem 0.5rem rgba(0, 0, 0, 0.05); /* Converted from 3px 8px */
 }
 
@@ -394,8 +513,8 @@ tbody tr:nth-child(even) {
 }
 
 .form-checkbox:checked {
-    background-color: #6a64f1;
-    border-color: #6a64f1;
+    background-color: #ffffff;
+    border-color: #111827;
 }
 
 .preference-radio-spacing {
@@ -404,9 +523,19 @@ tbody tr:nth-child(even) {
     padding: 0;
 }
 
+/* --- Checkboxes & Radios --- */
 .radio-option {
-    display: inline-block;
-    margin-right: 1.25rem;
+    display: inline-flex; /* Flexbox keeps them perfectly aligned horizontally */
+    align-items: center; /* Centers the text with the circle */
+    gap: 0.5rem; /* Adds a clean space between the circle and the word */
+    margin-right: 2rem; /* Spacing between Indoor, Outdoor, etc. */
+}
+
+/* Overrides the 'display: block' just for radio labels so they don't stack! */
+.radio-option .form-label {
+    display: inline;
+    margin-bottom: 0;
+    font-weight: 500;
 }
 
 .preference-radio {
@@ -416,23 +545,37 @@ tbody tr:nth-child(even) {
 
 /* --- Buttons --- */
 .form-btn {
+    font-family: 'Quicksand', sans-serif;
     text-align: center;
     width: 100%;
-    font-size: 1rem;
-    border-radius: 0.5rem;
-    padding: 0.875rem 1.5rem;
-    border: none;
-    font-weight: 600;
-    background-color: #6a64f1;
-    color: white;
+    font-size: 1.1rem;
+    padding: 1rem 1.5rem;
+    border: 2px solid #111827; /* Crisp dark border */
+    font-weight: 700;
+    background-color: #111827; /* Dark gray to match the theme */
+    color: #ffffff;
     cursor: pointer;
-    margin-top: 1.5rem;
-    transition: background-color 0.2s, box-shadow 0.2s;
+    margin-top: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
 }
 
+/* Inverts the colors to white on hover */
 .form-btn:hover {
-    background-color: #5a54d1;
-    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    color: #111827;
+}
+
+/* Make the Reset button look like a secondary action */
+button[type="reset"].form-btn {
+    background-color: #ffffff;
+    color: #111827;
+    margin-top: 0.75rem;
+}
+
+button[type="reset"].form-btn:hover {
+    background-color: #f3f4f6; /* Very light gray hover */
 }
 
 /* ==========================================================================
