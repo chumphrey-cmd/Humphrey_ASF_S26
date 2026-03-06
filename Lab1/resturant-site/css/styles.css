@@ -53,6 +53,8 @@ Editorial Dividers
 Floating Navbar
 ==========================================================================
 */
+
+/* Here I created my Logo using CSS instead of using a PNG. The image quality of the PNG may deteriorate if we end up using a PNG. */
 .logo-text {
     font-family: 'Quicksand', sans-serif;
     font-size: 1.25rem;
@@ -64,11 +66,10 @@ Floating Navbar
     border: 2px solid #2b2b2b;
     padding: 0.4rem 0.8rem; /* Creates the box around the text */
     letter-spacing: 1px;
-    /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); !* A subtle float effect *!*/
 }
 
 
-/* Potentially incorporate an interactive scroll where when you scroll further up the screen the navigation bar populates with the Home, Menu, and Reservations */
+/* FUTURE ADDITION: Potentially incorporate an interactive scroll where when you scroll further up the screen the navigation bar populates with the Home, Menu, and Reservations */
 
 .sticky-nav {
     position: sticky;
@@ -82,21 +83,41 @@ Floating Navbar
     align-items: center;
 
     /* Order: Top | Right | Bottom | Left */
-    padding: 1rem 3rem 1rem 1rem;
+    /*padding: 1rem 3rem 1rem 1rem;*/
+    padding: 1rem clamp(1rem, 3vw, 4rem); /* Used to make sure the nav bar flexes */
     border-bottom: 1px solid #2b2b2b;
 
 }
 
-/* --- Logo Styling --- */
+/* --- Logo Styling CSS Generated --- */
+/*.nav-logo {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    gap: 0.75rem;*/
+/*}*/
+
+/*.logo-img {*/
+/*    height: 3rem;*/
+/*    width: auto;*/
+/*}*/
+
+/* Logo Styling for PNG Image */
 .nav-logo {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
 }
 
 .logo-img {
-    height: 3rem;
-    width: auto;
+    /* clamp(MIN, PREFERRED, MAX) */
+    /* This tells the logo:
+       Stay at least 40px tall,
+       Try to be 5% of the screen width,
+       But never get bigger than 65px tall. */
+    height: clamp(40px, 6vw, 65px);
+
+    width: auto; /* Maintains aspect ratio */
+    display: block;
+    transition: transform 0.3s ease;
 }
 
 .logo-text {
