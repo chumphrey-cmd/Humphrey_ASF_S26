@@ -119,7 +119,7 @@ Floating Navbar
 }
 
 .nav-links a {
-    font-family: 'Quicksand', sans-serif; /* Applies Quicksand to the links too */
+    font-family: 'Quicksand', sans-serif;
     color: #374151;
     text-decoration: none;
     font-weight: 600;
@@ -128,7 +128,7 @@ Floating Navbar
 }
 
 .nav-links a:hover {
-    color: rgba(91, 137, 145, 0.36); /* Your signature purple accent */
+    color: rgba(91, 137, 145, 0.36);
 }
 
 /*
@@ -139,13 +139,13 @@ Hero / Ambiance Section (Home Page)
 .hero-section {
     position: relative;
     width: 100%;
-    height: 60vh; /* Takes up 70% of the screen height. Adjust if you want it taller/shorter! */
+    height: 60vh; /* Takes up 70% of the screen height, adjust if you want it taller/shorter! */
     display: flex;
     /* These two lines move it to the top left! */
     align-items: flex-start;
     justify-content: flex-start;
 
-    /* This adds space so the card doesn't hit the absolute edge of your screen */
+    /* This adds space so the card doesn't hit the absolute edge of the screen */
     padding: 5rem 4rem;
     box-sizing: border-box; /* Keeps the padding from breaking the 100% width */
     overflow: hidden;
@@ -184,7 +184,7 @@ Hero / Ambiance Section (Home Page)
     z-index: -2; /* Pushes the image to the very back */
 }
 
-/* The Dark Overlay (Optional, but highly recommended for readability) */
+/* The Dark Overlay (Using this for visibility) */
 .hero-overlay {
     position: absolute;
     top: 0;
@@ -195,7 +195,7 @@ Hero / Ambiance Section (Home Page)
     z-index: -1; /* Sits between the image and the text */
 }
 
-/* The Text Container (Now styled as a bordered card!) */
+/* The Text Container */
 .hero-content {
     background-color: #fcfbf9;
     border: 2px solid #2b2b2b;
@@ -206,12 +206,12 @@ Hero / Ambiance Section (Home Page)
     z-index: 1;
 }
 
-/* Updated Title (Dark text for the light background) */
+/* Hero Title */
 .hero-title {
     font-family: 'Quicksand', sans-serif;
-    font-size: 2.5rem; /* Slightly adjusted to fit perfectly in the box */
+    font-size: 2.5rem;
     font-weight: 700;
-    color: #111827; /* Swapped to dark gray! */
+    color: #111827;
     margin-top: 0;
     margin-bottom: 1rem;
     letter-spacing: 1px;
@@ -222,13 +222,13 @@ Hero / Ambiance Section (Home Page)
     font-family: "Quicksand", sans-serif;
     font-size: 1.1rem;
     font-weight: 500;
-    color: #374151; /* A medium-dark gray to complement the title */
+    color: #374151;
     margin: 0;
     line-height: 1.5;
 }
 /*
 ==========================================================================
-3. Form Customization
+Form Customization
 ==========================================================================
 */
 .form-title {
@@ -269,31 +269,31 @@ Signature Menu Items (Flexbox Layout)
     margin-bottom: 4rem; /* Space between different menu items */
 }
 
-/* --- The Image Frame (Trader Joe's Effect) --- */
+/* --- The Image Frame --- */
 .menu-image-frame {
-    flex: 0 0 45%; /* Forces the image to take up exactly 45% of the row */
+    flex: 0 0 45%;
 
     /* The Magic Picture Frame styling */
-    border: 1px solid #111827; /* The crisp dark outer line */
-    padding: 0.5rem; /* The white "matte" space inside the line */
+    border: 1px solid #111827;
+    padding: 0.5rem;
     background-color: #ffffff;
 }
 
 .menu-image-frame img {
-    width: 100%; /* Makes the image fill the frame */
+    width: 100%;
     height: auto;
-    display: block; /* Removes weird invisible margins below images */
+    display: block;
 }
 
 /* --- The Text Details --- */
 .menu-item-details {
-    flex: 1; /* Tells the text to take up whatever space is left */
-    padding-top: 1rem; /* Pushes the text down slightly to align with the image inside the frame */
+    flex: 1;
+    padding-top: 1rem;
 }
 
 .menu-category {
     font-family: 'Inter', sans-serif;
-    color: #8b2e2e; /* A rustic red, similar to the inspiration image */
+    color: #8b2e2e;
     font-weight: 700;
     font-size: 0.85rem;
     text-transform: uppercase;
@@ -320,16 +320,16 @@ Signature Menu Items (Flexbox Layout)
 
 /*
 ==========================================================================
-4. Menu Table Styles (menu.html)
+Menu Table Styles (menu.html)
 ==========================================================================
 */
 table {
     border-collapse: collapse;
     width: 100%;
-    max-width: 1000px; /* Keeps the table from stretching endlessly on wide screens */
-    margin: 4rem auto; /* Centers the table and adds generous breathing room above/below */
+    max-width: 1000px;
+    margin: 4rem auto;
     background-color: #ffffff;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); /* Adds a very soft, elegant shadow */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 caption {
@@ -343,43 +343,43 @@ caption {
 
 /* Base styling for cells */
 th, td {
-    padding: 1.25rem 1rem; /* Much more vertical padding for an airy feel */
+    padding: 1.25rem 1rem;
     text-align: center;
-    border-bottom: 1px solid #e5e7eb; /* Only horizontal lines! Extremely clean. */
+    border-bottom: 1px solid #e5e7eb;
 }
 
 /* Table Headers */
 th {
     font-family: 'Quicksand', sans-serif;
-    text-transform: uppercase; /* Makes headers look more like a printed menu */
+    text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: 700;
     color: #111827;
     background-color: #ffffff;
-    border-bottom: 2px solid #111827; /* A strong, grounding line under the headers */
+    border-bottom: 2px solid #111827;
 }
 
 /* Table Data */
 td {
-    font-family: 'Inter', sans-serif; /* A clean, highly readable font for details */
+    font-family: 'Inter', sans-serif;
     color: #374151;
     font-size: 1.05rem;
 }
 
 /* Subtle, Warm Zebra Striping */
 tbody tr:nth-child(even) {
-    background-color: #fcfbf9; /* Uses the same warm off-white from your hero card! */
+    background-color: #fcfbf9;
 }
 
 /* Hover Effect for Interactivity */
 tbody tr:hover {
-    background-color: #f3f4f6; /* A slightly cooler gray when the user hovers over a row */
+    background-color: #f3f4f6;
     transition: background-color 0.2s ease-in-out;
 }
 
 /*
 ==========================================================================
-5. Form Elements (reservations.html)
+Form Elements (reservations.html)
 ==========================================================================
 */
 
@@ -394,10 +394,10 @@ tbody tr:hover {
 
 .message-form-label {
     color: #07074D;
-    font-size: 0.875rem; /* Converted from 14px */
-    line-height: 1.5rem; /* Converted from 24px */
+    font-size: 0.875rem;
+    line-height: 1.5rem;
     display: block;
-    margin-bottom: 0.625rem; /* Converted from 10px */
+    margin-bottom: 0.625rem;
 }
 
 /* --- Standard Inputs & Selects --- */
@@ -405,7 +405,7 @@ tbody tr:hover {
 .form-select {
     width: 100%;
     padding: 0.875rem 1.25rem;
-    border: 1px solid #d1d5db; /* Kept as 1px */
+    border: 1px solid #d1d5db;
     border-radius: 0.5rem;
     background: #ffffff;
     font-weight: 500;
@@ -423,18 +423,17 @@ tbody tr:hover {
 
 /* Custom Dropdown Arrow for Select Menu */
 .form-select {
-    appearance: none; /* Hides the ugly default browser arrow */
+    appearance: none; /* Remove the default browser arrow */
     -webkit-appearance: none;
     -moz-appearance: none;
     /* Adds a sleek, custom SVG chevron arrow */
     background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111827' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
     background-repeat: no-repeat;
-    background-position: right 1.25rem center; /* Perfectly positions it on the right */
+    background-position: right 1.25rem center;
     background-size: 1rem;
-    padding-right: 2.5rem; /* Prevents text from typing over the arrow */
+    padding-right: 2.5rem;
 }
 
-/* Removes the purple glow and replaces it with a crisp, editorial dark border */
 .form-input:focus,
 .form-select:focus,
 .message-form-input:focus {
@@ -449,7 +448,7 @@ tbody tr:hover {
     box-sizing: border-box;
     padding: 0.5rem;
     border-radius: 0.9375rem;
-    border: 1px solid #DDE3EC; /* Kept as 1px */
+    border: 1px solid #DDE3EC;
     background: #FFFFFF;
     font-weight: 500;
     font-size: 0.85rem;
@@ -578,7 +577,9 @@ button[type="reset"].form-btn:hover {
     background-color: #f3f4f6; /* Very light gray hover */
 }
 
-/* ==========================================================================
+/*
+
+==========================================================================
 FONT AWESOME LOCATION:
 * Used for my submit and reset buttons within `reservations.html`
 ==========================================================================
