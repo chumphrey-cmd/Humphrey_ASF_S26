@@ -82,9 +82,8 @@ Floating Navbar
     justify-content: space-between;
     align-items: center;
 
-    /* Order: Top | Right | Bottom | Left */
-    /*padding: 1rem 3rem 1rem 1rem;*/
-    padding: 1rem clamp(1rem, 3vw, 4rem); /* Used to make sure the nav bar flexes */
+    /* Top/Bottom: 0.4rem | Left/Right: Clamped between 0.5rem and 4rem */
+    padding: 0.4rem clamp(0.25rem, 3vw, 4rem); /* Used to make sure the nav bar flexes */
     border-bottom: 1px solid #2b2b2b;
 
 }
@@ -101,6 +100,13 @@ Floating Navbar
 /*    width: auto;*/
 /*}*/
 
+/*.logo-text {*/
+/*    font-family: 'Quicksand', sans-serif;*/
+/*    font-size: 1.5rem;*/
+/*    font-weight: 700;*/
+/*    color: #111827;*/
+/*}*/
+
 /* Logo Styling for PNG Image */
 .nav-logo {
     display: flex;
@@ -109,23 +115,15 @@ Floating Navbar
 
 .logo-img {
     /* clamp(MIN, PREFERRED, MAX) */
-    /* This tells the logo:
-       Stay at least 40px tall,
-       Try to be 5% of the screen width,
-       But never get bigger than 65px tall. */
-    height: clamp(40px, 6vw, 65px);
+    /* This makes the image height fluid based on screen width */
+    /* Min: 35px | Preferred: 4vw (4% of screen width) | Max: 60px */
+    height: clamp(35px, 4vw, 45px);
 
     width: auto; /* Maintains aspect ratio */
     display: block;
     transition: transform 0.3s ease;
 }
 
-.logo-text {
-    font-family: 'Quicksand', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #111827;
-}
 
 /* --- Navigation Links --- */
 .nav-links {
