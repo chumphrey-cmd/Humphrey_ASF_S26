@@ -1,3 +1,8 @@
+## 0. To-do From Previous Lab
+
+* [ ] Update background color to something more obvious that fits the theme (maybe texturize the webpage like parchment paper.)
+* [ ] Select a higher resolution atmosphere.jpg image, the current image is too grainy!
+
 ## 1. File Structure & Assets
 
 * [ ] Ensure all 3 main HTML files exist: `index.html`, `menu.html`, `reservations.html`.
