@@ -1,36 +1,36 @@
 ## 0. To-do From Previous Lab
 
-* [ ] Update background color to something more obvious that fits the theme (maybe texturize the webpage like parchment paper.)
-* [ ] Select a higher resolution atmosphere.jpg image, the current image is too grainy!
+* [X] Update background color to something more obvious that fits the theme (maybe texturize the webpage like parchment paper.)
+* [X] Select a higher resolution atmosphere.jpg image, the current image is too grainy!
 
 ## 1. File Structure & Assets
 
-* [ ] Ensure all 3 main HTML files exist: `index.html`, `menu.html`, `reservations.html`.
-* [ ] Ensure `styles.css` exists for custom theme styling.
-* [ ] Create a new `script.js` file for all JavaScript logic.
-* [ ] Ensure the `images/` folder contains:
-* [ ] `logo.png` (Used in the navbar).
-* [ ] At least 3 content images used across the site.
+* [X] Ensure all 3 main HTML files exist: `index.html`, `menu.html`, `reservations.html`.
+* [X] Ensure `styles.css` exists for custom theme styling.
+* [X] Create a new `script.js` file for all JavaScript logic.
+* [X] Ensure the `images/` folder contains:
+* [X] `logo.png` (Used in the navbar).
+* [X] At least 3 content images used across the site.
 
 
 
 ## 2. Global Rules (Apply to ALL pages)
 
-* [ ] Include the **Bootstrap CDN** links (CSS and JS) in the `<head>`/`<body>` of all HTML files.
-* [ ] Link `styles.css` on all pages (load it *after* Bootstrap so your custom styles win).
-* [ ] Link `script.js` on all pages (usually at the bottom of the `<body>`).
-* [ ] **No frameworks or jQuery allowed** (Vanilla JavaScript and DOM manipulation only).
-* [ ] **No inline JavaScript** (e.g., no `onclick="..."` in the HTML).
-* [ ] **No `<br>` tags** used for spacing (use CSS/Bootstrap margins/padding instead).
-* [ ] Use semantic HTML and properly linked `<label>` tags for all form inputs.
+* [X] Include the **Bootstrap CDN** links (CSS and JS) in the `<head>`/`<body>` of all HTML files.
+* [X] Link `styles.css` on all pages (load it *after* Bootstrap so your custom styles win).
+* [X] Link `script.js` on all pages (usually at the bottom of the `<body>`).
+* [X] **No frameworks or jQuery allowed** (Vanilla JavaScript and DOM manipulation only).
+* [X] **No inline JavaScript** (e.g., no `onclick="..."` in the HTML).
+* [X] **No `<br>` tags** used for spacing (use CSS/Bootstrap margins/padding instead).
+* [X] Use semantic HTML and properly linked `<label>` tags for all form inputs.
 
 ## 3. Part A: Bootstrap Structure Upgrade
 
-* [ ] **A1. Bootstrap Navbar (All Pages)**
-* [ ] Replace the current CSS navbar with a Bootstrap Navbar component.
-* [ ] Include the Brand area featuring `logo.png` + the Restaurant Name.
-* [ ] Include navigation links: Home, Menu, Reservations.
-* [ ] Ensure the navbar collapses into a "hamburger" menu on mobile/small screens.
+* [X] **A1. Bootstrap Navbar (All Pages)**
+* [X] Replace the current CSS navbar with a Bootstrap Navbar component.
+* [X] Include the Brand area featuring `logo.png` + the Restaurant Name.
+* [X] Include navigation links: Home, Menu, Reservations.
+* [X] Ensure the navbar collapses into a "hamburger" menu on mobile/small screens.
 
 
 * [ ] **A2. Responsive Layout (All Pages)**
