@@ -1,3 +1,5 @@
+* Here are some basic options for testing branching!!
+
 ## 0. To-do From Previous Lab
 
 * [ ] Update background color to something more obvious that fits the theme (maybe texturize the webpage like parchment paper.)
