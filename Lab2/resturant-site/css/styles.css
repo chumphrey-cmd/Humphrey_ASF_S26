@@ -364,6 +364,10 @@ Form Elements (reservations.html)
 ==========================================================================
 */
 
+#alert-container{
+    scroll-margin-top: 50px; /* Used to give the alert upon form submission space so that it can be viewed on mobile*/
+}
+
 /* --- Labels --- */
 .form-label {
     display: block;
@@ -530,32 +534,35 @@ Form Elements (reservations.html)
     width: 100%;
     font-size: 1.1rem;
     padding: 1rem 1.5rem;
-    border: 2px solid #111827; /* Crisp dark border */
+    border: 2px solid #111827;
     font-weight: 700;
-    background-color: #111827; /* Dark gray to match the theme */
+    background-color: #111827; /* Theme dark */
     color: #ffffff;
     cursor: pointer;
     margin-top: 1rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    transition: all 0.3s ease;
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
 }
 
-/* Inverts the colors to white on hover */
+/* Submit Button Hover: Inverts to light */
 .form-btn:hover {
     background-color: #ffffff;
     color: #111827;
 }
 
-/* Make the Reset button look like a secondary action */
+/* Reset Button: Secondary Look */
 button[type="reset"].form-btn {
-    background-color: #ffffff;
+    background-color: #f9fafb; /* Off-white for visual distinction */
     color: #111827;
-    margin-top: 0.75rem;
+    border-color: #d1d5db; /* Softer border */
 }
 
+/* Reset Button Hover: Inverts to Dark */
 button[type="reset"].form-btn:hover {
-    background-color: #f3f4f6; /* Very light gray hover */
+    background-color: #111827;
+    color: #ffffff;
+    border-color: #111827;
 }
 
 /*

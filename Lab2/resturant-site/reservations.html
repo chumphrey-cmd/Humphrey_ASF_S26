@@ -70,8 +70,16 @@
                         </p>
                     </div>
 
-                    <label for="fullname" class="form-label">Full Name*</label>
-                    <input type="text" name="fullname" id="fullname" class="form-input" placeholder="Enter your full name" />
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="firstname" class="form-label">First Name*</label>
+                            <input type="text" id="firstname" class="form-input" placeholder="e.g. Jane">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="lastname" class="form-label">Last Name</label>
+                            <input type="text" id="lastname" class="form-input" placeholder="e.g. Doe">
+                        </div>
+                    </div>
 
                     <label for="email" class="form-label">Email Address*</label>
                     <input type="email" name="email" id="email" class="form-input" placeholder="Enter your email" />
@@ -128,10 +136,10 @@
                     </div>
 
                     <div class="d-flex gap-3 mt-4">
-                        <button class="form-btn w-100" type="submit">Submit
+                        <button class="form-btn w-75" type="submit">Submit
                             <i class="fa-solid fa-arrow-up-from-bracket ms-2"></i>
                         </button>
-                        <button class="form-btn w-100" type="reset" style="background-color: #e5e7eb; color: #111827;">Reset
+                        <button class="form-btn w-75" type="reset">Reset
                             <i class="fa-solid fa-arrows-rotate ms-2"></i>
                         </button>
                     </div>
