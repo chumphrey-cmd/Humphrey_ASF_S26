@@ -35,6 +35,7 @@ Editorial Dividers
     height: 4px; /* Creates the space between the two lines */
     margin: 4rem auto; /* Adds breathing room above and below the line */
     max-width: 900px; /* Keeps the line the exact same width as your menu items */
+    opacity: 1; /* Used to prevent boot strap from overriding the darkness of the line */
 }
 
 /*
@@ -60,7 +61,7 @@ Bootstrap Navbar Overrides
 .custom-editorial-nav {
     /* THE GLASS EFFECT */
     /* Semi-transparent warm ivory to blend with your parchment */
-    background-color: rgba(253, 251, 247, 0.75);
+    background-color: rgba(253, 251, 247, 0.1);
     /* Blurs the images/text as they scroll underneath */
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px); /* For Safari compatibility */
@@ -255,20 +256,25 @@ Signature Menu Items (Flexbox Layout)
     margin-bottom: 4rem; /* Space between different menu items */
 }
 
-/* --- The Image Frame --- */
 .menu-image-frame {
-    flex: 0 0 45%;
+    width: 100%;
+    display: block;
+    aspect-ratio: 4 / 3;
 
-    /* The Magic Picture Frame styling */
+    /* The Magic Picture Frame */
     border: 1px solid #111827;
     padding: 0.5rem;
     background-color: rgba(253, 251, 247, 0.75);
 }
 
+/* This targets the actual image inside the frame */
 .menu-image-frame img {
     width: 100%;
-    height: auto;
-    display: block;
+    height: 100%;
+
+    /* Tells the image to keep its exact original proportions! */
+    object-fit: cover;
+    display: block; /* Removes any weird invisible spacing at the bottom of the frame */
 }
 
 /* --- The Text Details --- */

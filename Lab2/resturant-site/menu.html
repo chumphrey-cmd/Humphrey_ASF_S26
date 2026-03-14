@@ -14,20 +14,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
-
-<!-- Nav with CSS Generated Logo -->
-<!--<nav class="sticky-nav">-->
-<!--    <div class="nav-logo">-->
-<!--        <span class="logo-text">Lorem Ipsum Cafe</span>-->
-<!--    </div>-->
-
-<!--    <ul class="nav-links">-->
-<!--        <li><a href="index.html">Home</a></li>-->
-<!--        <li><a href="menu.html">Menu</a></li>-->
-<!--        <li><a href="reservations.html">Reservations</a></li>-->
-<!--    </ul>-->
-<!--</nav>-->
-
 <!-- Nav with PNG Logo -->
 <nav class="navbar navbar-expand-lg sticky-top custom-editorial-nav">
     <div class="container-fluid px-4 px-md-5">
@@ -41,7 +27,7 @@
         </button>
 
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="navbar-nav gap-4">
+            <ul class="navbar-nav gap-0.1">
                 <li class="nav-item">
                     <a class="nav-link custom-nav-link" href="index.html">Home</a>
                 </li>
@@ -57,188 +43,276 @@
     </div>
 </nav>
 
-<section class="menu-highlights">
+<main class="container my-5">
 
-    <article class="menu-item-card">
-        <div class="menu-image-frame">
-            <img src="./images/menu_inspiration.jpg" alt="Ingredients on Full Display">
+    <div class="row mb-5 justify-content-center">
+
+        <div class="col-12 col-lg-8">
+
+            <article class="menu-item-card d-flex flex-column align-items-center text-center">
+
+                <div class="menu-image-frame w-75 mb-4">
+                    <img src="./images/menu_inspiration.jpg" alt="Ingredients on Full Display" class="img-fluid">
+                </div>
+
+                <div class="menu-item-details w-100 mt-0">
+                    <span class="menu-category">Our Philosophy</span>
+                    <h1 class="menu-item-title mb-3" style="font-size: 2rem;">Menu Vision</h1>
+
+                    <p class="menu-item-desc mb-3">
+                        Welcome to our cafe and bakery, where we believe that a beautiful plate is better than an ugly one.
+                    </p>
+                    <p class="menu-item-desc mb-4">
+                        Our culinary philosophy is straightforward: simple, handcrafted flavors are better than complex, over-engineered dishes.
+                    </p>
+
+                    <h2 class="menu-item-title mb-2" style="font-size: 1.5rem;">We Value Ingredient Quality</h2>
+                    <p class="menu-item-desc">
+                        When it comes to what goes into our food, explicit is better than implicit. We proudly and openly source our heritage grains from local mills and our produce from local greenhouses.
+                    </p>
+                </div>
+            </article>
+
+        </div>
+    </div>
+
+    <hr class="section-divider my-5">
+
+    <div class="row g-4 justify-content-center">
+
+        <div class="col-12 col-md-6">
+            <article class="menu-item-card h-100 d-flex flex-column">
+                <div class="menu-image-frame">
+                    <img src="./images/breakfast.jpg" alt="Berry and Banana French Toast" class="img-fluid w-100">
+                </div>
+                <div class="menu-item-details flex-grow-1">
+                    <span class="menu-category">Breakfast</span>
+                    <h3 class="menu-item-title">Berry & Banana French Toast</h3>
+                    <p class="menu-item-desc">
+                        Maple syrup, powdered sugar, and a whole lot of love. Our signature french toast is the perfect way to start your morning. Served with fresh, seasonal berries and perfectly ripe bananas.
+                    </p>
+                </div>
+            </article>
         </div>
 
-        <div class="menu-item-details">
-            <span class="menu-category">Our Philosophy</span>
-
-            <h1 class="menu-item-title" style="font-size: 2rem;">Menu Vision</h1>
-            <p class="menu-item-desc" style="margin-bottom: 1rem;">
-                Welcome to our cafe and bakery, where we believe that a beautiful plate is better than an ugly one.
-            </p>
-
-            <p class="menu-item-desc" style="margin-top: 1rem; margin-bottom: 2rem">
-                Our culinary philosophy is straightforward: simple, handcrafted flavors are better than complex, over-engineered dishes.
-            </p>
-
-            <h2 class="menu-item-title" style="font-size: 1.5rem;">We Value Ingredient Quality</h2>
-            <p class="menu-item-desc">
-                When it comes to what goes into our food, explicit is better than implicit. We proudly and openly source our heritage grains from local mills and our produce from local greenhouses.
-            </p>
-        </div>
-    </article>
-
-    <hr class="section-divider">
-
-    <article class="menu-item-card">
-        <div class="menu-image-frame">
-            <img src="./images/breakfast.jpg" alt="Berry and Banana French Toast">
+        <div class="col-12 col-md-6">
+            <article class="menu-item-card h-100 d-flex flex-column">
+                <div class="menu-image-frame">
+                    <img src="./images/eggs_benedict.jpg" alt="Eggs Benedict" class="img-fluid w-100">
+                </div>
+                <div class="menu-item-details flex-grow-1">
+                    <span class="menu-category">Breakfast</span>
+                    <h3 class="menu-item-title">Eggs Benedict</h3>
+                    <p class="menu-item-desc">
+                        Two perfectly poached eggs on a toasted English muffin, layered with thick-cut smoked ham and topped with our house-made hollandaise sauce. Served with a side of roasted breakfast potatoes.
+                    </p>
+                </div>
+            </article>
         </div>
 
-        <div class="menu-item-details">
-            <span class="menu-category">Breakfast</span>
-            <h3 class="menu-item-title">Berry & Banana French Toast</h3>
-            <p class="menu-item-desc">
-                Maple syrup, powdered sugar, and a whole lot of love. Our signature french toast is the perfect way to start your morning. Served with fresh, seasonal berries and perfectly ripe bananas.
-            </p>
-        </div>
-    </article>
-
-
-    <article class="menu-item-card">
-        <div class="menu-image-frame">
-            <img src="./images/eggs_benedict.jpg" alt="Eggs Benedict">
-        </div>
-
-        <div class="menu-item-details">
-            <span class="menu-category">Breakfast</span>
-            <h3 class="menu-item-title">Eggs Benedict</h3>
-            <p class="menu-item-desc">
-                Two perfectly poached eggs on a toasted English muffin, layered with thick-cut smoked ham and topped with our house-made hollandaise sauce. Served with a side of roasted breakfast potatoes.
-            </p>
-        </div>
-    </article>
-
-    <hr class="section-divider">
-
-    <article class="menu-item-card">
-        <div class="menu-image-frame">
-            <img src="./images/crossiant_sandwhich.jpg" alt="Bacon and Egg Croissant">
+        <div class="col-12 col-md-6">
+            <article class="menu-item-card h-100 d-flex flex-column">
+                <div class="menu-image-frame">
+                    <img src="./images/breakfast_quiche.jpg" alt="Breakfast Quiche" class="img-fluid w-100">
+                </div>
+                <div class="menu-item-details flex-grow-1">
+                    <span class="menu-category">Breakfast</span>
+                    <h3 class="menu-item-title">Breakfast Quiche</h3>
+                    <p class="menu-item-desc">
+                        A buttery, flaky crust enveloping a rich, savory egg custard dotted with gruyère cheese, caramelized onions, and fresh spinach. Baked to a golden perfection.
+                    </p>
+                </div>
+            </article>
         </div>
 
-        <div class="menu-item-details">
-            <span class="menu-category">Lunch</span>
-            <h3 class="menu-item-title">Bacon & Egg Croissant</h3>
-            <p class="menu-item-desc">
-                A buttery, flaky croissant baked fresh this morning, stuffed with thick-cut crispy bacon, an over-easy egg, and a slice of sharp cheddar cheese. Comes with a side of mixed fruit.
-            </p>
-        </div>
-    </article>
-
-    <article class="menu-item-card">
-        <div class="menu-image-frame">
-            <img src="./images/lunch.jpg" alt="Steak tenderloin with braised cabbage">
-        </div>
-
-        <div class="menu-item-details">
-            <span class="menu-category">Lunch</span>
-            <h3 class="menu-item-title">Steak Tenderloin with Roasted Cabbage</h3>
-            <p class="menu-item-desc">
-                A perfectly seared, tender cut of steak served alongside char-roasted cabbage. Finished with a light herb butter and a sprinkle of flaky sea salt for a clean, savory bite.
-            </p>
-        </div>
-    </article>
-
-    <hr class="section-divider">
-
-    <article class="menu-item-card">
-        <div class="menu-image-frame">
-            <img src="./images/iced_coffee.jpg" alt="Iced Coffee Beverage">
+        <div class="col-12 col-md-6">
+            <article class="menu-item-card h-100 d-flex flex-column">
+                <div class="menu-image-frame">
+                    <img src="./images/breakfast_berry_custard.jpg" alt="Breakfast Berry Custard" class="img-fluid w-100">
+                </div>
+                <div class="menu-item-details flex-grow-1">
+                    <span class="menu-category">Breakfast</span>
+                    <h3 class="menu-item-title">Berry Custard</h3>
+                    <p class="menu-item-desc">
+                        Velvety vanilla bean custard topped with a vibrant compote of seasonal berries and a delicate dusting of powdered sugar. A refreshingly sweet finish to your morning.
+                    </p>
+                </div>
+            </article>
         </div>
 
-        <div class="menu-item-details">
-            <span class="menu-category">Breakfast & Lunch</span>
-            <h3 class="menu-item-title">Iced Coffee</h3>
-            <p class="menu-item-desc">
-                Our signature house blend, cold-brewed for 18 hours to ensure a smooth, low-acidity finish. Served over ice with your choice of milk and optional house-made simple syrup.
-            </p>
+        <hr class="section-divider my-5">
+
+        <div class="col-12 col-md-6">
+            <article class="menu-item-card h-100 d-flex flex-column">
+                <div class="menu-image-frame">
+                    <img src="./images/crossiant_sandwhich.jpg" alt="Bacon and Egg Croissant" class="img-fluid w-100">
+                </div>
+                <div class="menu-item-details flex-grow-1">
+                    <span class="menu-category">Lunch</span>
+                    <h3 class="menu-item-title">Bacon & Egg Croissant</h3>
+                    <p class="menu-item-desc">
+                        A buttery, flaky croissant baked fresh this morning, stuffed with thick-cut crispy bacon, an over-easy egg, and a slice of sharp cheddar cheese. Comes with a side of mixed fruit.
+                    </p>
+                </div>
+            </article>
         </div>
-    </article>
 
-    <article class="menu-item-card">
-        <div class="menu-image-frame">
-            <img src="./images/iced_matcha.jpg" alt="Iced Matcha Beverage">
+        <div class="col-12 col-md-6">
+            <article class="menu-item-card h-100 d-flex flex-column">
+                <div class="menu-image-frame">
+                    <img src="./images/lunch.jpg" alt="Steak tenderloin with braised cabbage" class="img-fluid w-100">
+                </div>
+                <div class="menu-item-details flex-grow-1">
+                    <span class="menu-category">Lunch</span>
+                    <h3 class="menu-item-title">Steak Tenderloin & Cabbage</h3>
+                    <p class="menu-item-desc">
+                        A perfectly seared, tender cut of steak served alongside char-roasted cabbage. Finished with a light herb butter and a sprinkle of flaky sea salt for a clean, savory bite.
+                    </p>
+                </div>
+            </article>
         </div>
 
-        <div class="menu-item-details">
-            <span class="menu-category">Breakfast & Lunch</span>
-            <h3 class="menu-item-title">Iced Matcha</h3>
-            <p class="menu-item-desc">
-                Premium ceremonial grade matcha, delicately whisked and poured over ice. Blended with creamy oat milk and lightly sweetened with organic agave.
-            </p>
+        <div class="col-12 col-md-6">
+            <article class="menu-item-card h-100 d-flex flex-column">
+                <div class="menu-image-frame">
+                    <img src="./images/lunch_cream_pasta.jpg" alt="Cream pasta and broccoli" class="img-fluid w-100">
+                </div>
+                <div class="menu-item-details flex-grow-1">
+                    <span class="menu-category">Lunch</span>
+                    <h3 class="menu-item-title">Cream Pasta & Broccoli</h3>
+                    <p class="menu-item-desc">
+                        Al dente ribbons of pasta tossed in a luxurious garlic cream sauce, folded together with tender, pan-roasted broccoli florets and finished with shaved parmesan.
+                    </p>
+                </div>
+            </article>
         </div>
-    </article>
 
+        <div class="col-12 col-md-6">
+            <article class="menu-item-card h-100 d-flex flex-column">
+                <div class="menu-image-frame">
+                    <img src="./images/lunch_grilled_salmon_quinoa.jpg" alt="Grilled salmon with quinoa" class="img-fluid w-100">
+                </div>
+                <div class="menu-item-details flex-grow-1">
+                    <span class="menu-category">Lunch</span>
+                    <h3 class="menu-item-title">Grilled Salmon with Quinoa</h3>
+                    <p class="menu-item-desc">
+                        A fresh, wild-caught salmon fillet grilled to a tender flake, resting on a bed of fluffy, lemon-herb quinoa and vibrant seasonal greens.
+                    </p>
+                </div>
+            </article>
+        </div>
 
-</section>
+        <hr class="section-divider my-5">
 
-<hr class="section-divider">
+        <div class="col-12 col-md-6">
+            <article class="menu-item-card h-100 d-flex flex-column">
+                <div class="menu-image-frame">
+                    <img src="./images/iced_coffee.jpg" alt="Iced Coffee Beverage" class="img-fluid w-100">
+                </div>
+                <div class="menu-item-details flex-grow-1">
+                    <span class="menu-category">Beverages</span>
+                    <h3 class="menu-item-title">Iced Coffee</h3>
+                    <p class="menu-item-desc">
+                        Our signature house blend, cold-brewed for 18 hours to ensure a smooth, low-acidity finish. Served over ice with your choice of milk and optional house-made simple syrup.
+                    </p>
+                </div>
+            </article>
+        </div>
 
+        <div class="col-12 col-md-6">
+            <article class="menu-item-card h-100 d-flex flex-column">
+                <div class="menu-image-frame">
+                    <img src="./images/iced_matcha.jpg" alt="Iced Matcha Beverage" class="img-fluid w-100">
+                </div>
+                <div class="menu-item-details flex-grow-1">
+                    <span class="menu-category">Beverages</span>
+                    <h3 class="menu-item-title">Iced Matcha</h3>
+                    <p class="menu-item-desc">
+                        Premium ceremonial grade matcha, delicately whisked and poured over ice. Blended with creamy oat milk and lightly sweetened with organic agave.
+                    </p>
+                </div>
+            </article>
+        </div>
 
-<table>
+    </div> <hr class="section-divider my-5">
 
-    <caption>Pricing</caption>
+    <div class="table-responsive mb-5">
+        <table class="table align-middle">
+            <caption class="mb-3" style="caption-side: top; font-weight: bold; font-size: 1.5rem; color: #111827;">Complete Menu Pricing</caption>
+            <thead>
+            <tr style="border-bottom: 2px solid #111827;">
+                <th>Item</th>
+                <th>Ingredients</th>
+                <th>Price</th>
+                <th>Notes</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Berry & Banana French Toast</td>
+                <td>Thick-cut brioche, fresh berries, bananas, maple syrup</td>
+                <td>$12.00</td>
+                <td>Vegetarian, Popular</td>
+            </tr>
+            <tr>
+                <td>Eggs Benedict</td>
+                <td>Poached eggs, smoked ham, hollandaise, English muffin</td>
+                <td>$16.00</td>
+                <td>Signature Dish</td>
+            </tr>
+            <tr>
+                <td>Breakfast Quiche</td>
+                <td>Gruyère, caramelized onions, spinach, egg</td>
+                <td>$13.00</td>
+                <td>Vegetarian</td>
+            </tr>
+            <tr>
+                <td>Berry Custard</td>
+                <td>Vanilla bean custard, seasonal mixed berries</td>
+                <td>$8.00</td>
+                <td>Sweet, Light</td>
+            </tr>
+            <tr>
+                <td>Bacon & Egg Croissant</td>
+                <td>Flaky croissant, crispy bacon, over-easy egg, cheddar</td>
+                <td>$14.00</td>
+                <td>Hearty</td>
+            </tr>
+            <tr>
+                <td>Steak Tenderloin & Cabbage</td>
+                <td>Seared tenderloin, roasted cabbage, herb butter</td>
+                <td>$24.00</td>
+                <td>Gluten-Free</td>
+            </tr>
+            <tr>
+                <td>Cream Pasta & Broccoli</td>
+                <td>Garlic cream sauce, parmesan, roasted broccoli</td>
+                <td>$18.00</td>
+                <td>Vegetarian</td>
+            </tr>
+            <tr>
+                <td>Grilled Salmon with Quinoa</td>
+                <td>Wild-caught salmon, lemon-herb quinoa</td>
+                <td>$22.00</td>
+                <td>Gluten-Free, High Protein</td>
+            </tr>
+            <tr>
+                <td>Cold-Brew Iced Coffee</td>
+                <td>18-hour cold brew, choice of milk, ice</td>
+                <td>$5.00</td>
+                <td>Vegan option available</td>
+            </tr>
+            <tr>
+                <td>Iced Matcha</td>
+                <td>Ceremonial grade matcha, oat milk, agave, ice</td>
+                <td>$6.00</td>
+                <td>Fresh daily, Vegan</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
-
-    <thead>
-
-    <tr>
-        <th>Combo</th>
-        <th>Ingredients</th>
-        <th>Price</th>
-        <th>Notes</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    <tr>
-        <td>Berry & Banana French Toast</td>
-        <td>Thick-cut brioche, fresh berries, bananas, maple syrup</td>
-        <td>$12.00</td>
-        <td>Vegetarian, Popular</td>
-    </tr>
-
-    <tr>
-        <td>Eggs Benedict</td>
-        <td>Poached eggs, smoked ham, hollandaise, English muffin</td>
-        <td>$16.00</td>
-        <td>Signature Dish</td>
-    </tr>
-
-    <tr>
-        <td>Bacon & Egg Croissant</td>
-        <td>Flaky croissant, crispy bacon, over-easy egg, cheddar</td>
-        <td>$14.00</td>
-        <td>Hearty</td>
-    </tr>
-
-    <tr>
-        <td>Steak Tenderloin & Cabbage</td>
-        <td>Seared tenderloin, roasted cabbage, herb butter</td>
-        <td>$24.00</td>
-        <td>Gluten-Free</td>
-    </tr>
-
-    <tr>
-        <td>Cold-Brew Iced Coffee</td>
-        <td>18-hour cold brew, choice of milk, ice</td>
-        <td>$5.00</td>
-        <td>Vegan option available</td>
-    </tr>
-
-    <tr>
-        <td>Iced Matcha</td>
-        <td>Ceremonial grade matcha, oat milk, agave, ice</td>
-        <td>$6.00</td>
-        <td>Fresh daily, Vegan</td>
-    </tr>
-    </tbody>
-</table>
+</main>
 
 <script src="js/script.js"></script>
 </body>
