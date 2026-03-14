@@ -45,162 +45,102 @@
     </div>
 </nav>
 
-<h2 class="form-title">Reservations</h2>
+<main class="container my-5">
 
-<div class="main-center">
-    <div class="form-container">
-        <form
-                method="POST"
-                enctype="multipart/form-data"
-        >
-            <div style="margin-bottom: 2rem">
-                <p class="form-desc">
-                    Please provide your reservation details below. Fields marked
-                    with * are required.
-                </p>
-            </div>
-
-            <label for="fullname" class="form-label">Full Name*</label>
-            <input
-                    type="text"
-                    name="fullname"
-                    id="fullname"
-                    class="form-input"
-                    placeholder="Enter your full name"
-                    maxlength="20"
-                    required
-            />
-
-            <label for="email" class="form-label">Email Address*</label>
-            <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    class="form-input"
-                    placeholder="Enter your email"
-                    required
-            />
-
-            <label for="phone" class="form-label"
-            >Phone Number (Optional)</label
-            >
-            <input
-                    type="tel"
-                    name="phone"
-                    id="phone"
-                    class="form-input"
-                    placeholder="Enter your phone number"
-            />
-
-            <label for="party-size" class="form-label">Party Size (Including Yourself)*</label>
-            <select name="party-size" id="party-size" class="form-select" required>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-            </select>
-
-            <label for="request-date" class="form-label"
-            >Date of Reservation*</label
-            >
-            <input
-                    type="date"
-                    name="request-date"
-                    id="request-date"
-                    class="form-input"
-                    required
-            />
-
-            <!-- How to make this update dynamic (e.g., other customers have these time selected -->
-            <label for="time" class="form-label"> Reservation Time* </label>
-            <input
-                    type="time"
-                    name="time"
-                    id="time"
-                    class="form-input"
-                    required
-            />
-
-            <fieldset class="preference-radio-spacing">
-
-                <!-- Legend is used for 1-to-Many relationships used to group terms that are related to one another -->
-                <!-- This enables screen reader to group together sets of choices with one another -->
-                <legend class="form-label"> Seating Preference*</legend>
-
-                <div class="radio-option">
-                    <input
-                            type="radio"
-                            name="seat-preference"
-                            id="indoor"
-                            class="preference-radio"
-                    />
-                    <label for="indoor" class="form-label"> Indoor </label>
-                </div>
-
-                <div class="radio-option">
-                    <input
-                            type="radio"
-                            name="seat-preference"
-                            id="outdoor"
-                            class="preference-radio"
-                    />
-                    <label for="outdoor" class="form-label"> Outdoor </label>
-                </div>
-
-                <div class="radio-option">
-                    <input
-                            type="radio"
-                            name="seat-preference"
-                            id="bar"
-                            class="preference-radio"
-                    />
-                    <label for="bar" class="form-label"> Bar </label>
-                </div>
-
-            </fieldset>
-
-            <div>
-                <label for="message" class="form-label"> Dietary Notes (optional) </label>
-                <textarea
-                        rows="6"
-                        name="message"
-                        id="message"
-                        placeholder="Type your message"
-                        class="message-form-input"
-                        maxlength="30"
-                ></textarea>
-            </div>
-
-            <div class="form-checkbox-row">
-                <input
-                        type="checkbox"
-                        id="declaration"
-                        class="form-checkbox"
-                />
-                <label
-                        for="declaration"
-                        class="form-label"
-                >
-                    Opt-in for newsletter
-                </label>
-            </div>
-
-        <div>
-            <button class="form-btn" type="submit">Submit Reservation
-                <i class="fa-solid fa-arrow-up-from-bracket"></i>
-            </button>
-            <button class="form-btn" type="reset">Reset
-                <i class="fa-solid fa-arrows-rotate"></i>
-            </button>
+    <div class="row mb-4">
+        <div class="col text-center">
+            <h2 class="form-title m-0">Reservations</h2>
+            <hr class="section-divider my-3 w-25 mx-auto">
         </div>
-
-        </form>
     </div>
-</div>
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+
+            <div class="form-container">
+
+                <div id="alert-container"></div>
+
+                <form id="reservationForm">
+
+                    <div style="margin-bottom: 2rem">
+                        <p class="form-desc text-center">
+                            Please provide your reservation details below. Fields marked
+                            with * are required.
+                        </p>
+                    </div>
+
+                    <label for="fullname" class="form-label">Full Name*</label>
+                    <input type="text" name="fullname" id="fullname" class="form-input" placeholder="Enter your full name" />
+
+                    <label for="email" class="form-label">Email Address*</label>
+                    <input type="email" name="email" id="email" class="form-input" placeholder="Enter your email" />
+
+                    <label for="phone" class="form-label">Phone Number (Optional)</label>
+                    <input type="tel" name="phone" id="phone" class="form-input" placeholder="Enter your phone number" />
+
+                    <label for="party-size" class="form-label">Party Size (Including Yourself)*</label>
+                    <select name="party-size" id="party-size" class="form-select">
+                        <option value="" disabled selected>Select party size...</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                    </select>
+
+                    <label for="request-date" class="form-label">Date of Reservation*</label>
+                    <input type="date" name="request-date" id="request-date" class="form-input" />
+
+                    <label for="time" class="form-label"> Reservation Time* </label>
+                    <input type="time" name="time" id="time" class="form-input" />
+
+                    <fieldset class="preference-radio-spacing">
+                        <legend class="form-label"> Seating Preference*</legend>
+
+                        <div class="radio-option">
+                            <input type="radio" name="seat-preference" id="indoor" class="preference-radio" value="Indoor" />
+                            <label for="indoor" class="form-label"> Indoor </label>
+                        </div>
+
+                        <div class="radio-option">
+                            <input type="radio" name="seat-preference" id="outdoor" class="preference-radio" value="Outdoor" />
+                            <label for="outdoor" class="form-label"> Outdoor </label>
+                        </div>
+
+                        <div class="radio-option">
+                            <input type="radio" name="seat-preference" id="bar" class="preference-radio" value="Bar" />
+                            <label for="bar" class="form-label"> Bar </label>
+                        </div>
+                    </fieldset>
+
+                    <div>
+                        <label for="message" class="form-label"> Dietary Notes (optional) </label>
+                        <textarea rows="6" name="message" id="message" placeholder="Type your message" class="message-form-input"></textarea>
+                    </div>
+
+                    <div class="form-checkbox-row">
+                        <input type="checkbox" id="declaration" name="newsletter" class="form-checkbox" value="Yes" />
+                        <label for="declaration" class="form-label">Opt-in for newsletter</label>
+                    </div>
+
+                    <div class="d-flex gap-3 mt-4">
+                        <button class="form-btn w-100" type="submit">Submit
+                            <i class="fa-solid fa-arrow-up-from-bracket ms-2"></i>
+                        </button>
+                        <button class="form-btn w-100" type="reset" style="background-color: #e5e7eb; color: #111827;">Reset
+                            <i class="fa-solid fa-arrows-rotate ms-2"></i>
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
 
 <script src="js/script.js"></script>
 
