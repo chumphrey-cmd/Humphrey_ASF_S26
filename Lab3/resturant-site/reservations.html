@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lorem Ipsum Cafe</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://kit.fontawesome.com/c5ef0c99ee.js" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+<!-- Nav with PNG Logo -->
+<nav class="navbar navbar-expand-lg sticky-top custom-editorial-nav">
+    <div class="container-fluid px-4 px-md-5">
+
+        <a class="navbar-brand" href="index.html">
+            <img src="./images/logo_2.png" alt="Lorem Ipsum Cafe Logo" class="logo-img">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav gap-0.1">
+                <li class="nav-item">
+                    <a class="nav-link custom-nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link custom-nav-link" href="menu.html">Menu</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link custom-nav-link" href="reservations.html">Reservations</a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</nav>
+
+<main class="container my-5">
+
+    <div class="row mb-4">
+        <div class="col text-center">
+            <h2 class="form-title m-0">Reservations</h2>
+            <hr class="section-divider my-3 w-25 mx-auto">
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+
+            <div class="form-container">
+
+                <div id="alert-container"></div>
+
+                <form id="reservationForm">
+
+                    <div style="margin-bottom: 2rem">
+                        <p class="form-desc text-center">
+                            Please provide your reservation details below. Fields marked
+                            with * are required.
+                        </p>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="firstname" class="form-label">First Name*</label>
+                            <input type="text" id="firstname" class="form-input" placeholder="e.g. Jane">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="lastname" class="form-label">Last Name</label>
+                            <input type="text" id="lastname" class="form-input" placeholder="e.g. Doe">
+                        </div>
+                    </div>
+
+                    <label for="email" class="form-label">Email Address*</label>
+                    <input type="email" name="email" id="email" class="form-input" placeholder="Enter your email" />
+
+                    <label for="phone" class="form-label">Phone Number (Optional)</label>
+                    <input type="tel" name="phone" id="phone" class="form-input" placeholder="Enter your phone number" />
+
+                    <label for="party-size" class="form-label">Party Size (Including Yourself)*</label>
+                    <select name="party-size" id="party-size" class="form-select">
+                        <option value="" disabled selected>Select party size...</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                    </select>
+
+                    <label for="request-date" class="form-label">Date of Reservation*</label>
+                    <input type="date" name="request-date" id="request-date" class="form-input" />
+
+                    <label for="time" class="form-label"> Reservation Time* </label>
+                    <input type="time" name="time" id="time" class="form-input" />
+
+                    <fieldset class="preference-radio-spacing">
+                        <legend class="form-label"> Seating Preference*</legend>
+
+                        <div class="radio-option">
+                            <input type="radio" name="seat-preference" id="indoor" class="preference-radio" value="Indoor" />
+                            <label for="indoor" class="form-label"> Indoor </label>
+                        </div>
+
+                        <div class="radio-option">
+                            <input type="radio" name="seat-preference" id="outdoor" class="preference-radio" value="Outdoor" />
+                            <label for="outdoor" class="form-label"> Outdoor </label>
+                        </div>
+
+                        <div class="radio-option">
+                            <input type="radio" name="seat-preference" id="bar" class="preference-radio" value="Bar" />
+                            <label for="bar" class="form-label"> Bar </label>
+                        </div>
+                    </fieldset>
+
+                    <div>
+                        <label for="message" class="form-label"> Dietary Notes (optional) </label>
+                        <textarea rows="6" name="message" id="message" placeholder="Type your message" class="message-form-input"></textarea>
+                    </div>
+
+                    <div class="form-checkbox-row">
+                        <input type="checkbox" id="declaration" name="newsletter" class="form-checkbox" value="Yes" />
+                        <label for="declaration" class="form-label">Opt-in for newsletter</label>
+                    </div>
+
+                    <div class="d-flex gap-3 mt-4">
+                        <button class="form-btn w-75" type="submit">Submit
+                            <i class="fa-solid fa-arrow-up-from-bracket ms-2"></i>
+                        </button>
+                        <button class="form-btn w-75" type="reset">Reset
+                            <i class="fa-solid fa-arrows-rotate ms-2"></i>
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="js/script.js"></script>
+
+</body>
+</html>
