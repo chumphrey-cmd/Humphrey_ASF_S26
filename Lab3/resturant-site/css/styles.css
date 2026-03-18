@@ -298,68 +298,6 @@ Signature Menu Items (Flexbox Layout)
 
 /*
 ==========================================================================
-Menu Table Styles (menu.html)
-==========================================================================
-*/
-
-caption {
-    font-family: 'Quicksand', sans-serif;
-    text-align: center;
-    font-weight: 700;
-    padding-bottom: 1.5rem;
-    font-size: 2rem;
-    color: #111827;
-}
-
-table {
-    /*border-collapse: collapse;*/
-    width: 100%;
-    max-width: 1000px;
-    margin: 4rem auto;
-    background-color: #ffffff;
-    /*box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);*/
-    border: 1px solid #111827;
-}
-
-
-/* Base styling for cells */
-th, td {
-    padding: 1.25rem 1rem;
-    text-align: center;
-    border-bottom: 1px solid #e5e7eb;
-}
-
-/* Table Headers */
-th {
-    font-family: 'Quicksand', sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 700;
-    color: #111827;
-    background-color: #ffffff;
-    border-bottom: 2px solid #111827;
-}
-
-/* Table Data */
-td {
-    font-family: 'Inter', sans-serif;
-    color: #374151;
-    font-size: 1.05rem;
-}
-
-/* Subtle, Warm Zebra Striping */
-tbody tr:nth-child(even) {
-    background-color: #fcfbf9;
-}
-
-/* Hover Effect for Interactivity */
-tbody tr:hover {
-    background-color: #f3f4f6;
-    transition: background-color 0.2s ease-in-out;
-}
-
-/*
-==========================================================================
 Form Elements (reservations.html)
 ==========================================================================
 */
