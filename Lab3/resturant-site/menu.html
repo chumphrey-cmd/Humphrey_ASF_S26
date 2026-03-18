@@ -78,185 +78,66 @@
 
     <hr class="section-divider my-5">
 
-    <div class="row g-4 justify-content-center">
+    <div class="row">
+        <div class="col-lg-3 col-md-4 mb-5">
 
-        <div class="col-12 col-md-6">
-            <article class="menu-item-card h-100 d-flex flex-column">
-                <div class="menu-image-frame">
-                    <img src="./images/breakfast.jpg" alt="Berry and Banana French Toast" class="img-fluid w-100">
-                </div>
-                <div class="menu-item-details flex-grow-1">
-                    <span class="menu-category">Breakfast</span>
-                    <h3 class="menu-item-title">Berry & Banana French Toast</h3>
-                    <p class="menu-item-desc">
-                        Maple syrup, powdered sugar, and a whole lot of love. Our signature french toast is the perfect way to start your morning. Served with fresh, seasonal berries and perfectly ripe bananas.
-                    </p>
-                </div>
-            </article>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted fw-bold" style="letter-spacing: 1px; font-size: 0.9rem;">FILTERS</span>
+                <button class="btn btn-link text-danger text-decoration-none p-0 fw-bold" id="clearAllBtn" style="font-size: 0.9rem;">
+                    <i class="fa-regular fa-trash-can"></i> Clear All
+                </button>
+            </div>
+
+            <hr class="mb-4">
+
+            <ul class="list-unstyled" id="filter-sidebar">
+                <li class="mb-2">
+                    <a href="#" class="text-decoration-none category-filter active-filter" data-category="All">All Items</a>
+                </li>
+                <li class="mb-2">
+                    <a href="#" class="text-decoration-none category-filter" data-category="Breakfast">Breakfast</a>
+                </li>
+                <li class="mb-2">
+                    <a href="#" class="text-decoration-none category-filter" data-category="Lunch">Lunch</a>
+                </li>
+            </ul>
+
+            <hr class="mt-4">
         </div>
 
-        <div class="col-12 col-md-6">
-            <article class="menu-item-card h-100 d-flex flex-column">
-                <div class="menu-image-frame">
-                    <img src="./images/eggs_benedict.jpg" alt="Eggs Benedict" class="img-fluid w-100">
-                </div>
-                <div class="menu-item-details flex-grow-1">
-                    <span class="menu-category">Breakfast</span>
-                    <h3 class="menu-item-title">Eggs Benedict</h3>
-                    <p class="menu-item-desc">
-                        Two perfectly poached eggs on a toasted English muffin, layered with thick-cut smoked ham and topped with our house-made hollandaise sauce. Served with a side of roasted breakfast potatoes.
-                    </p>
-                </div>
-            </article>
+        <div class="col-lg-9 col-md-8">
+            <h3 class="mb-4" style="font-weight: bold; font-size: 1.5rem; color: #111827;">Our Offerings</h3>
+
+            <div class="row g-4" id="menu-grid">
+
+            </div>
         </div>
-
-        <div class="col-12 col-md-6">
-            <article class="menu-item-card h-100 d-flex flex-column">
-                <div class="menu-image-frame">
-                    <img src="./images/breakfast_quiche.jpg" alt="Breakfast Quiche" class="img-fluid w-100">
-                </div>
-                <div class="menu-item-details flex-grow-1">
-                    <span class="menu-category">Breakfast</span>
-                    <h3 class="menu-item-title">Breakfast Quiche</h3>
-                    <p class="menu-item-desc">
-                        A buttery, flaky crust enveloping a rich, savory egg custard dotted with gruyère cheese, caramelized onions, and fresh spinach. Baked to a golden perfection.
-                    </p>
-                </div>
-            </article>
-        </div>
-
-        <div class="col-12 col-md-6">
-            <article class="menu-item-card h-100 d-flex flex-column">
-                <div class="menu-image-frame">
-                    <img src="./images/breakfast_berry_custard.jpg" alt="Breakfast Berry Custard" class="img-fluid w-100">
-                </div>
-                <div class="menu-item-details flex-grow-1">
-                    <span class="menu-category">Breakfast</span>
-                    <h3 class="menu-item-title">Berry Custard</h3>
-                    <p class="menu-item-desc">
-                        Velvety vanilla bean custard topped with a vibrant compote of seasonal berries and a delicate dusting of powdered sugar. A refreshingly sweet finish to your morning.
-                    </p>
-                </div>
-            </article>
-        </div>
-
-        <hr class="section-divider my-5">
-
-        <div class="col-12 col-md-6">
-            <article class="menu-item-card h-100 d-flex flex-column">
-                <div class="menu-image-frame">
-                    <img src="./images/crossiant_sandwhich.jpg" alt="Bacon and Egg Croissant" class="img-fluid w-100">
-                </div>
-                <div class="menu-item-details flex-grow-1">
-                    <span class="menu-category">Lunch</span>
-                    <h3 class="menu-item-title">Bacon & Egg Croissant</h3>
-                    <p class="menu-item-desc">
-                        A buttery, flaky croissant baked fresh this morning, stuffed with thick-cut crispy bacon, an over-easy egg, and a slice of sharp cheddar cheese. Comes with a side of mixed fruit.
-                    </p>
-                </div>
-            </article>
-        </div>
-
-        <div class="col-12 col-md-6">
-            <article class="menu-item-card h-100 d-flex flex-column">
-                <div class="menu-image-frame">
-                    <img src="./images/lunch.jpg" alt="Steak tenderloin with braised cabbage" class="img-fluid w-100">
-                </div>
-                <div class="menu-item-details flex-grow-1">
-                    <span class="menu-category">Lunch</span>
-                    <h3 class="menu-item-title">Steak Tenderloin & Cabbage</h3>
-                    <p class="menu-item-desc">
-                        A perfectly seared, tender cut of steak served alongside char-roasted cabbage. Finished with a light herb butter and a sprinkle of flaky sea salt for a clean, savory bite.
-                    </p>
-                </div>
-            </article>
-        </div>
-
-        <div class="col-12 col-md-6">
-            <article class="menu-item-card h-100 d-flex flex-column">
-                <div class="menu-image-frame">
-                    <img src="./images/lunch_cream_pasta.jpg" alt="Cream pasta and broccoli" class="img-fluid w-100">
-                </div>
-                <div class="menu-item-details flex-grow-1">
-                    <span class="menu-category">Lunch</span>
-                    <h3 class="menu-item-title">Cream Pasta & Broccoli</h3>
-                    <p class="menu-item-desc">
-                        Al dente ribbons of pasta tossed in a luxurious garlic cream sauce, folded together with tender, pan-roasted broccoli florets and finished with shaved parmesan.
-                    </p>
-                </div>
-            </article>
-        </div>
-
-        <div class="col-12 col-md-6">
-            <article class="menu-item-card h-100 d-flex flex-column">
-                <div class="menu-image-frame">
-                    <img src="./images/lunch_grilled_salmon_quinoa.jpg" alt="Grilled salmon with quinoa" class="img-fluid w-100">
-                </div>
-                <div class="menu-item-details flex-grow-1">
-                    <span class="menu-category">Lunch</span>
-                    <h3 class="menu-item-title">Grilled Salmon with Quinoa</h3>
-                    <p class="menu-item-desc">
-                        A fresh, wild-caught salmon fillet grilled to a tender flake, resting on a bed of fluffy, lemon-herb quinoa and vibrant seasonal greens.
-                    </p>
-                </div>
-            </article>
-        </div>
-
-        <hr class="section-divider my-5">
-
-        <div class="col-12 col-md-6">
-            <article class="menu-item-card h-100 d-flex flex-column">
-                <div class="menu-image-frame">
-                    <img src="./images/iced_coffee.jpg" alt="Iced Coffee Beverage" class="img-fluid w-100">
-                </div>
-                <div class="menu-item-details flex-grow-1">
-                    <span class="menu-category">Beverages</span>
-                    <h3 class="menu-item-title">Iced Coffee</h3>
-                    <p class="menu-item-desc">
-                        Our signature house blend, cold-brewed for 18 hours to ensure a smooth, low-acidity finish. Served over ice with your choice of milk and optional house-made simple syrup.
-                    </p>
-                </div>
-            </article>
-        </div>
-
-        <div class="col-12 col-md-6">
-            <article class="menu-item-card h-100 d-flex flex-column">
-                <div class="menu-image-frame">
-                    <img src="./images/iced_matcha.jpg" alt="Iced Matcha Beverage" class="img-fluid w-100">
-                </div>
-                <div class="menu-item-details flex-grow-1">
-                    <span class="menu-category">Beverages</span>
-                    <h3 class="menu-item-title">Iced Matcha</h3>
-                    <p class="menu-item-desc">
-                        Premium ceremonial grade matcha, delicately whisked and poured over ice. Blended with creamy oat milk and lightly sweetened with organic agave.
-                    </p>
-                </div>
-            </article>
-        </div>
-
-    </div> <hr class="section-divider my-5">
-
-    <div class="table-responsive mb-5">
-        <table class="table align-middle">
-            <caption class="mb-3" style="caption-side: top; font-weight: bold; font-size: 1.5rem; color: #111827;">Complete Menu Pricing</caption>
-            <thead>
-            <tr style="border-bottom: 2px solid #111827;">
-                <th>Item</th>
-                <th>Description</th>
-                <th>Category</th>
-                <th>Price</th>
-            </tr>
-            </thead>
-
-            <tbody id="menu-table-body">
-
-            </tbody>
-
-        </table>
     </div>
 
 </main>
 
+<div class="modal fade" id="itemDetailsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 0;">
+
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold fs-4" id="modal-title">Item Name</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body text-center pt-2">
+                <img src="" id="modal-image" class="img-fluid mb-3 w-100" style="object-fit: cover; max-height: 300px;" alt="Item Image">
+                <p id="modal-desc" class="text-muted" style="font-size: 1.1rem;"></p>
+                <h3 id="modal-price" class="text-success fw-bold mb-0"></h3>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <script src="js/script.js"></script>
 </body>
 </html>
+
+
+</div> <hr class="section-divider my-5">
