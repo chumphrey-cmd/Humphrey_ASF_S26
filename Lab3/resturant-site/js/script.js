@@ -105,29 +105,27 @@ const moneyFormatter = new Intl.NumberFormat("en-US", {
 // ==========================================
 // RENDER THE MENU GRID (Cards with Images)
 // ==========================================
-function renderMenuTable(categoryFilter = "All") {
+
+// Only runs ONCE on page load (remove the categoryFilter parameter)
+function renderMenuTable() {
     const menuGrid = document.getElementById("menu-grid");
     if (!menuGrid) return;
 
-    menuGrid.innerHTML = "";
+    menuGrid.innerHTML = ""; // Clear it once just in case
 
-    const filteredItems = MENU_ITEMS.filter(item => {
-        if (categoryFilter === "All") return true;
-        return item.category === categoryFilter;
-    });
-
-    filteredItems.forEach(item => {
+    // Loop through ALL items
+    MENU_ITEMS.forEach(item => {
         const col = document.createElement("div");
-        col.className = "col-12 col-md-6 col-lg-4";
+        // ADDED: menu-item-col class and data-item-category attribute
+        col.className = "col-12 col-md-6 col-lg-4 menu-item-col";
+        col.setAttribute('data-item-category', item.category);
 
         col.innerHTML = `
             <div class="card h-100 shadow-sm border-0" style="background-color: #f8f9fa;">
-                
-                <img src="${item.image}" class="card-img-top item-img-trigger" data-id="${item.id}" alt="${item.name}" style="height: 200px; object-fit: cover; cursor: pointer;">
+                <img src="${item.image}" class="card-img-top item-img-trigger" data-id="${item.id}" alt="${item.name}" loading="lazy" decoding="async" style="height: 200px; object-fit: cover; cursor: pointer;">
                 
                 <div class="card-body d-flex flex-column p-3">
                     <span class="badge bg-secondary align-self-start mb-2">${item.category}</span>
-                    
                     <h5 class="card-title fw-bold text-dark mb-3">${item.name}</h5>
                     
                     <div class="mt-auto border-top pt-3 d-flex justify-content-between align-items-center border-secondary-subtle">
@@ -148,6 +146,7 @@ function renderMenuTable(categoryFilter = "All") {
 
     // Attach the click listeners to the images AFTER they are drawn on the screen
     setupModalTriggers();
+    setupCartButtons();
 }
 
 // ==========================================
@@ -190,22 +189,31 @@ function setupCategoryFilters() {
 
     if (filterButtons.length === 0) return;
 
-    filterButtons.forEach(function(button) {
+    filterButtons.forEach(button => {
         button.addEventListener('click', function(event) {
-            event.preventDefault(); // Stop page from jumping to top
+            event.preventDefault();
 
             const selectedCategory = this.getAttribute('data-category');
 
-            // Remove active class from all links, add to the clicked one
             filterButtons.forEach(btn => btn.classList.remove('active-filter'));
             this.classList.add('active-filter');
 
-            // Redraw the grid with the new filter
-            renderMenuTable(selectedCategory);
+            // THE NEW LOGIC: Just hide/show via CSS!
+            const allCards = document.querySelectorAll('.menu-item-col');
+
+            allCards.forEach(card => {
+                const cardCategory = card.getAttribute('data-item-category');
+
+                // If "All" is selected OR the category matches, show it. Otherwise, hide it.
+                if (selectedCategory === "All" || cardCategory === selectedCategory) {
+                    card.style.display = "block"; // Show
+                } else {
+                    card.style.display = "none";  // Hide
+                }
+            });
         });
     });
 
-    // Clear All Button resets to "All"
     if (clearAllBtn) {
         clearAllBtn.addEventListener('click', function(event) {
             event.preventDefault();
@@ -215,11 +223,10 @@ function setupCategoryFilters() {
     }
 }
 
-// ==========================================
+
 // INITIALIZE PAGE
-// ==========================================
 document.addEventListener("DOMContentLoaded", function() {
-    renderMenuTable("All");
+    renderMenuTable();
     setupCategoryFilters();
 });
 
@@ -275,7 +282,7 @@ if (reservationForm) {
         }
 
         if (phone !== "") {
-            // Regex allows numbers, dashes, parentheses, spaces, and the + sign, between 10 to 15 characters long.
+            // Regex allows numbers, dashes, parentheses, spaces, and the + sign, between 10 and 15 characters long.
             const phoneRegex = /^[0-9\-+\s()]{10,15}$/;
 
             if (!phoneRegex.test(phone)) {
@@ -372,7 +379,69 @@ if (reservationForm) {
     });
 }
 
+// ==========================================
+// Shopping car using localStorage
+// ==========================================
+function setupCartButtons() {
+    const cartButtons = document.querySelectorAll('.add-to-cart-btn');
+
+    cartButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // 1. Get the item ID and the Quantity the user selected
+            const itemId = parseInt(this.getAttribute('data-id'));
+            const quantityInput = document.getElementById(`qty-${itemId}`);
+            const quantity = parseInt(quantityInput.value);
+
+            // 2. Validate quantity (Rubric requires 1-5)
+            if (quantity < 1 || quantity > 5) {
+                alert("Please select a quantity between 1 and 5.");
+                return;
+            }
+
+            // 3. Find the full item details from our MENU_ITEMS array
+            const selectedItem = MENU_ITEMS.find(item => item.id === itemId);
+
+            // 4. Get the current cart from localStorage (or start an empty one)
+            let cart = JSON.parse(localStorage.getItem('myCart')) || [];
+
+            // 5. Check if this item is ALREADY in the cart
+            const existingItemIndex = cart.findIndex(cartItem => cartItem.id === itemId);
+
+            if (existingItemIndex > -1) {
+                // If it is, just update the quantity
+                cart[existingItemIndex].quantity += quantity;
+                // Optional: Cap it at 5 max to follow rubric constraints tightly
+                if (cart[existingItemIndex].quantity > 5) cart[existingItemIndex].quantity = 5;
+            } else {
+                // If it's new, add it to the cart array
+                cart.push({
+                    id: selectedItem.id,
+                    name: selectedItem.name,
+                    price: selectedItem.price,
+                    quantity: quantity
+                });
+            }
+
+            // 6. Save the updated cart back to localStorage
+            localStorage.setItem('myCart', JSON.stringify(cart));
+
+            // 7. Give the user visual feedback!
+            const originalText = this.innerHTML;
+            this.innerHTML = `Added! <i class="fa-solid fa-check"></i>`;
+            this.classList.replace('btn-dark', 'btn-success');
+
+            setTimeout(() => {
+                this.innerHTML = originalText;
+                this.classList.replace('btn-success', 'btn-dark');
+                quantityInput.value = 1; // Reset input back to 1
+            }, 900);
+        });
+    });
+}
+
+// ==========================================
 // Addressing the accessibility focus when modal closes, accessibility warning displayed in console, so I needed to hide the bootstrap modal
+// ==========================================
 const modalElement = document.getElementById('itemDetailsModal');
 if (modalElement) {
     modalElement.addEventListener('hide.bs.modal', function () {
