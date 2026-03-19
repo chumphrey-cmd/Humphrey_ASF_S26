@@ -2,13 +2,6 @@
 
 /*
 ==========================================================================
-Color Theme Explanation:
-....
-==========================================================================
-*/
-
-/*
-==========================================================================
 1. Global & Base Styles
 ==========================================================================
 */
@@ -18,7 +11,7 @@ body {
     /* Layer 1: Texture, Layer 2: Lighting, Layer 3: Base Color */
     /*background-image: url("./styling_images/cream-paper.png");*/
     /*background-color: #ffffff;*/
-    background-color: #FDFBF7BF;
+    background-color: #ffffff;
     margin: 0;
     padding: 0;
 }
@@ -81,28 +74,6 @@ Bootstrap Navbar Overrides
     display: block;
     transition: transform 0.3s ease;
 }
-
-
-/* FUTURE ADDITION: Potentially incorporate an interactive scroll where when you scroll further up the screen the navigation bar populates with the Home, Menu, and Reservations */
-
-/* --- Logo Styling CSS Generated --- */
-/*.nav-logo {*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    gap: 0.75rem;*/
-/*}*/
-
-/*.logo-img {*/
-/*    height: 3rem;*/
-/*    width: auto;*/
-/*}*/
-
-/*.logo-text {*/
-/*    font-family: 'Quicksand', sans-serif;*/
-/*    font-size: 1.5rem;*/
-/*    font-weight: 700;*/
-/*    color: #111827;*/
-/*}*/
 
 /*
 ==========================================================================
@@ -502,10 +473,3 @@ button[type="reset"].form-btn:hover {
     color: #ffffff;
     border-color: #111827;
 }
-
-/*
-==========================================================================
-FONT AWESOME LOCATION:
-* Used for my submit and reset buttons within `reservations.html`
-==========================================================================
-*/
