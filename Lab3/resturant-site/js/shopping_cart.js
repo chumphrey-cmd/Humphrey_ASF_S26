@@ -186,3 +186,13 @@ document.addEventListener("DOMContentLoaded", function() {
     renderCartPage();
     setupCheckoutLogic();
 });
+
+// ==========================================
+/* Accessibility Updates (received a warning due to pop-up window/fade whenever I select an item. Readers would be unable to view my cancel prompt... */
+// ==========================================
+const itemDetailsModalElement = document.getElementById('itemDetailsModal');
+if (itemDetailsModalElement) {
+    itemDetailsModalElement.addEventListener('hide.bs.modal', function () {
+        document.activeElement.blur(); // Drops focus before aria-hidden applies
+    });
+}

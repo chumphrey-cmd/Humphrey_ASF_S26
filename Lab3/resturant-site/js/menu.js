@@ -94,6 +94,19 @@ const MENU_ITEMS = [
     }
 ];
 
+// ==========================================
+// Performance Improvements: I noticed that the images were quite laggy, so I'm looking to load the images into the browser on startup so that the response time is much faster.
+// ==========================================
+function preloadMenuImages() {
+    // Loop through every item in your menu array
+    MENU_ITEMS.forEach(item => {
+        // Create an invisible image element in memory
+        const img = new Image();
+        // Set the source, which forces the browser to download and cache it immediately
+        img.src = item.image;
+    });
+}
+
 // formatting currency to USD
 const moneyFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -147,7 +160,7 @@ function renderMenuTable() {
 }
 
 // ==========================================
-// MODAL POP-UP LOGIC
+// Pop up windows for image cards
 // ==========================================
 function setupModalTriggers() {
     // Find every image we just drew that has the 'item-img-trigger' class
@@ -220,18 +233,20 @@ function setupCategoryFilters() {
     }
 }
 
-// ==========================================
-/* Accessibility Updates (received a warning due to pop-up window/fade whenever I select an item. Readers would be unable to view my menu items... */
-// ==========================================
-const modalElement = document.getElementById('itemDetailsModal');
-if (modalElement) {
-    modalElement.addEventListener('hide.bs.modal', function () {
-        document.activeElement.blur(); // Drops focus before aria-hidden applies
-    });
-}
 
 // INITIALIZE PAGE HERE
 document.addEventListener("DOMContentLoaded", function() {
     renderMenuTable();
     setupCategoryFilters();
+    preloadMenuImages();
 });
+
+// ==========================================
+/* Accessibility Updates (received a warning due to pop-up window/fade whenever I select an item. Readers would be unable to view my menu items... */
+// ==========================================
+const menuOptionModalElement = document.getElementById('itemDetailsModal');
+if (menuOptionModalElement) {
+    menuOptionModalElement.addEventListener('hide.bs.modal', function () {
+        document.activeElement.blur(); // Drops focus before aria-hidden applies
+    });
+}
