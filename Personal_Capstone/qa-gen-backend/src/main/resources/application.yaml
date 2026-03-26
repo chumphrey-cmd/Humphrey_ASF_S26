@@ -1,3 +1,7 @@
 spring:
   application:
     name: qa-gen-backend
+
+  profiles:
+    active: dev # Defaults to the development profile
+    include: local # Tells Spring to also load our ignored secrets file

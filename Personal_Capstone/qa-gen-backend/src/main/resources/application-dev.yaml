@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    # This URL matches the port and database name from our docker-compose.yml
+    url: jdbc:postgresql://localhost:5432/qa_gen_db
+    username: qa_user
+    password: qa_password
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      # 'update' is magic for development: it automatically creates and updates
+      # your database tables based on your Java Entity classes!
+      ddl-auto: update
+    # These settings help you debug by printing the generated SQL to your console
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+# Development Logging: High verbosity to the console so you can see what's happening
+logging:
+  level:
+    root: INFO
+    # This ensures any custom log messages we write in our code show up
+    com.qagen.backend: DEBUG
