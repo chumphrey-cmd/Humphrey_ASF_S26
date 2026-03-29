@@ -1,6 +1,6 @@
 spring:
   application:
-    name: qa-gen-backend
+    name: qa-gen
 
   profiles:
     active: dev # Defaults to the development profile

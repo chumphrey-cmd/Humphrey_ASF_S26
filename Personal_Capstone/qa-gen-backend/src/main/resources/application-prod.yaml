@@ -20,4 +20,4 @@ logging:
     name: logs/qagen-prod.log # Writes to a local restricted folder
   level:
     root: WARN
-    com.qagen.backend: INFO
+    mil.army.moda.qagenbackend: INFO

@@ -4,10 +4,15 @@ server:
 spring:
   datasource:
     # This URL matches the port and database name from our docker-compose.yml
-    url: jdbc:postgresql://localhost:5432/qa_gen_db
-    username: qa_user
-    password: qa_password
+    url: jdbc:postgresql://localhost:5434/qagen-db
+    username: user
+    password: password
     driver-class-name: org.postgresql.Driver
+
+  flyway:
+    enabled: false
+    # this specifies the location of where we created our flyway setup
+    locations: classpath:db/migration
 
   jpa:
     hibernate:
