@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class QaGenBackendApplication {
+public class QaGenApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(QaGenBackendApplication.class, args);
+        SpringApplication.run(QaGenApplication.class, args);
     }
 
 }
