@@ -28,18 +28,18 @@ public class Question {
     /**
      * @JdbcTypeCode is a modern Hibernate 6 feature.
      * Instead of creating a separate SQL table just to hold options, this tells Hibernate
-     * to serialize this Java List directly into a highly efficient PostgreSQL JSONB column.
+     * to serialize this Java List directly into a PostgreSQL JSONB column.
      */
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb")
+    // Removed the explicit definition here, we will allow H2/Hibernate to pick the JSON type needed here.
+//    @Column(columnDefinition = "jsonb")
     private List<String> options;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb")
+//    @Column(columnDefinition = "jsonb")
     private List<String> correctAnswers;
 
     // Caches the LLM response. Uses TEXT to accommodate potentially long AI-generated explanations.
-    @Column(columnDefinition = "TEXT")
     private String explanation;
 
     @ManyToOne(fetch = FetchType.LAZY)

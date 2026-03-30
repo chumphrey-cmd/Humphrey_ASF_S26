@@ -11,4 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 public class QuizRepositoryTest {
+
+
+
 }
