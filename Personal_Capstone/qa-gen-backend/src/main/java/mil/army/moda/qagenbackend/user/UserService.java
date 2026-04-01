@@ -20,6 +20,15 @@ public class UserService {
      */
     public User registerUser(User newUser) {
 
+        String rawPassword = newUser.getPasswordHash();
+
+        // Basic regex Pattern Matching
+        // .* : any character, zero or more times
+        // \\d : exactly one digit (0-9)
+        if (rawPassword == null || rawPassword.length() < 8 || !rawPassword.matches(".*\\d.*")){
+            throw new IllegalArgumentException("Invalid password, must be at least 8 character and contain a number!");
+        }
+
         // 1. Check if the email already exists
         if (userRepository.findByEmail(newUser.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Email is already in use.");

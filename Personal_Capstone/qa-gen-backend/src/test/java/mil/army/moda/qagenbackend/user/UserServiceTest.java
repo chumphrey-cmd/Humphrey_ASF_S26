@@ -13,10 +13,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 // This tells JUnit to use Mockito's tools for this test class
 @ExtendWith(MockitoExtension.class)
@@ -64,5 +64,48 @@ public class UserServiceTest {
 
         // Verify that the save method was actually triggered exactly once
         verify(userRepository).save(any(User.class));
+    }
+
+    @Test
+    public void shouldThrowExceptionIfEmailInUse(){
+
+        // 1. Arrange: Create new user
+        User newUser = new User();
+        newUser.setEmail("newuser@gmail.com");
+        newUser.setPasswordHash("MySecretPassword123!");
+
+        // 2. Arrange
+        User alreadyExistingUser = new User();
+        when(userRepository.findByEmail("newuser@gmail.com")).thenReturn(Optional.of(alreadyExistingUser));
+
+        // 3 & 4. Assert
+        // assertThrows listens method (UserService). Here we're checking that the method throws the exact exception we expect "Email already in use"
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> userService.registerUser(newUser));
+
+        // Assert: checking to ensure that the error message thrown is seen.
+        assertThat(exception.getMessage()).isEqualTo("Email is already in use.");
+
+        // Verify that the repository's save() method was NEVER called when we created the user email.
+        verify(userRepository, never()).save(any(User.class));
+
+    }
+
+    @Test
+    public void shouldThrowExceptionForPasswordThatDoesNotMeetComplexity(){
+
+        // Arrange
+        User newUser = new User();
+        newUser.setEmail("newuser@gmail.com");
+        newUser.setPasswordHash("weakpass");
+
+        // Act & Assert
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> userService.registerUser(newUser));
+
+        // Assert
+        assertThat(exception.getMessage()).isEqualTo("Invalid password, must be at least 8 character and contain a number!");
+
+        // Verify that the repository's save() method isn't, potentially contaminating our test.
+        verify(userRepository, never()).save(any(User.class));
+
     }
 }
