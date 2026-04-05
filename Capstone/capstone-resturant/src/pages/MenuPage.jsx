@@ -5,7 +5,7 @@ import { MENU_ITEMS } from '../data/menuData';
 import MenuFilter from '../components/MenuFilter';
 import MenuItemCard from '../components/MenuItemCard';
 
-export default function MenuPage() {
+export default function MenuPage({addToCart}) {
     // 1. State to track the currently selected category (Defaults to 'All')
     const [category, setCategory] = useState('All');
 
@@ -35,7 +35,7 @@ export default function MenuPage() {
                         {filteredItems.map(item => (
                             // On small screens: 1 column (12). Medium: 2 cols (6). Large: 3 cols (4).
                             <Col xs="12" sm="6" lg="4" key={item.id}>
-                                <MenuItemCard item={item} />
+                                <MenuItemCard item={item} addToCart={addToCart} />
                             </Col>
                         ))}
 

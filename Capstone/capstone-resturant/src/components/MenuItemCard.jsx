@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { Card, CardImg, CardBody, CardTitle, CardText, Button, Input, InputGroup } from 'reactstrap';
 
-export default function MenuItemCard({ item }) {
-    // Local state strictly for the quantity input (defaults to 1)
+export default function MenuItemCard({ item, addToCart }) {
     const [quantity, setQuantity] = useState(1);
 
     const handleAddToCart = () => {
-        // Sanity check to output to console
-        console.log(`Added ${quantity} of ${item.name} to cart!`);
+        // 2. Fire the global function, passing the item object and the chosen quantity
+        addToCart(item, quantity);
+
+        // Reset the input back to 1 after they add it!
+        setQuantity(1);
+        alert(`Added ${item.name} to cart!`); // A quick feedback popup for now
     };
 
     return (
