@@ -1,14 +1,20 @@
-import { Container, Row, Col, Form, FormGroup, Label, Button, FormFeedback, Alert } from 'reactstrap';
-import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import {Container, Row, Col, Form, FormGroup, Label, Button, FormFeedback, Alert} from 'reactstrap';
+import {useState, useEffect} from 'react';
+import {useForm} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const schema = yup.object().shape({
     firstName: yup.string().required('Please enter your first name.').max(20, 'Cannot exceed 20 characters.'),
     lastName: yup.string().max(20, 'Cannot exceed 20 characters.'),
     email: yup.string().required('Please enter an email.').email('Must be a valid email format.'),
-    phone: yup.string(),
+    phone: yup.string()
+        .transform((value, originalValue) => (originalValue === "" ? undefined : value))
+        .matches(phoneRegExp, "Phone number is not valid")
+        .nullable()
+        .notRequired(),
     partySize: yup.string().required('Please select your party size.'),
     date: yup.string().required('Please select a reservation date.'),
     time: yup.string().required('Please select a reservation time.'),
@@ -24,12 +30,12 @@ export default function ReservationsPage() {
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitSuccessful },
+        formState: {errors, isSubmitSuccessful},
         reset
     } = useForm({
         resolver: yupResolver(schema),
         mode: 'onChange',
-        // CRITICAL: Inline defaultValues forces a perfect reset
+        // Inline defaultValues forces a full reset
         defaultValues: {
             firstName: '', lastName: '', email: '', phone: '',
             partySize: '', date: '', time: '', seating: '',
@@ -37,7 +43,7 @@ export default function ReservationsPage() {
         }
     });
 
-    // EFFECT 2: Auto-dismiss the success banner after 5 seconds
+    // Auto-dismiss the success banner after 5 seconds
     useEffect(() => {
         if (successData) {
             const timer = setTimeout(() => {
@@ -48,9 +54,9 @@ export default function ReservationsPage() {
     }, [successData]);
 
     const onSubmit = (data) => {
-        console.log("--- New Reservation Submitted ---", data);
+        console.log("--- Sanity Check: New Reservation Submitted ---", data);
         setSuccessData(data);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({top: 0, behavior: 'smooth'});
 
         // Sanity Check Reset of Form
         reset(); // Wipes React Hook Form's internal memory
@@ -65,8 +71,8 @@ export default function ReservationsPage() {
         <Container className="my-5">
             <Row className="mb-4">
                 <Col className="text-center">
-                    <h2 className="fw-bold m-0" style={{ color: '#111827' }}>Reservations</h2>
-                    <hr className="my-3 w-25 mx-auto" />
+                    <h2 className="fw-bold m-0" style={{color: '#111827'}}>Reservations</h2>
+                    <hr className="my-3 w-25 mx-auto"/>
                 </Col>
             </Row>
 
@@ -77,8 +83,10 @@ export default function ReservationsPage() {
                     {successData && (
                         <Alert color="success" className="shadow-sm mb-4" toggle={() => setSuccessData(null)}>
                             <i className="fa-solid fa-circle-check me-2"></i>
-                            <strong>Reservation Received!</strong><br /><br />
-                            Thank you, {successData.firstName}. Your reservation for a party of <strong>{successData.partySize}</strong> on <strong>{successData.date}</strong> has been confirmed. Details are being sent to <strong>{successData.email}</strong>.
+                            <strong>Reservation Received!</strong><br/><br/>
+                            Thank you, {successData.firstName}. Your reservation for a party
+                            of <strong>{successData.partySize}</strong> on <strong>{successData.date}</strong> has been
+                            confirmed. Details are being sent to <strong>{successData.email}</strong>.
                         </Alert>
                     )}
 
@@ -136,8 +144,10 @@ export default function ReservationsPage() {
                                 <input
                                     id="phone"
                                     type="tel"
-                                    className="form-control"
+                                    className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
                                     placeholder="Enter your phone number" {...register('phone')} />
+
+                                {errors.phone && <FormFeedback>{errors.phone.message}</FormFeedback>}
                             </FormGroup>
 
                             <FormGroup>
@@ -155,7 +165,7 @@ export default function ReservationsPage() {
                                     ))}
                                 </select>
 
-                                {errors.partySize && <FormFeedback >{errors.partySize.message}</FormFeedback>}
+                                {errors.partySize && <FormFeedback>{errors.partySize.message}</FormFeedback>}
                             </FormGroup>
 
                             <Row>
@@ -167,7 +177,7 @@ export default function ReservationsPage() {
                                             type="date"
                                             className={`form-control ${errors.date ? 'is-invalid' : ''}`} {...register('date')} />
 
-                                        {errors.date && <FormFeedback >{errors.date.message}</FormFeedback>}
+                                        {errors.date && <FormFeedback>{errors.date.message}</FormFeedback>}
                                     </FormGroup>
                                 </Col>
                                 <Col md="6">
@@ -178,7 +188,7 @@ export default function ReservationsPage() {
                                             type="time"
                                             className={`form-control ${errors.time ? 'is-invalid' : ''}`} {...register('time')} />
 
-                                        {errors.time && <FormFeedback >{errors.time.message}</FormFeedback>}
+                                        {errors.time && <FormFeedback>{errors.time.message}</FormFeedback>}
                                     </FormGroup>
                                 </Col>
                             </Row>
@@ -221,16 +231,19 @@ export default function ReservationsPage() {
                                 </div>
 
                                 {/* Error message at the bottom of the group */}
-                                {errors.seating && <div className="text-danger small mt-2">{errors.seating.message}</div>}
+                                {errors.seating &&
+                                    <div className="text-danger small mt-2">{errors.seating.message}</div>}
                             </FormGroup>
 
                             <FormGroup>
                                 <Label for="dietaryNotes">Dietary Notes (optional)</Label>
-                                <textarea id="dietaryNotes" rows="4" className="form-control" placeholder="Type your message" {...register('dietaryNotes')}></textarea>
+                                <textarea id="dietaryNotes" rows="4" className="form-control"
+                                          placeholder="Type your message" {...register('dietaryNotes')}></textarea>
                             </FormGroup>
 
                             <FormGroup check className="mb-4">
-                                <input id="newsletter" type="checkbox" className="form-check-input" {...register('newsletter')} />
+                                <input id="newsletter" type="checkbox"
+                                       className="form-check-input" {...register('newsletter')} />
                                 <Label check for="newsletter">Opt-in for newsletter</Label>
                             </FormGroup>
 
