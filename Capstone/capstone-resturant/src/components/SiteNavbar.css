@@ -1,0 +1,43 @@
+/*
+==========================================================================
+Bootstrap Navbar Overrides
+==========================================================================
+*/
+
+.custom-editorial-nav {
+    /* THE GLASS EFFECT */
+    /* Semi-transparent warm ivory to blend with your parchment */
+    background-color: rgba(253, 251, 247, 0.1);
+    /* Blurs the images/text as they scroll underneath */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* For Safari compatibility */
+
+    border-bottom: 1px solid #111827; /* Your crisp bottom border */
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    z-index: 1030; /* Ensures it stays on top of all Bootstrap elements */
+}
+
+/* Bootstrap links to use your fonts and colors */
+.custom-nav-link {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #111827 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.1px;
+    transition: color 0.3s ease;
+}
+
+.custom-nav-link:hover {
+    color: #5b8991 !important;
+}
+
+/* Keep your fluid logo sizing! */
+.logo-img {
+    /* Min is 25px, Preferred is 3vw, Max is 45px */
+    height: clamp(25px, 3vw, 45px);
+    width: auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
