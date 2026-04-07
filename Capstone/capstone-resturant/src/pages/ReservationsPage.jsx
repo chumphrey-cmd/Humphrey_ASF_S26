@@ -3,6 +3,7 @@ import {useState, useEffect} from 'react';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import './ReservationsPage.css';
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
@@ -100,12 +101,12 @@ export default function ReservationsPage() {
                             <Row>
                                 <Col md="6">
                                     <FormGroup>
-                                        <Label for="firstName">First Name*</Label>
+                                        <Label for="firstName" className={"form-label"}>First Name*</Label>
                                         <input
                                             id="firstName"
                                             type="text"
                                             // Conditionally add 'is-invalid' if there is an error
-                                            className={`form-control ${errors.firstName ? 'is-invalid' : ''}`}
+                                            className={`form-input ${errors.firstName ? 'is-invalid' : ''}`}
                                             placeholder="e.g. Jane"
                                             {...register('firstName')}
                                         />
@@ -115,11 +116,11 @@ export default function ReservationsPage() {
                                 </Col>
                                 <Col md="6">
                                     <FormGroup>
-                                        <Label for="lastName">Last Name</Label>
+                                        <Label for="lastName" className={"form-label"}>Last Name</Label>
                                         <input
                                             id="lastName"
                                             type="text"
-                                            className={`form-control ${errors.lastName ? 'is-invalid' : ''}`}
+                                            className={`form-input ${errors.lastName ? 'is-invalid' : ''}`}
                                             placeholder="e.g. Doe"
                                             {...register('lastName')}
                                         />
@@ -129,32 +130,32 @@ export default function ReservationsPage() {
                             </Row>
 
                             <FormGroup>
-                                <Label for="email">Email Address*</Label>
+                                <Label for="email" className={"form-label"}>Email Address* </Label>
                                 <input
                                     id="email"
                                     type="email"
-                                    className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                                    className={`form-input ${errors.email ? 'is-invalid' : ''}`}
                                     placeholder="Enter your email" {...register('email')} />
 
                                 {errors.email && <FormFeedback>{errors.email.message}</FormFeedback>}
                             </FormGroup>
 
                             <FormGroup>
-                                <Label for="phone">Phone Number (Optional)</Label>
+                                <Label for="phone" className={"form-label"}>Phone Number (Optional)</Label>
                                 <input
                                     id="phone"
                                     type="tel"
-                                    className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
+                                    className={`form-input ${errors.phone ? 'is-invalid' : ''}`}
                                     placeholder="Enter your phone number" {...register('phone')} />
 
                                 {errors.phone && <FormFeedback>{errors.phone.message}</FormFeedback>}
                             </FormGroup>
 
                             <FormGroup>
-                                <Label for="partySize">Party Size (Including Yourself)*</Label>
+                                <Label for="partySize" className={"form-label"}>Party Size (Including Yourself)*</Label>
                                 <select
                                     id="partySize"
-                                    className={`form-control ${errors.partySize ? 'is-invalid' : ''}`} {...register('partySize')}>
+                                    className={`form-input ${errors.partySize ? 'is-invalid' : ''}`} {...register('partySize')}>
                                     <option
                                         value="">Select party size...
                                     </option>
@@ -171,22 +172,22 @@ export default function ReservationsPage() {
                             <Row>
                                 <Col md="6">
                                     <FormGroup>
-                                        <Label for="date">Date of Reservation*</Label>
+                                        <Label for="date" className={"form-label"}>Date of Reservation*</Label>
                                         <input
                                             id="date"
                                             type="date"
-                                            className={`form-control ${errors.date ? 'is-invalid' : ''}`} {...register('date')} />
+                                            className={`form-input ${errors.date ? 'is-invalid' : ''}`} {...register('date')} />
 
                                         {errors.date && <FormFeedback>{errors.date.message}</FormFeedback>}
                                     </FormGroup>
                                 </Col>
                                 <Col md="6">
                                     <FormGroup>
-                                        <Label for="time">Reservation Time*</Label>
+                                        <Label for="time" className={"form-label"}>Reservation Time*</Label>
                                         <input
                                             id="time"
                                             type="time"
-                                            className={`form-control ${errors.time ? 'is-invalid' : ''}`} {...register('time')} />
+                                            className={`form-input ${errors.time ? 'is-invalid' : ''}`} {...register('time')} />
 
                                         {errors.time && <FormFeedback>{errors.time.message}</FormFeedback>}
                                     </FormGroup>
@@ -236,8 +237,8 @@ export default function ReservationsPage() {
                             </FormGroup>
 
                             <FormGroup>
-                                <Label for="dietaryNotes">Dietary Notes (optional)</Label>
-                                <textarea id="dietaryNotes" rows="4" className="form-control"
+                                <Label for="dietaryNotes" className={"form-label"}>Dietary Notes (optional)</Label>
+                                <textarea id="dietaryNotes" rows="4" className="form-input"
                                           placeholder="Type your message" {...register('dietaryNotes')}></textarea>
                             </FormGroup>
 
@@ -247,27 +248,23 @@ export default function ReservationsPage() {
                                 <Label check for="newsletter">Opt-in for newsletter</Label>
                             </FormGroup>
 
-                            <div className="d-flex gap-3">
-                                {/* 6. Make sure the button type is "submit" so it triggers the form */}
-                                <Button color="dark" type="submit" className="w-50 fw-bold py-2">
+                            {/* After */}
+                            <div className="d-flex gap-3 mt-4">
+                                <button type="submit" className="form-btn w-75">
                                     Submit <i className="fa-solid fa-arrow-up-from-bracket ms-2"></i>
-                                </Button>
+                                </button>
 
-
-                                <Button
-                                    color="secondary"
-                                    outline
+                                <button
                                     type="button"
-                                    className="w-50 fw-bold py-2"
+                                    className="form-btn w-75"
                                     onClick={() => {
-                                        reset(); // Wipe the brain
-                                        setFormKey(prev => prev + 1); // Rebuild the HTML wires
-                                        setSuccessData(null); // Clear the banner
+                                        reset();
+                                        setFormKey(prev => prev + 1);
+                                        setSuccessData(null);
                                     }}
                                 >
                                     Reset <i className="fa-solid fa-arrows-rotate ms-2"></i>
-                                </Button>
-
+                                </button>
                             </div>
                         </Form>
                     </div>

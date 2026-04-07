@@ -14,7 +14,7 @@ export default function ConfirmModal({ isOpen, toggle, title, message, confirmTe
                 {message}
             </ModalBody>
 
-            {/* We hide the buttons if this is the Thank You modal, since it auto-redirects! */}
+            {/* Hiding button since the Thank You modal, since it auto-redirects! */}
             {!isThankYou && (
                 <ModalFooter className="border-0 pt-0 justify-content-center pb-4">
                     <Button color="danger" className="px-4 me-2" onClick={onConfirm}>
