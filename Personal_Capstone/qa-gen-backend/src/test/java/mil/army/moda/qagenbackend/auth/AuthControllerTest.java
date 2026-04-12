@@ -64,9 +64,11 @@ public class AuthControllerTest {
         // 3 & 4. Act & Assert: Send the request and expect specific results!
         mockMvc.perform(post("/api/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
                         .content(jsonPayload))
                 .andExpect(status().isCreated()) // Expecting 201 Created
-                .andExpect(content().string("User registered successfully"));
+                .andExpect(content().string("User registered successfully"))
+                .andDo(print());
     }
 }
 
