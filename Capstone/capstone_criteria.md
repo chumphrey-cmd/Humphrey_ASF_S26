@@ -55,3 +55,7 @@ src/
     * *Dietary:* Optional, max 30 chars.
     * *Newsletter:* Optional checkbox.
 * **Submission:** On success, confirm the reservation and clear the form.
+
+
+### Phase 6: JSON.stringify
+* compress form input via JSON stringify to simulate sending the data over to the DB

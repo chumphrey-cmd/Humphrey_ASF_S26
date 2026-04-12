@@ -1,4 +1,4 @@
-import atmosphereImage from '../../public/images/atmosphere.jpg';
+import atmosphereImage from '/src/assets/atmosphere.jpg';
 import './HomePage.css';
 
 export default function HomePage() {

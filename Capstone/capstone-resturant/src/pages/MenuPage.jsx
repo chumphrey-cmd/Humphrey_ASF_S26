@@ -5,7 +5,7 @@ import { MENU_ITEMS } from '../data/menuData';
 import MenuFilter from '../components/MenuFilter';
 import MenuItemCard from '../components/MenuItemCard';
 
-import menuInspirationImg from '../../public/images/menu_inspiration.jpg';
+import menuInspirationImg from '/images/menu_inspiration.jpg';
 import './MenuPage.css';
 
 export default function MenuPage({addToCart}) {
