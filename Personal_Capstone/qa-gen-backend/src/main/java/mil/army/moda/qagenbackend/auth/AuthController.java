@@ -2,10 +2,7 @@ package mil.army.moda.qagenbackend.auth;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -31,5 +28,23 @@ public class AuthController {
 
         // Package the Service's answer into an HTTP 201
         return  ResponseEntity.status(HttpStatus.CREATED).body(message);
+    }
+    // The Exception Catcher: If ANY method in this file throws an IllegalArgumentException it routes here!
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleBadRequest(IllegalArgumentException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody Map<String, String> request) {
+        String token = authService.login(request);
+        return ResponseEntity.ok(token);
+    }
+
+    // Exception Catcher: if any method throws a security exception it routes here!
+    @ExceptionHandler(SecurityException.class)
+    public ResponseEntity<String> handleUnauthorized(SecurityException e) {
+        // Take the generic error message and wrap it in a 401
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
     }
 }

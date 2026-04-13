@@ -8,4 +8,8 @@ public class AuthService {
     public String register(Map<String, String> request){
         return "User registered successfully";
     }
+
+    public String login(Map<String, String> request){
+        return "fake-jwt-token";
+    }
 }
