@@ -3,7 +3,9 @@ package mil.army.moda.qagenbackend.quiz;
 import mil.army.moda.qagenbackend.user.User;
 import mil.army.moda.qagenbackend.user.UserRepository;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.ObjectMapper;
 
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -33,5 +35,10 @@ public class QuizService {
 
         return quizRepository.findById(targetQuizId).orElseThrow(() -> new IllegalArgumentException("Quiz not found."));
 
+    }
+
+    // NOTE: will add the real database logic and QuestionService integration later!
+    public String createQuiz(Map<String, Object> request){
+        return "Quiz created with ID: 1";
     }
 }
