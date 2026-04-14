@@ -5,6 +5,7 @@ import mil.army.moda.qagenbackend.user.UserRepository;
 import org.springframework.stereotype.Service;
 import tools.jackson.databind.ObjectMapper;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -40,5 +41,10 @@ public class QuizService {
     // NOTE: will add the real database logic and QuestionService integration later!
     public String createQuiz(Map<String, Object> request){
         return "Quiz created with ID: 1";
+    }
+
+    // Dummy return for the mock!
+    public List<Map<String, Object>> getAllQuizzes() {
+        return List.of();
     }
 }

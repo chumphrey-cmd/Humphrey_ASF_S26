@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 // 1. Tells Spring: Window that returns JSON/Text
@@ -32,5 +33,11 @@ public class QuizController {
 
         // 2. Generating the proper HTTP status (201)
         return ResponseEntity.status(HttpStatus.CREATED).body(message);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Map<String, Object>>> getAllQuizzes() {
+        List<Map<String, Object>> quizzes = quizService.getAllQuizzes();
+        return ResponseEntity.ok(quizzes);
     }
 }
