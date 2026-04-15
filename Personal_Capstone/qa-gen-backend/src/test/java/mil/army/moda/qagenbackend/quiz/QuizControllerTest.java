@@ -19,8 +19,7 @@ import java.util.UUID;
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -144,4 +143,43 @@ public class QuizControllerTest {
                 .andDo(print());
     }
 
+    @Test
+    public void shouldReturn200AndUpdatedQuizWhenScoreIsUpdatedById() throws Exception {
+
+        // 1. Arrange: The Setup
+        String fakeIdString = "123e4567-e89b-12d3-a456-426614174000";
+        UUID testUuid = UUID.fromString(fakeIdString);
+
+        // Create the tiny JSON Request body (Hint: Map containing "score" -> 85)
+        // 1. Arrange: Create the JSON Request
+        Map<String, Integer> updateQuiz = Map.of(
+                "lastScore", 85
+        );
+
+        // Translate that Map into a JSON string using objectMapper
+        String jsonPayload = objectMapper.writeValueAsString(updateQuiz);
+
+
+        // 2. Arrange: The Mock Entity
+        // Create a real Quiz object, set its ID to testUuid, set Title, and set LastScore to 85.
+        Quiz mockSavedQuiz = new Quiz();
+        mockSavedQuiz.setId(testUuid);
+        mockSavedQuiz.setTitle("Java Basics Quiz");
+        mockSavedQuiz.setLastScore(85);
+
+        // 3. Arrange: The Mockito Rule
+        // (Note: We use eq() when mixing exact values with Mockito matchers!)
+        when(quizService.updateQuizScore(eq(testUuid), eq(85))).thenReturn(mockSavedQuiz);
+
+        // 4. Act: Send a PUT request
+        // 5. Assert: Expect a 200 OK status, and check that $.lastScore is 85
+        mockMvc.perform(put("/api/quizzes/" + fakeIdString + "/score")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(jsonPayload))
+                .andExpect(status().isOk()) // 200 message
+                .andExpect(jsonPath("$.title").value("Java Basics Quiz"))
+                .andExpect(jsonPath("$.lastScore").value(85)) // Expect the safe DTO to contain an ID
+                .andDo(print());
+    }
 }

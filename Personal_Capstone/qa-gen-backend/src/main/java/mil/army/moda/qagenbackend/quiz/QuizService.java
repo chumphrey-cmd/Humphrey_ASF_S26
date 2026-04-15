@@ -40,4 +40,8 @@ public class QuizService {
     public List<Map<String, Object>> getAllQuizzes() {
         return List.of();
     }
+
+    public Quiz updateQuizScore(UUID quizId, Integer newScore){
+        return new Quiz();
+    }
 }

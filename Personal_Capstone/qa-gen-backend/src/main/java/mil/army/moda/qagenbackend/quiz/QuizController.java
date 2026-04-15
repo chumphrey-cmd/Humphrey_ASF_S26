@@ -88,4 +88,24 @@ public class QuizController {
         Quiz quiz = quizService.getQuizById(id);
         return ResponseEntity.ok(quiz);
     }
+
+    @PutMapping("/{id}/score")
+    public ResponseEntity<QuizResponseDTO> updateScore(
+            @PathVariable UUID id,
+            @RequestBody Map<String, Integer> request) {
+
+        // 1. Extract the score from the incoming JSON
+        Integer newScore = request.get("lastScore");
+
+        // 2. Hand it to the Kitchen
+        Quiz updatedQuiz = quizService.updateQuizScore(id, newScore);
+
+        // 3. Pack the safe Response DTO
+        QuizResponseDTO responseDTO = new QuizResponseDTO();
+        responseDTO.setId(updatedQuiz.getId());
+        responseDTO.setTitle(HtmlUtils.htmlEscape(updatedQuiz.getTitle()));
+        responseDTO.setLastScore(updatedQuiz.getLastScore());
+
+        return ResponseEntity.ok(responseDTO);
+    }
 }
