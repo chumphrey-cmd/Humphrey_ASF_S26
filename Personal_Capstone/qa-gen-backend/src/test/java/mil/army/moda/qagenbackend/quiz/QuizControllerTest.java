@@ -14,6 +14,7 @@ import tools.jackson.databind.ObjectMapper;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.mockito.ArgumentMatchers.any;
@@ -46,28 +47,36 @@ public class QuizControllerTest {
         Map<String, Object> createQuizRequest = Map.of(
                 "title", "Java Basics Quiz",
                 "questions", List.of(
-                        Map.of("text", "What is a String?", "answer", "Text data"),
-                        Map.of("text", "What is an int?", "answer", "Number data")
+                        Map.of(
+                                "questionNumber", 1,
+                                "text", "What is a String?",
+                                "options", List.of("Text data", "Number data"),
+                                "correctAnswers", List.of("Text data")
+                        )
                 )
         );
-
         String jsonPayload = objectMapper.writeValueAsString(createQuizRequest);
 
-        // 2. Arrange: Tell the Mock QuizService to return a success message or an ID
-        when(quizService.createQuiz(any())).thenReturn("Quiz created with ID: 1");
+        // 2. Arrange: Create the mock Quiz entity the Service will return
+        Quiz mockSavedQuiz = new Quiz();
+        mockSavedQuiz.setId(UUID.randomUUID());
+        mockSavedQuiz.setTitle("Java Basics Quiz");
 
-        // 3. Act: Send a POST request to "/api/quizzes" with the JSON payload
-        // 4. Assert: Expect a 201 Created status, the success message, and print the logs
+        // Tell Mockito: "When the REAL quiz service is called, return this fake entity"
+        when(quizService.createQuiz(any(Quiz.class), any(UUID.class))).thenReturn(mockSavedQuiz);
+
+        // 3. Act & Assert: Send POST request and check the JSON response
         mockMvc.perform(post("/api/quizzes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding("utf-8")
                         .content(jsonPayload))
-                .andExpect(status().isCreated()) // Expecting 201 Created
-                .andExpect(content().string("Quiz created with ID: 1"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.title").value("Java Basics Quiz"))
+                .andExpect(jsonPath("$.id").exists()) // Expect the safe DTO to contain an ID
                 .andDo(print());
 
-        // Sanity check to verify that the set of questions are actually saved - very basic implementation!
-        verify(questionService, times(1)).saveQuestions(any());
+        // 4. Assert: Verify QuestionService was called with the correct 3 parameters!
+        verify(questionService, times(1)).saveQuestions(anyList(), any(UUID.class), any(UUID.class));
     }
 
     @Test
@@ -76,7 +85,7 @@ public class QuizControllerTest {
         // 1. Arrange: Create a fake list of quizzes that the database "found"
         // (Hint: Use a List containing two Maps. E.g., Map.of("id", 1, "title", "Java Basics") )
         // Convert that list into a JSON string using objectMapper so we can check it later
-        Map<String, Object> quizRequest1 =  Map.of(
+        Map<String, Object> quizRequest1 = Map.of(
                 "title", "Java Basics Quiz",
                 "questions", List.of(
                         Map.of("text", "What is a String?", "answer", "Text data"),
@@ -99,7 +108,6 @@ public class QuizControllerTest {
         String expectedJsonArray = objectMapper.writeValueAsString(allQuizzes);
 
         // 2. Arrange: Tell the Mock QuizService to return the fake list when asked
-        // (Hint: when(quizService.getAllQuizzes()).thenReturn(fakeList); )
         when(quizService.getAllQuizzes()).thenReturn(allQuizzes);
 
         // 3. Act: Send a GET request to "/api/quizzes"
@@ -110,6 +118,30 @@ public class QuizControllerTest {
                 .andDo(print());
 
         /// NOTE: Sanity check (verify) is not needed here. For a GET request, the QuizService handles fetching the quizzes and their questions from the database in one big swoop. The Controller doesn't need to talk to the QuestionService at all
+    }
+
+    @Test
+    public void shouldReturn200AndSingleQuizWhenGetByIdIsCalled() throws Exception {
+
+        // 1. Arrange: Create the UUID and the fake quiz
+        String fakeIdString = "123e4567-e89b-12d3-a456-426614174000";
+        UUID testUuid = UUID.fromString(fakeIdString); // Converts the string to a strict Java UUID
+
+        Quiz singleQuiz = new Quiz();
+        singleQuiz.setId(testUuid);
+        singleQuiz.setTitle("Java Basics Quiz");
+
+        String expectedJson = objectMapper.writeValueAsString(singleQuiz);
+
+        // 2. Arrange: Tell the Mock QuizService to return the fake quiz when asked for our exact UUID
+        when(quizService.getQuizById(testUuid)).thenReturn(singleQuiz);
+
+        // 3. Act: Send a GET request to the dynamic URL
+        // 4. Assert: Expect a 200 OK status, check that the content matches expectedJson, and print the logs
+        mockMvc.perform(get("/api/quizzes/" + fakeIdString))
+                .andExpect(status().isOk()) // Expecting 200 OK
+                .andExpect(content().json(expectedJson))
+                .andDo(print());
     }
 
 }

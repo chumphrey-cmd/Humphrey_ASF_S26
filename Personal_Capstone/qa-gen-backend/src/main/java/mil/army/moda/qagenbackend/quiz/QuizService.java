@@ -33,14 +33,7 @@ public class QuizService {
     }
 
     public Quiz getQuizById(UUID targetQuizId){
-
         return quizRepository.findById(targetQuizId).orElseThrow(() -> new IllegalArgumentException("Quiz not found."));
-
-    }
-
-    // NOTE: will add the real database logic and QuestionService integration later!
-    public String createQuiz(Map<String, Object> request){
-        return "Quiz created with ID: 1";
     }
 
     // Dummy return for the mock!
