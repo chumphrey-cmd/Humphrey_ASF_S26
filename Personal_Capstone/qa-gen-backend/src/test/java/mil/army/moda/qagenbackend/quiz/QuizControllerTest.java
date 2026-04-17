@@ -182,4 +182,22 @@ public class QuizControllerTest {
                 .andExpect(jsonPath("$.lastScore").value(85)) // Expect the safe DTO to contain an ID
                 .andDo(print());
     }
+
+    @Test
+    public void shouldReturn204WhenQuizIsDeleted() throws Exception {
+
+        // 1. Arrange: The Setup
+        String fakeIdString = "123e4567-e89b-12d3-a456-426614174000";
+        UUID testUuid = UUID.fromString(fakeIdString);
+
+
+        // 2. Arrange: The Mockito Rule
+        doNothing().when(quizService).deleteQuiz(testUuid);
+
+        // 3. Act: Send a DELETE request
+        // 4. Assert: Expect a 204 No Content status
+        mockMvc.perform(delete("/api/quizzes/" + fakeIdString))
+                .andExpect(status().isNoContent()) // 204 message
+                .andDo(print());
+    }
 }

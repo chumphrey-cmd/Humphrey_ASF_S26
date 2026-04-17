@@ -44,4 +44,8 @@ public class QuizService {
     public Quiz updateQuizScore(UUID quizId, Integer newScore){
         return new Quiz();
     }
+
+    public void deleteQuiz(UUID id){
+
+    }
 }

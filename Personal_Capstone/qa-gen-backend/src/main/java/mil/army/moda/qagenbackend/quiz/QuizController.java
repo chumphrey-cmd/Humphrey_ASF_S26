@@ -108,4 +108,16 @@ public class QuizController {
 
         return ResponseEntity.ok(responseDTO);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteQuiz(@PathVariable UUID id) {
+
+        // Hand ID over to be deleted
+        quizService.deleteQuiz(id);
+
+        // Return 204 no content status
+        return ResponseEntity.noContent().build();
+    }
+
+
 }
