@@ -2,8 +2,12 @@ package mil.army.moda.qagenbackend.user;
 
 import jakarta.persistence.*;
 import mil.army.moda.qagenbackend.quiz.Quiz;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,7 +19,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
 
     /**
      * @Id marks this field as the Primary Key.
@@ -85,4 +89,36 @@ public class User {
     public void setQuizzes(List<Quiz> quizzes) {
         this.quizzes = quizzes;
     }
+
+
+    /// UserDetails Interface Methods (Spring Security Requirements)
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        // Spring Security expects roles to be formatted as authorities (e.g., "ROLE_USER")
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role));
+    }
+
+    @Override
+    public String getPassword() {
+        return passwordHash; // Maps your passwordHash field to Spring's password expectation
+    }
+
+    @Override
+    public String getUsername() {
+        return email; // We use email as the primary login identifier, mapping it to "username"
+    }
+
+    // For our MVP we're assuming accounts are always active and not locked out.
+    @Override
+    public boolean isAccountNonExpired() { return true; }
+
+    @Override
+    public boolean isAccountNonLocked() { return true; }
+
+    @Override
+    public boolean isCredentialsNonExpired() { return true; }
+
+    @Override
+    public boolean isEnabled() { return true; }
 }
