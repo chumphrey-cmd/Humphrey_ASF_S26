@@ -1,11 +1,13 @@
 package mil.army.moda.qagenbackend.auth;
 
+import mil.army.moda.qagenbackend.config.JwtService;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
@@ -27,6 +29,14 @@ public class AuthControllerTest {
     // 2. The Fake Customer (Drives up to the window to send HTTP requests)
     @Autowired
     private MockMvc mockMvc;
+
+    // --- SPRING SECURITY MOCKS ---
+    // We must provide fake versions of these so the SecurityFilterChain can successfully boot up in our test context
+    @MockitoBean
+    private JwtService jwtService;
+
+    @MockitoBean
+    private UserDetailsService userDetailsService;
 
     // 3. The Fake Kitchen (Replaces @Mock. Tells Spring to put a fake service into the controller)
     @MockitoBean
