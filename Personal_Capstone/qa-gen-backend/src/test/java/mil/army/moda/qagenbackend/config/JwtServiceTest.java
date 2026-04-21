@@ -1,5 +1,6 @@
 package mil.army.moda.qagenbackend.config;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.userdetails.User;
@@ -106,7 +107,7 @@ class JwtServiceTest {
 
         // --- ACT & ASSERT ---
         // Should throw an ExpiredJwtException the exact moment you try to parse an expired token and assertThrows verifies that this exact exception is triggered.
-        assertThrows(io.jsonwebtoken.ExpiredJwtException.class, () -> {
+        assertThrows(ExpiredJwtException.class, () -> {
             jwtService.isTokenValid(expiredToken, mockUser);
         }, "The service should throw an ExpiredJwtException when parsing an expired token");
     }
