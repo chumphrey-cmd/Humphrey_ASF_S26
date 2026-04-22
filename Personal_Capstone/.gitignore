@@ -13,3 +13,6 @@ testing_templates.md
 ## Mac Stuff ##
 .DS_Store
 data/
+
+# Ignore local database volumes
+postgres-data/
