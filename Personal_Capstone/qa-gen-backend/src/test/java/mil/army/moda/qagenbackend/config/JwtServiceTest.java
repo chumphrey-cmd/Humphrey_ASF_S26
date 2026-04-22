@@ -19,13 +19,14 @@ class JwtServiceTest {
 
     @BeforeEach
     void setUp() {
-        // 1. Instantiate the service directly.
         jwtService = new JwtService();
 
-        // 2. Because Spring isn't running, our @Value annotations in JwtService are ignored (they are null/0).
-        // We use ReflectionTestUtils to forcefully inject our test secret key and 15-min expiration into those private fields.
-        ReflectionTestUtils.setField(jwtService, "secretKey", "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970");
-        ReflectionTestUtils.setField(jwtService, "jwtExpiration", 900000L); // 15 Minutes in milliseconds
+        // Forcefully inject a dummy key into the service so it doesn't crash during testing. It MUST be at least 64 characters long to satisfy the HS256 algorithm requirements!
+        String dummyTestKey = "this_is_a_dummy_test_secret_key_that_must_be_long_enough_to_pass_the_math_check";
+        ReflectionTestUtils.setField(jwtService, "secretKey", dummyTestKey);
+
+        // Inject a dummy 24-hour expiration time (86400000 ms) so the tokens survive the tests!
+        ReflectionTestUtils.setField(jwtService, "jwtExpiration", 12000000L);
 
         // 3. Create a standard Spring Security User object to act as our test subject.
         mockUser = new User("test.user@army.mil", "securepassword123", new ArrayList<>());

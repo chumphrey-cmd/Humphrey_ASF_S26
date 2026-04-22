@@ -2,17 +2,18 @@ package mil.army.moda.qagenbackend.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+
+import static io.jsonwebtoken.security.Keys.hmacShaKeyFor;
 
 /**
  * STUB PHASE (RED): All methods currently return null or false.
@@ -23,11 +24,10 @@ import java.util.function.Function;
 public class JwtService {
 
     // The secret key used to mathematically sign the token.
-    @Value("${application.security.jwt.secret-key:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}")
+    @Value("${app.security.jwt.secret}")
     private String secretKey;
 
-    // Token lifespan updated to 15 minutes (900,000 milliseconds) for standard security best practices.
-    @Value("${application.security.jwt.expiration:900000}")
+    @Value("${app.security.jwt.expiration}")
     private long jwtExpiration;
 
     /**
@@ -81,8 +81,11 @@ public class JwtService {
      * Converts our raw hex string into a cryptographically secure SecretKey object.
      */
     private SecretKey getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
-        return Keys.hmacShaKeyFor(keyBytes);
+        // Using a plain text string, we convert it to raw UTF-8 bytes. If you used a Base64 generator, you would use Decoders.BASE64.decode(secretKey) instead).
+        byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
+
+        // This generates the official SecretKey object required by the modern JJWT library
+        return hmacShaKeyFor(keyBytes);
     }
 
     /**
