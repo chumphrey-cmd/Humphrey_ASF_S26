@@ -21,7 +21,7 @@ public class AuthController {
 
     // 3. Tells Spring: "If a POST request comes to /api/auth/register, route it here"
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody Map<String, String> request) {
+    public ResponseEntity<String> register(@RequestBody AuthRequest request) {
 
         // Hand the JSON payload to the Service
         String message = authService.register(request);
@@ -36,7 +36,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Map<String, String> request) {
+    public ResponseEntity<String> login(@RequestBody AuthRequest request) {
         String token = authService.login(request);
         return ResponseEntity.ok(token);
     }
