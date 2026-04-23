@@ -9,6 +9,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -19,6 +20,12 @@ import java.util.List;
 // @EnableWebSecurity tells Spring Boot to apply this configuration to the global web security.
 @EnableWebSecurity
 public class SecurityConfig {
+
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter){
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    }
 
     // @Bean tells Spring: Create one instance of this object and keep so that whenever any class (like UserService) asks for a PasswordEncoder, use this.
     @Bean
@@ -55,10 +62,9 @@ public class SecurityConfig {
 
                         // FALLBACK: Any other request not explicitly mentioned must also be authenticated
                         .anyRequest().authenticated()
-                );
-
-        // Note: We will inject our custom JwtAuthenticationFilter into this chain in Phase 4!
-
+                )
+                // This tells Spring Security that before any standard security checks are created, run JWT filer to see if they have a valid token.
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

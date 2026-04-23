@@ -28,7 +28,6 @@ public class QuizController {
     }
 
     @PostMapping
-    // THE FIX: Updated the return type here from <Quiz> to <QuizResponseDTO>
     public ResponseEntity<QuizResponseDTO> createQuiz(@RequestBody CreateQuizRequestDTO request) {
 
         // 1. Build the Quiz entity
