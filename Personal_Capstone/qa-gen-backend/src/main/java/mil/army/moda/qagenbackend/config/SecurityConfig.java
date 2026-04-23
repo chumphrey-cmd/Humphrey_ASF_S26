@@ -55,6 +55,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // PUBLIC ROUTES: Make registration and login open to everyone
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/error").permitAll() // Debugging here to check for backend errors whenever we conduct our qa-gen-http testing!
 
                         // PROTECTED ROUTES: Secure all quiz and chat proxy endpoints
                         .requestMatchers("/api/quizzes/**").authenticated()

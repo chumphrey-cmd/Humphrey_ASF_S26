@@ -34,3 +34,26 @@ Content-Type: application/json
 ### 3. Test a Protected Route (The Checkpoint)
 GET http://localhost:8080/api/quizzes
 Authorization: Bearer {{auth_token}}
+
+### 4. Create a New Quiz (The Full POST Test)
+POST http://localhost:8080/api/quizzes
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "title": "My First Full Database Quiz",
+  "questions": [
+    {
+      "questionNumber": 1,
+      "text": "What is the capital of Texas?",
+      "options": ["Austin", "Dallas", "Houston", "San Antonio"],
+      "correctAnswers": ["Austin"]
+    },
+    {
+      "questionNumber": 2,
+      "text": "Which of these are programming languages?",
+      "options": ["Java", "HTML", "Python", "CSS"],
+      "correctAnswers": ["Java", "Python"]
+    }
+  ]
+}

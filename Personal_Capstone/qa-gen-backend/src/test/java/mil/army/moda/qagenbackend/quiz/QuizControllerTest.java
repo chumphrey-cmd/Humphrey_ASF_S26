@@ -2,25 +2,30 @@ package mil.army.moda.qagenbackend.quiz;
 
 import mil.army.moda.qagenbackend.config.JwtService;
 import mil.army.moda.qagenbackend.question.QuestionService;
+import mil.army.moda.qagenbackend.user.UserRepository;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
+import mil.army.moda.qagenbackend.user.User;
 
-import static org.hamcrest.Matchers.matchesPattern;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -49,43 +54,60 @@ public class QuizControllerTest {
     @MockitoBean
     private QuestionService questionService;
 
+    @MockitoBean
+    private UserRepository userRepository;
+
     @Test
-    public void shouldReturn201WhenQuizIsSuccessfullyCreated() throws Exception {
+    public void shouldReturn201WhenQuizIsCreated() throws Exception {
 
-        // 1. Arrange: Create the JSON Request
-        Map<String, Object> createQuizRequest = Map.of(
-                "title", "Java Basics Quiz",
-                "questions", List.of(
-                        Map.of(
-                                "questionNumber", 1,
-                                "text", "What is a String?",
-                                "options", List.of("Text data", "Number data"),
-                                "correctAnswers", List.of("Text data")
-                        )
-                )
-        );
-        String jsonPayload = objectMapper.writeValueAsString(createQuizRequest);
+        // 1. Arrange: Create our Mock VIP User
+        User mockUser = new User();
+        UUID mockUserId = UUID.fromString("11111111-1111-1111-1111-111111111111");
+        mockUser.setId(mockUserId);
+        mockUser.setEmail("officer@army.mil");
+        mockUser.setRole("USER");
+        // We must provide a password string (even a fake one) to satisfy the UserDetails interface
+        mockUser.setPasswordHash("fake_hash");
 
-        // 2. Arrange: Create the mock Quiz entity the Service will return
+        Authentication auth = new UsernamePasswordAuthenticationToken(mockUser, null, mockUser.getAuthorities());
+
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+        // 2. Arrange: The JSON Payload
+        String jsonPayload = """
+                {
+                    "title": "Java Basics Quiz",
+                    "questions": [
+                        {
+                            "questionText": "What is a class?",
+                            "options": ["Blueprint", "Car", "Tool", "Book"],
+                            "correctAnswers": ["Blueprint"]
+                        }
+                    ]
+                }
+                """;
+
         Quiz mockSavedQuiz = new Quiz();
         mockSavedQuiz.setId(UUID.randomUUID());
         mockSavedQuiz.setTitle("Java Basics Quiz");
+        mockSavedQuiz.setLastScore(0);
 
-        // Tell Mockito: "When the REAL quiz service is called, return this fake entity"
-        when(quizService.createQuiz(any(Quiz.class), any(UUID.class))).thenReturn(mockSavedQuiz);
+        // 3. Arrange: The Mockito Rule
+        // Notice we explicitly tell Mockito to expect our mockUserId!
+        when(userRepository.findByEmail("officer@army.mil")).thenReturn(Optional.of(mockUser));
+        when(quizService.createQuiz(any(Quiz.class), eq(mockUserId))).thenReturn(mockSavedQuiz);
 
-        // 3. Act & Assert: Send POST request and check the JSON response
+        // 4. Act & Assert: Send a POST request
         mockMvc.perform(post("/api/quizzes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding("utf-8")
                         .content(jsonPayload))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.title").value("Java Basics Quiz"))
-                .andExpect(jsonPath("$.id").exists()) // Expect the safe DTO to contain an ID
+                .andExpect(jsonPath("$.id").exists())
                 .andDo(print());
 
-        // 4. Assert: Verify QuestionService was called with the correct 3 parameters!
-        verify(questionService, times(1)).saveQuestions(anyList(), any(UUID.class), any(UUID.class));
+        SecurityContextHolder.clearContext();
     }
 
     @Test

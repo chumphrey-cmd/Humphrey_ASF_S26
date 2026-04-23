@@ -2,8 +2,12 @@ package mil.army.moda.qagenbackend.quiz;
 
 import mil.army.moda.qagenbackend.question.Question;
 import mil.army.moda.qagenbackend.question.QuestionService;
+import mil.army.moda.qagenbackend.user.User;
+import mil.army.moda.qagenbackend.user.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
 
@@ -21,24 +25,35 @@ public class QuizController {
 
     private final QuizService quizService;
     private final QuestionService questionService;
+    private final UserRepository userRepository;
 
-    public QuizController(QuizService quizService, QuestionService questionService) {
+    public QuizController(QuizService quizService, QuestionService questionService, UserRepository userRepository) {
         this.quizService = quizService;
         this.questionService = questionService;
+        this.userRepository = userRepository;
     }
 
     @PostMapping
-    public ResponseEntity<QuizResponseDTO> createQuiz(@RequestBody CreateQuizRequestDTO request) {
+    public ResponseEntity<QuizResponseDTO> createQuiz(
+            @RequestBody CreateQuizRequestDTO request,
+            @AuthenticationPrincipal UserDetails springUser) {
 
-        // 1. Build the Quiz entity
+        // Build the Quiz entity
         Quiz newQuiz = new Quiz();
         newQuiz.setTitle(request.getTitle());
-        UUID fakeUserId = UUID.fromString("11111111-1111-1111-1111-111111111111");
 
-        // 2. Save the Quiz
-        Quiz savedQuiz = quizService.createQuiz(newQuiz, fakeUserId);
+        // Get the email from the Spring Security VIP Badge
+        String userEmail = springUser.getUsername();
 
-        // 3. Convert QuestionDTOs -> Question Entities
+        // Fetch the real user from the DB to get their UUID
+        User realUser = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        UUID realUserID = realUser.getId();
+
+        // Save the Quiz with real User ID
+        Quiz savedQuiz = quizService.createQuiz(newQuiz, realUserID);
+
+        // Convert QuestionDTOs -> Question Entities
         List<Question> secureQuestionsForDatabase = new ArrayList<>();
 
         if (request.getQuestions() != null) {
@@ -62,16 +77,17 @@ public class QuizController {
                 secureQuestionsForDatabase.add(q);
             }
         }
-
-        // 4. Hand the secure, database-ready entities to the Kitchen!
-        questionService.saveQuestions(secureQuestionsForDatabase, savedQuiz.getId(), fakeUserId);
+        // Save questions to the database
+        questionService.saveQuestions(secureQuestionsForDatabase, savedQuiz.getId(), realUserID);
 
         // 5. Build the safe outbound DTO
         QuizResponseDTO responseDTO = new QuizResponseDTO();
         responseDTO.setId(savedQuiz.getId());
 
-        /// Security fix, here we introduced htmlEscapse to prevent XSS against our DB
+        /// Security fix, here we introduced htmlEscape to prevent XSS against our DB
         responseDTO.setTitle(HtmlUtils.htmlEscape(savedQuiz.getTitle()));
+
+        responseDTO.setLastScore(savedQuiz.getLastScore());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
