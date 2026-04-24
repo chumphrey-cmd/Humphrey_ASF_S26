@@ -1,7 +1,8 @@
 .qodo
 persona.md
 /archive
-setup_design.md
+backend_setup_design.md
+frontend_setup_design.md
 context.md
 journal_refactor.md
 testing_templates.md
