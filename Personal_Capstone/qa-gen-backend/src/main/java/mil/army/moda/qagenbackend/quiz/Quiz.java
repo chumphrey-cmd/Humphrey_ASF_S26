@@ -1,5 +1,6 @@
 package mil.army.moda.qagenbackend.quiz;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import mil.army.moda.qagenbackend.question.Question;
 import mil.army.moda.qagenbackend.user.User;
@@ -47,6 +48,7 @@ public class Quiz {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore // Stop the User loop or recursive calls and hides the password!
     private User user;
 
     // Cascades deletes downward: deleting a Quiz deletes all of its associated Questions.

@@ -1,5 +1,6 @@
 package mil.army.moda.qagenbackend.question;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import mil.army.moda.qagenbackend.quiz.Quiz;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -43,6 +44,7 @@ public class Question {
     private String explanation;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore // Tells Spring to stop the infinite loop during our http testing
     @JoinColumn(name = "quiz_id", nullable = false)
     private Quiz quiz;
 

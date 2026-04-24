@@ -1,5 +1,8 @@
 package mil.army.moda.qagenbackend.quiz;
 
+import mil.army.moda.qagenbackend.dto.CreateQuizRequestDTO;
+import mil.army.moda.qagenbackend.dto.QuestionDTO;
+import mil.army.moda.qagenbackend.dto.QuizResponseDTO;
 import mil.army.moda.qagenbackend.question.Question;
 import mil.army.moda.qagenbackend.question.QuestionService;
 import mil.army.moda.qagenbackend.user.User;
