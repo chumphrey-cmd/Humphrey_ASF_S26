@@ -1,11 +1,12 @@
 .qodo
 persona.md
 /archive
-backend_setup_design.md
-frontend_setup_design.md
-context.md
-journal_refactor.md
-testing_templates.md
+qa-gen-backend/__context__/backend_setup_design.md
+qa-gen-backend/__context__/frontend_setup_design.md
+qa-gen-backend/__context__/context.md
+qa-gen-backend/__context__/journal_refactor.md
+qa-gen-backend/__context__/testing_template_SIMPLE.md
+qa-gen-backend/__context__/testing_template_COMPLEX.md
 /note_images
 
 ## IntelliJ Stuff ##
