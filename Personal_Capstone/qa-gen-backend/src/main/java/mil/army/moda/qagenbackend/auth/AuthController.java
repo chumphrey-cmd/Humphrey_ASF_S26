@@ -38,6 +38,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody AuthRequest request) {
         String token = authService.login(request);
+        /// Here we are returning the generated token via /api/auth/login so that our frontend authentication can grab it!
         return ResponseEntity.ok(token);
     }
 
