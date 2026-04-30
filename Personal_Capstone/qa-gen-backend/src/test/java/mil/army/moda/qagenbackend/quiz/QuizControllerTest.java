@@ -1,6 +1,7 @@
 package mil.army.moda.qagenbackend.quiz;
 
 import mil.army.moda.qagenbackend.config.JwtService;
+import mil.army.moda.qagenbackend.dto.QuizResponseDTO;
 import mil.army.moda.qagenbackend.question.QuestionService;
 import mil.army.moda.qagenbackend.user.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
@@ -25,7 +27,6 @@ import mil.army.moda.qagenbackend.user.User;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -111,40 +112,54 @@ public class QuizControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "testuser@gmail.com")
     public void shouldReturn200AndListOfQuizzesWhenGetAllIsCalled() throws Exception {
 
+        // 0. Arrange: Create a fake User to satisfy the @AuthenticationPrincipal
+        User mockUser = new User();
+        mockUser.setId(UUID.randomUUID());
+        mockUser.setEmail("testuser@gmail.com");
+
+        // Tell the Mock UserRepository to return this user
+        when(userRepository.findByEmail("testuser@gmail.com")).thenReturn(java.util.Optional.of(mockUser));
+
         // 1. Arrange: Create a fake list of quizzes that the database "found"
-        // (Hint: Use a List containing two Maps. E.g., Map.of("id", 1, "title", "Java Basics") )
-        // Convert that list into a JSON string using objectMapper so we can check it later
-        Map<String, Object> quizRequest1 = Map.of(
-                "title", "Java Basics Quiz",
-                "questions", List.of(
-                        Map.of("text", "What is a String?", "answer", "Text data"),
-                        Map.of("text", "What is an int?", "answer", "Number data")
-                )
-        );
+        // (Hint: Use a List containing two Quiz entities instead of Maps now)
+        Quiz quiz1 = new Quiz();
+        quiz1.setId(UUID.randomUUID());
+        quiz1.setTitle("Java Basics Quiz");
+        quiz1.setLastScore(85);
 
-        Map<String, Object> quizRequest2 = Map.of(
-                "title", "More Java Basics Quiz",
-                "questions", List.of(
-                        Map.of("text", "What is a bool?", "answer", "true or false data"),
-                        Map.of("text", "What is an double?", "answer", "Number data with decimal")
-                )
-        );
+        Quiz quiz2 = new Quiz();
+        quiz2.setId(UUID.randomUUID());
+        quiz2.setTitle("More Java Basics Quiz");
+        quiz2.setLastScore(100);
 
-        // Put both Quiz 1 and 2 into a single List (representing a JSON string being requested from the frontend)
-        List<Map<String, Object>> allQuizzes = List.of(quizRequest1, quizRequest2);
-
-        // Translating the entire list into a singe JSON Array string
-        String expectedJsonArray = objectMapper.writeValueAsString(allQuizzes);
+        // Put both Quiz 1 and 2 into a single List
+        List<Quiz> allQuizzes = List.of(quiz1, quiz2);
 
         // 2. Arrange: Tell the Mock QuizService to return the fake list when asked
-        when(quizService.getAllQuizzes()).thenReturn(allQuizzes);
+        // Now uses getAllQuizzesForUser() with our mock user's ID
+        when(quizService.getAllQuizzes(mockUser.getId())).thenReturn(allQuizzes);
+
+        // Create the expected DTOs that the Controller will pack and return
+        QuizResponseDTO dto1 = new QuizResponseDTO();
+        dto1.setId(quiz1.getId());
+        dto1.setTitle(quiz1.getTitle());
+        dto1.setLastScore(quiz1.getLastScore());
+
+        QuizResponseDTO dto2 = new QuizResponseDTO();
+        dto2.setId(quiz2.getId());
+        dto2.setTitle(quiz2.getTitle());
+        dto2.setLastScore(quiz2.getLastScore());
+
+        // Translating the expected DTO list into a single JSON Array string
+        String expectedJsonArray = objectMapper.writeValueAsString(List.of(dto1, dto2));
 
         // 3. Act: Send a GET request to "/api/quizzes"
-        // 4. Assert: Expect a 200 OK status, check that the content matches your JSON string, and print the logs
+        // 4. Assert: Expect a 200 OK status
         mockMvc.perform(get("/api/quizzes"))
-                .andExpect(status().isOk()) // Expecting 200 Created
+                .andExpect(status().isOk())
                 .andExpect(content().json(expectedJsonArray))
                 .andDo(print());
 

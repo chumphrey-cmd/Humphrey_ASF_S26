@@ -95,10 +95,33 @@ public class QuizController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
+//    @GetMapping
+//    public ResponseEntity<List<Map<String, Object>>> getAllQuizzes() {
+//        List<Map<String, Object>> quizzes = quizService.getAllQuizzes();
+//        return ResponseEntity.ok(quizzes);
+//    }
+
     @GetMapping
-    public ResponseEntity<List<Map<String, Object>>> getAllQuizzes() {
-        List<Map<String, Object>> quizzes = quizService.getAllQuizzes();
-        return ResponseEntity.ok(quizzes);
+    public ResponseEntity<List<QuizResponseDTO>> getAllQuizzes(@AuthenticationPrincipal UserDetails springUser) {
+
+        // Get the real user ID (just like you did in createQuiz)
+        User realUser = userRepository.findByEmail(springUser.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Fetch their quizzes
+        List<Quiz> userQuizzes = quizService.getAllQuizzes(realUser.getId());
+
+        // Map to safe DTOs
+        List<QuizResponseDTO> responseList = new ArrayList<>();
+        for(Quiz q : userQuizzes) {
+            QuizResponseDTO dto = new QuizResponseDTO();
+            dto.setId(q.getId());
+            dto.setTitle(HtmlUtils.htmlEscape(q.getTitle()));
+            dto.setLastScore(q.getLastScore());
+            responseList.add(dto);
+        }
+
+        return ResponseEntity.ok(responseList);
     }
 
     @GetMapping("/{id}")

@@ -36,9 +36,17 @@ public class QuizService {
         return quizRepository.findById(targetQuizId).orElseThrow(() -> new IllegalArgumentException("Quiz not found."));
     }
 
-    // Dummy return for the mock!
-    public List<Map<String, Object>> getAllQuizzes() {
-        return List.of();
+    // Dummy return for the mock for test to pass, need to refactor QuizService.test.java...
+//    public List<Map<String, Object>> getAllQuizzes() {
+//        return List.of();
+//    }
+
+    // Fetch all quizzes belonging to a specific user
+    public List<Quiz> getAllQuizzes(UUID userId) {
+
+        /// TODO: Need to refactor tests, QuizController, and QuizControllerTests to expect a userId
+        return quizRepository.findByUserIdOrderByUpdatedAtDesc(userId);
+//        return quizRepository.findAll();
     }
 
     public Quiz updateQuizScore(UUID quizId, Integer newScore){
