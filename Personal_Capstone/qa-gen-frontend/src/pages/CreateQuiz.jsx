@@ -39,7 +39,9 @@ export default function CreateQuiz() {
             };
 
             // STEP D: Fire it off to the backend using our Axios interceptor
-            console.log("PAYLOAD SENDING TO BACKEND:", JSON.stringify(payload, null, 2));
+
+            /// Sanity check for JSON formatting...
+            // console.log("PAYLOAD SENDING TO BACKEND:", JSON.stringify(payload, null, 2));
             await api.post('/api/quizzes', payload);
 
             // STEP E: If successful, kick them back to the Dashboard

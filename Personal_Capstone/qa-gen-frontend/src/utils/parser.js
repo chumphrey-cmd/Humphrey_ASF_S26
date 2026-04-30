@@ -14,14 +14,16 @@ export function parseAndMapQuestions(text) {
         return { success: false, errors: errors, data: null };
     }
 
-    // 4. Map to QuestionDTO expected by Java backend
+// 4. Map to QuestionDTO expected by Java backend
     const mappedQuestions = parsedQuestions.map(q => ({
         questionNumber: q.number,
         text: q.text,
-        // Combine letter and text for options list (e.g., "A. Paris")
         options: q.answers.map(a => `${a.letter}. ${a.text}`),
-        // Backend expects List<String>
-        correctAnswers: q.correct
+
+        // Map the correct letters to their full matching option string so Spring Boot's .contains() validation passes perfectly.
+        correctAnswers: q.answers
+            .filter(a => q.correct.includes(a.letter))
+            .map(a => `${a.letter}. ${a.text}`)
     }));
 
     return { success: true, errors: [], data: mappedQuestions };
