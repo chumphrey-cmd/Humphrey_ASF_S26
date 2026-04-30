@@ -32,7 +32,7 @@ Content-Type: application/json
 ###
 
 ### 3. Test a Protected Route (The Checkpoint)
-GET http://localhost:8080/api/quizzes/c7de9bb0-e1bb-44f0-84ed-193ee36f4787
+GET http://localhost:8080/api/quizzes/[QUIZ_ID_HERE]
 Authorization: Bearer {{auth_token}}
 
 ### 4. Create a New Quiz (The Full POST Test)
