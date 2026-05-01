@@ -36,21 +36,25 @@ public class QuizService {
         return quizRepository.findById(targetQuizId).orElseThrow(() -> new IllegalArgumentException("Quiz not found."));
     }
 
-    // Dummy return for the mock for test to pass, need to refactor QuizService.test.java...
-//    public List<Map<String, Object>> getAllQuizzes() {
-//        return List.of();
-//    }
-
     // Fetch all quizzes belonging to a specific user
     public List<Quiz> getAllQuizzes(UUID userId) {
-
-        /// TODO: Need to refactor tests, QuizController, and QuizControllerTests to expect a userId
         return quizRepository.findByUserIdOrderByUpdatedAtDesc(userId);
-//        return quizRepository.findAll();
     }
 
-    public Quiz updateQuizScore(UUID quizId, Integer newScore){
-        return new Quiz();
+    /**
+     * Updates the last score of a specific quiz.
+     */
+    public Quiz updateQuizScore(UUID quizId, Integer newScore) {
+        // 1. Fetch the existing quiz from the database.
+        // If it doesn't exist, throw an exception so the controller knows it failed.
+        Quiz existingQuiz = quizRepository.findById(quizId)
+                .orElseThrow(() -> new IllegalArgumentException("Cannot update score: Quiz not found."));
+
+        // 2. Update the score field
+        existingQuiz.setLastScore(newScore);
+
+        // 3. Save the updated entity back to the database.
+        return quizRepository.save(existingQuiz);
     }
 
     public void deleteQuiz(UUID id){
