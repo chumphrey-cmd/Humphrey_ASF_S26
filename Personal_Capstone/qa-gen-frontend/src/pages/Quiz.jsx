@@ -23,10 +23,12 @@ export default function Quiz() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [userAnswers, setUserAnswers] = useState({});
     const [flagged, setFlagged] = useState(new Set());
+    const [showNavigator, setShowNavigator] = useState(false);
     const [examMode, setExamMode] = useState('exam');
 
     // Grader State
     const [isGraded, setIsGraded] = useState(false);
+    const [isReviewing, setIsReviewing] = useState(false);
     const [finalScore, setFinalScore] = useState(0);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -65,36 +67,52 @@ export default function Quiz() {
         fetchQuiz();
     }, [id]);
 
-    // 2. Input Handlers
-    const handleOptionSelect = (option, isMulti) => {
+// 2. Input Handlers
+
+    // accepts 'questionId' directly from the mapped item
+    const handleOptionSelect = (questionId, option, isMulti) => {
         if (isGraded) return; // Lock inputs if already graded
 
-        const currentQId = questions[currentIndex].id;
-
         setUserAnswers(prev => {
-            const currentSelections = prev[currentQId] || [];
+            const currentSelections = prev[questionId] || [];
             if (isMulti) {
                 // Toggle Checkbox logic
                 if (currentSelections.includes(option)) {
-                    return { ...prev, [currentQId]: currentSelections.filter(o => o !== option) };
+                    return { ...prev, [questionId]: currentSelections.filter(o => o !== option) };
                 } else {
-                    return { ...prev, [currentQId]: [...currentSelections, option] };
+                    return { ...prev, [questionId]: [...currentSelections, option] };
                 }
             } else {
                 // Radio logic
-                return { ...prev, [currentQId]: [option] };
+                return { ...prev, [questionId]: [option] };
             }
         });
     };
 
-    const toggleFlag = () => {
-        const currentQId = questions[currentIndex].id;
+    // accepts 'questionId' directly from the mapped item
+    const toggleFlag = (questionId) => {
         setFlagged(prev => {
             const newSet = new Set(prev);
-            if (newSet.has(currentQId)) newSet.delete(currentQId);
-            else newSet.add(currentQId);
+            if (newSet.has(questionId)) newSet.delete(questionId);
+            else newSet.add(questionId);
             return newSet;
         });
+    };
+
+    const jumpToQuestion = (index) => {
+        setIsReviewing(false);
+
+        if (examMode === 'exam') {
+            setCurrentIndex(index); // Just change the index for Exam Mode
+        } else {
+            // Study Mode maps everything, so we smooth-scroll to the specific div ID
+            const qId = questions[index].id;
+            const element = document.getElementById(`question-${qId}`);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+        setShowNavigator(false); // Auto-close the navigator after clicking
     };
 
     // 3. The Grader & Transporter
@@ -132,11 +150,10 @@ export default function Quiz() {
     if (error) return <div className="min-h-screen bg-gray-100 p-8 text-center text-red-600 font-bold">{error}</div>;
     if (questions.length === 0) return <div className="min-h-screen bg-gray-100 p-8 text-center font-bold">No questions found.</div>;
 
-    // Derived State for Current Render
-    const currentQ = questions[currentIndex];
-    const isMulti = currentQ.correctAnswers.length > 1;
-    const currentSelections = userAnswers[currentQ.id] || [];
-    const isFlagged = flagged.has(currentQ.id);
+    // Calculate progress based on mode (from legacy exam.js logic)
+    const progressPercent = examMode === 'exam'
+        ? ((currentIndex + 1) / questions.length) * 100
+        : (Object.keys(userAnswers).length / questions.length) * 100;
 
     return (
         <div className="min-h-screen bg-gray-100 p-8">
@@ -156,99 +173,211 @@ export default function Quiz() {
                             <option value="study">STUDY MODE</option>
                         </select>
                         <span className="font-bold text-gray-600">
-                            Q: {currentIndex + 1} / {questions.length}
+                            {examMode === 'exam'
+                                ? `Q: ${currentIndex + 1} / ${questions.length}`
+                                : `${Object.keys(userAnswers).length} / ${questions.length} Answered`
+                            }
                         </span>
                     </div>
                 </div>
 
-                {/* Progress Bar Skeleton */}
+                {/* Dynamic Progress Bar */}
                 <div className="w-full bg-gray-200 h-2 rounded mb-6">
                     <div
                         className="bg-blue-600 h-2 rounded transition-all duration-300"
-                        style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
+                        style={{ width: `${progressPercent}%` }}
                     ></div>
                 </div>
 
-                {/* Question UI */}
+                {/* --- Question Navigator Panel --- */}
+                <div className="mb-4">
+                    <button
+                        onClick={() => setShowNavigator(!showNavigator)}
+                        className="text-sm font-bold text-gray-600 hover:text-blue-600 flex items-center transition"
+                    >
+                        {showNavigator ? '▼ Hide Question Navigator' : '▶ Show Question Navigator & Flagged'}
+                    </button>
+
+                    {showNavigator && (
+                        <div className="mt-4 p-4 bg-gray-50 border rounded-lg">
+                            <h3 className="text-sm font-semibold text-gray-700 mb-3">Jump to Question:</h3>
+                            <div className="flex flex-wrap gap-2">
+                                {questions.map((q, idx) => {
+                                    const isAnswered = (userAnswers[q.id] || []).length > 0;
+                                    const isFlagged = flagged.has(q.id);
+                                    const isCurrent = examMode === 'exam' && currentIndex === idx;
+
+                                    return (
+                                        <button
+                                            key={q.id}
+                                            onClick={() => jumpToQuestion(idx)}
+                                            className={`
+                                                w-10 h-10 rounded shadow-sm font-bold flex items-center justify-center transition
+                                                ${isCurrent ? 'ring-2 ring-blue-500 ring-offset-2' : ''}
+                                                ${isFlagged ? 'bg-yellow-100 text-yellow-700 border-2 border-yellow-400' :
+                                                isAnswered ? 'bg-blue-100 text-blue-700 border border-blue-200' : 'bg-white border border-gray-300 text-gray-500 hover:bg-gray-100'}
+                                            `}
+                                            title={isFlagged ? 'Flagged for review' : isAnswered ? 'Answered' : 'Unanswered'}
+                                        >
+                                            {/* Show a tiny flag if flagged, otherwise show the number */}
+                                            {isFlagged ? '🚩' : idx + 1}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                            <div className="mt-4 flex gap-4 text-xs text-gray-500">
+                                <span className="flex items-center gap-1"><div className="w-3 h-3 bg-white border border-gray-300 rounded"></div> Unanswered</span>
+                                <span className="flex items-center gap-1"><div className="w-3 h-3 bg-blue-100 border border-blue-200 rounded"></div> Answered</span>
+                                <span className="flex items-center gap-1"><div className="w-3 h-3 bg-yellow-100 border-2 border-yellow-400 rounded"></div> Flagged</span>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                {/* Question UI & Review Screen */}
                 {!isGraded ? (
-                    <div>
-                        <div className="flex justify-between items-start mb-4">
-                            <h2 className="text-xl text-gray-800 font-medium">
-                                {currentQ.questionNumber}. {currentQ.questionText}
-                            </h2>
-                            <button
-                                onClick={toggleFlag}
-                                className={`ml-4 p-2 rounded transition ${isFlagged ? 'bg-yellow-100 text-yellow-700 font-bold' : 'text-gray-400 hover:bg-gray-100'}`}
-                            >
-                                🚩 {isFlagged ? 'Flagged' : 'Flag'}
-                            </button>
-                        </div>
+                    isReviewing ? (
+                        /* --- THE NEW SUMMARY SCREEN --- */
+                        <div className="py-6">
+                            <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">Exam Summary</h2>
+                            <p className="text-center text-gray-600 mb-8">Click any question to review your answer before final submission.</p>
 
-                        {isMulti && <p className="text-sm text-gray-500 mb-4 italic">(Select all that apply)</p>}
+                            <div className="flex flex-wrap justify-center gap-3 mb-10 p-6 bg-gray-50 border rounded-lg max-h-96 overflow-y-auto">
+                                {questions.map((q, idx) => {
+                                    const isAnswered = (userAnswers[q.id] || []).length > 0;
+                                    const isFlagged = flagged.has(q.id);
 
-                        <div className="space-y-3 mb-8">
-                            {currentQ.options.map((option, idx) => (
-                                <label
-                                    key={idx}
-                                    className={`block p-4 border rounded cursor-pointer transition 
-                                        ${currentSelections.includes(option) ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:bg-gray-50'}`}
-                                >
-                                    <input
-                                        type={isMulti ? "checkbox" : "radio"}
-                                        name={`question-${currentQ.id}`}
-                                        value={option}
-                                        checked={currentSelections.includes(option)}
-                                        onChange={() => handleOptionSelect(option, isMulti)}
-                                        className="mr-3 cursor-pointer"
-                                    />
-                                    {option}
-                                </label>
-                            ))}
-                        </div>
-
-                        {/* Navigation & Actions */}
-                        <div className="flex justify-between border-t pt-4">
-                            <div className="space-x-3">
-                                <button
-                                    onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
-                                    disabled={currentIndex === 0}
-                                    className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50"
-                                >
-                                    Previous
-                                </button>
-                                <button
-                                    onClick={() => setCurrentIndex(prev => Math.min(questions.length - 1, prev + 1))}
-                                    disabled={currentIndex === questions.length - 1}
-                                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
-                                >
-                                    Next
-                                </button>
+                                    return (
+                                        <button
+                                            key={q.id}
+                                            onClick={() => jumpToQuestion(idx)}
+                                            className={`
+                                                w-12 h-12 rounded shadow-sm font-bold flex items-center justify-center transition text-lg
+                                                ${isFlagged ? 'bg-yellow-100 text-yellow-700 border-2 border-yellow-400' :
+                                                isAnswered ? 'bg-blue-100 text-blue-700 border border-blue-200 hover:bg-blue-200' : 'bg-white border-2 border-red-300 text-red-500 hover:bg-red-50'}
+                                            `}
+                                        >
+                                            {isFlagged ? '🚩' : idx + 1}
+                                        </button>
+                                    );
+                                })}
                             </div>
 
-                            <div className="space-x-3">
-                                {/* DUMMY AI BUTTON FOR PHASE 5B */}
-                                {examMode === 'study' && (
-                                    <button
-                                        onClick={() => console.log("AI Explanation coming in Phase 5B!")}
-                                        className="px-4 py-2 border border-purple-500 text-purple-600 rounded hover:bg-purple-50 transition"
-                                    >
-                                        ✨ Explain
-                                    </button>
+                            <div className="flex justify-center gap-6 text-sm text-gray-600 mb-8">
+                                <span className="flex items-center gap-2"><div className="w-4 h-4 bg-white border-2 border-red-300 rounded"></div> Unanswered</span>
+                                <span className="flex items-center gap-2"><div className="w-4 h-4 bg-blue-100 border border-blue-200 rounded"></div> Answered</span>
+                                <span className="flex items-center gap-2"><div className="w-4 h-4 bg-yellow-100 border-2 border-yellow-400 rounded"></div> Flagged</span>
+                            </div>
+
+                            <div className="flex justify-center">
+                                <button
+                                    onClick={handleGradeExam}
+                                    disabled={isSubmitting}
+                                    className="px-8 py-4 bg-green-600 text-white text-lg font-bold rounded-lg hover:bg-green-700 transition shadow-lg w-full md:w-1/2"
+                                >
+                                    {isSubmitting ? 'Grading...' : 'Final Submission: Grade Exam'}
+                                </button>
+                            </div>
+                        </div>
+                    ) : (
+                        /* --- THE STANDARD QUESTION RENDERER --- */
+                        <div>
+                            <div className={examMode === 'study' ? "space-y-8 h-[60vh] overflow-y-auto pr-4 mb-6" : "mb-6"}>
+                                {(examMode === 'exam' ? [questions[currentIndex]] : questions).map((q) => {
+                                    // Calculate state for this specific question
+                                    const isMulti = q.correctAnswers.length > 1;
+                                    const currentSelections = userAnswers[q.id] || [];
+                                    const isFlagged = flagged.has(q.id);
+
+                                    return (
+                                        <div key={q.id} id={`question-${q.id}`} className="p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
+                                            <div className="flex justify-between items-start mb-4">
+                                                <h2 className="text-xl text-gray-800 font-medium">
+                                                    {q.questionNumber}. {q.questionText}
+                                                </h2>
+                                                <button
+                                                    onClick={() => toggleFlag(q.id)}
+                                                    className={`ml-4 p-2 rounded transition ${isFlagged ? 'bg-yellow-100 text-yellow-700 font-bold' : 'text-gray-400 hover:bg-gray-100'}`}
+                                                >
+                                                    🚩 {isFlagged ? 'Flagged' : 'Flag'}
+                                                </button>
+                                            </div>
+
+                                            {isMulti && <p className="text-sm text-gray-500 mb-4 italic">(Select all that apply)</p>}
+
+                                            <div className="space-y-3 mb-4">
+                                                {q.options.map((option, idx) => (
+                                                    <label
+                                                        key={idx}
+                                                        className={`block p-4 border rounded cursor-pointer transition 
+                                                            ${currentSelections.includes(option) ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:bg-gray-50'}`}
+                                                    >
+                                                        <input
+                                                            type={isMulti ? "checkbox" : "radio"}
+                                                            name={`question-${q.id}`}
+                                                            value={option}
+                                                            checked={currentSelections.includes(option)}
+                                                            onChange={() => handleOptionSelect(q.id, option, isMulti)}
+                                                            className="mr-3 cursor-pointer"
+                                                        />
+                                                        {option}
+                                                    </label>
+                                                ))}
+                                            </div>
+
+                                            {/* AI Explain Button (Study Mode Only) */}
+                                            {examMode === 'study' && (
+                                                <div className="border-t pt-4 mt-4">
+                                                    <button
+                                                        onClick={() => console.log(`AI Explanation for Q${q.id} coming in Phase 5B!`)}
+                                                        className="px-4 py-2 border border-purple-500 text-purple-600 rounded hover:bg-purple-50 transition text-sm"
+                                                    >
+                                                        ✨ Explain
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            {/* Navigation & Submission Actions */}
+                            <div className="flex justify-between items-center border-t pt-4">
+
+                                {/* Next/Prev buttons ONLY show in Exam Mode */}
+                                {examMode === 'exam' ? (
+                                    <div className="space-x-3">
+                                        <button
+                                            onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
+                                            disabled={currentIndex === 0}
+                                            className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50"
+                                        >
+                                            Previous
+                                        </button>
+                                        <button
+                                            onClick={() => setCurrentIndex(prev => Math.min(questions.length - 1, prev + 1))}
+                                            disabled={currentIndex === questions.length - 1}
+                                            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+                                        >
+                                            Next
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <div>{/* Empty placeholder to keep Submit button pushed right */}</div>
                                 )}
 
-                                {/* Submit / Grade Button */}
-                                {currentIndex === questions.length - 1 && (
+                                {/* Submit Button NOW GOES TO REVIEW SUMMARY */}
+                                {(examMode === 'study' || currentIndex === questions.length - 1) && (
                                     <button
-                                        onClick={handleGradeExam}
-                                        disabled={isSubmitting}
-                                        className="px-6 py-2 bg-green-600 text-white font-bold rounded hover:bg-green-700 transition"
+                                        onClick={() => setIsReviewing(true)}
+                                        className="px-6 py-2 bg-blue-600 text-white font-bold rounded hover:bg-blue-700 transition shadow-md"
                                     >
-                                        {isSubmitting ? 'Grading...' : 'Submit Exam'}
+                                        Review Summary
                                     </button>
                                 )}
                             </div>
                         </div>
-                    </div>
+                    )
                 ) : (
                     /* Results Screen */
                     <div className="text-center py-10">
@@ -265,4 +394,5 @@ export default function Quiz() {
             </div>
         </div>
     );
+
 }
