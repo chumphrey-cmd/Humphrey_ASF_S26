@@ -83,9 +83,10 @@ public class SecurityConfig {
         // Standard HTTP methods required for a full CRUD REST API
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
-        // We MUST explicitly allow the "Authorization" header so our JWTs can pass through,
-        // and "Content-Type" so our JSON payloads aren't blocked.
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        // We MUST explicitly allow the "Authorization" header so our JWTs can pass through.
+        // Content-Type: so JSON payloads aren't blocked.
+        // X-API-Key: for Bring Your Own Key and so that the headers inside of AiController aren't blocked.
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-API-Key"));
 
         // Allow credentials (like cookies or authorization headers) to be sent cross-origin
         configuration.setAllowCredentials(true);
