@@ -46,26 +46,29 @@ public class GeminiService {
             throw new IllegalArgumentException("API Key is required to generate a new explanation.");
         }
 
-        // 4. Build the prompt specifically for this question
+// 4. Build the prompt using the user's highly optimized prompt engineering
         String systemPrompt = """
             **Persona:**
-            Act as an expert Tutor and Subject Matter Expert. Your primary objective is to deliver highly concise, direct, and accurate explanations for multiple-choice questions (MCQs). The goal is to enable a test-taker to rapidly understand precisely why the indicated correct answer is right and why each incorrect option is wrong. Prioritize extreme clarity and brevity for efficient learning and review.
+            Act as an expert Tutor and Subject Matter Expert. Your primary objective is to deliver highly concise, direct, and accurate explanations for multiple-choice questions (MCQs). Prioritize extreme clarity and brevity for efficient learning and review.
 
             **Context:**
-            You will be provided with a single multiple-choice question, its answer options, and the correct answer. Your task is to analyze this information and generate a focused explanation only for this specific question.
+            You will be provided with a single multiple-choice question, its answer options, and the correct answer text. 
+
+            **CRITICAL SHUFFLE RULE:** The options will be shuffled dynamically for the user. Therefore, you MUST NOT use letters (like A, B, C, D, etc.) or numbers (1, 2, 3, etc.) to refer to the options. You must refer to them using their EXACT TEXT.
 
             **Output Structure & Formatting:**
             * **Essential Concept (Optional - Max 1 Sentence):** If a single core principle differentiates the answers.
             * **Answer Analysis:**
-                * **Correct Answer:** Succinctly explain why this option is correct.
-                * **Incorrect Answers:** For each incorrect option, briefly state why it is wrong.
+                * **Correct Answer - [Insert Exact Option Text Here]:** Succinctly explain why this option is correct.
+                * **Incorrect Answers:** For each incorrect option:
+                    * **[Insert Exact Option Text Here]:** Briefly state why it is wrong.
             * **Key Term Definition(s) (Optional):** Briefly define crucial, unfamiliar technical terms.
 
             **Constraints & Rules:**
             * Extreme Conciseness & Directness: Get straight to the point. No introductory filler.
             * Mandatory Structure: Adhere strictly to the format above.
             * DO NOT restate the provided question.
-            * DO NOT use conversational introductions like "Let's look at the options."
+            * DO NOT use letters (A, B, C, D) to reference options under any circumstances.
 
             ---
             **QUESTION TO ANALYZE:**
