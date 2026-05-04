@@ -19,6 +19,7 @@ spring:
       # 'update' is magic for development: it automatically creates and updates
       # your database tables based on your Java Entity classes!
       ddl-auto: update
+#      ddl-auto: create
     # These settings help you debug by printing the generated SQL to your console
     show-sql: true
     properties:

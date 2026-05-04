@@ -32,11 +32,18 @@ export default function Quiz() {
     const [finalScore, setFinalScore] = useState(0);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    // AI Integration State
+    const [apiKey, setApiKey] = useState(sessionStorage.getItem('gemini_api_key') || '');
+    const [showApiKeyModal, setShowApiKeyModal] = useState(false);
+    const [aiExplanations, setAiExplanations] = useState({}); // Stores explanations by question ID
+    const [loadingAiFor, setLoadingAiFor] = useState(null); // Tracks which question is currently loading
+    const [aiError, setAiError] = useState(null);
+
     // Loading states
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // 1. The Fetcher (Same as Step 1)
+    // 1.
     useEffect(() => {
         const fetchQuiz = async () => {
             try {
@@ -113,6 +120,50 @@ export default function Quiz() {
             }
         }
         setShowNavigator(false); // Auto-close the navigator after clicking
+    };
+
+    // Handle the AI Explanation Request
+    const handleExplain = async (questionId) => {
+        if (!apiKey) {
+            setShowApiKeyModal(true);
+            return;
+        }
+
+        setLoadingAiFor(questionId);
+        setAiError(null);
+
+        try {
+            const response = await api.get(`http://localhost:8080/api/questions/${questionId}/explain`, {
+                headers: {
+                    'X-API-Key': apiKey // BYOK Header
+                }
+            });
+
+            // Save the response to our state dictionary so it persists if the user navigates away and comes back
+            setAiExplanations(prev => ({
+                ...prev,
+                [questionId]: response.data.explanation
+            }));
+
+        } catch (error) {
+            console.error("AI Error:", error);
+            if (error.response?.status === 401) {
+                setAiError("Invalid API Key. Please check your settings.");
+                setShowApiKeyModal(true); // Pop the modal back open so they can fix it
+            } else {
+                setAiError("Failed to fetch explanation. Please try again.");
+            }
+        } finally {
+            setLoadingAiFor(null);
+        }
+    };
+
+    // Save the key strictly to session storage
+    const saveApiKey = (key) => {
+        setApiKey(key);
+        sessionStorage.setItem('gemini_api_key', key);
+        setShowApiKeyModal(false);
+        setAiError(null);
     };
 
     // 3. The Grader & Transporter
@@ -325,15 +376,28 @@ export default function Quiz() {
                                                 ))}
                                             </div>
 
-                                            {/* AI Explain Button (Study Mode Only) */}
+                                            {/* AI Explain Button & Result (Study Mode Only) */}
                                             {examMode === 'study' && (
                                                 <div className="border-t pt-4 mt-4">
-                                                    <button
-                                                        onClick={() => console.log(`AI Explanation for Q${q.id} coming in Phase 5B!`)}
-                                                        className="px-4 py-2 border border-purple-500 text-purple-600 rounded hover:bg-purple-50 transition text-sm"
-                                                    >
-                                                        ✨ Explain
-                                                    </button>
+                                                    {!aiExplanations[q.id] ? (
+                                                        <button
+                                                            onClick={() => handleExplain(q.id)}
+                                                            disabled={loadingAiFor === q.id}
+                                                            className="px-4 py-2 border border-purple-500 text-purple-600 font-semibold rounded hover:bg-purple-50 transition text-sm disabled:opacity-50 flex items-center gap-2"
+                                                        >
+                                                            {loadingAiFor === q.id ? '✨ Analyzing...' : '✨ Explain with AI'}
+                                                        </button>
+                                                    ) : (
+                                                        <div className="bg-purple-50 border border-purple-100 rounded-lg p-5 mt-2">
+                                                            <div className="flex justify-between items-center mb-3">
+                                                                <h4 className="font-bold text-purple-800 flex items-center gap-2">✨ AI Explanation</h4>
+                                                            </div>
+                                                            {/* whitespace-pre-wrap ensures the Markdown newlines render cleanly */}
+                                                            <div className="text-gray-700 text-sm whitespace-pre-wrap leading-relaxed">
+                                                                {aiExplanations[q.id]}
+                                                            </div>
+                                                        </div>
+                                                    )}
                                                 </div>
                                             )}
                                         </div>
@@ -392,6 +456,49 @@ export default function Quiz() {
                     </div>
                 )}
             </div>
+
+            {/* --- AI BYOK Settings Modal --- */}
+            {showApiKeyModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md">
+                        <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                            ✨ AI Study Settings
+                        </h3>
+                        <p className="text-sm text-gray-600 mb-4">
+                            To use the AI Explanation feature, please provide your Google Gemini API key.
+                            This key is stored securely in your browser's session memory and is completely wiped when you close the tab.
+                        </p>
+
+                        {aiError && (
+                            <div className="mb-4 p-3 bg-red-50 text-red-700 text-sm border border-red-200 rounded">
+                                {aiError}
+                            </div>
+                        )}
+
+                        <input
+                            type="password"
+                            placeholder="AIzaSy..."
+                            value={apiKey}
+                            onChange={(e) => setApiKey(e.target.value)}
+                            className="w-full p-3 border border-gray-300 rounded mb-4 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                        />
+                        <div className="flex justify-end gap-3">
+                            <button
+                                onClick={() => setShowApiKeyModal(false)}
+                                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={() => saveApiKey(apiKey)}
+                                className="px-4 py-2 bg-purple-600 text-white font-bold rounded hover:bg-purple-700"
+                            >
+                                Save Key
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 

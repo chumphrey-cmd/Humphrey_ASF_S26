@@ -41,6 +41,7 @@ public class Question {
     private List<String> correctAnswers;
 
     // Caches the LLM response. Uses TEXT to accommodate potentially long AI-generated explanations.
+    @Column(columnDefinition = "TEXT")
     private String explanation;
 
     @ManyToOne(fetch = FetchType.LAZY)
