@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import QuestionCard from "../components/QuestionCard.jsx";
+import AiSettingsModal from "../components/AiSettingsModal.jsx";
+import ReviewSummaryScreen from "../components/ReviewSummaryScreen.jsx";
 
 // Helper: Fisher-Yates Shuffler
 function shuffleArray(array) {
@@ -289,48 +291,15 @@ export default function Quiz() {
                 {/* Question UI & Review Screen */}
                 {!isGraded ? (
                     isReviewing ? (
-                        /* --- THE NEW SUMMARY SCREEN --- */
-                        <div className="py-6">
-                            <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">Exam Summary</h2>
-                            <p className="text-center text-gray-600 mb-8">Click any question to review your answer before final submission.</p>
-
-                            <div className="flex flex-wrap justify-center gap-3 mb-10 p-6 bg-gray-50 border rounded-lg max-h-96 overflow-y-auto">
-                                {questions.map((q, idx) => {
-                                    const isAnswered = (userAnswers[q.id] || []).length > 0;
-                                    const isFlagged = flagged.has(q.id);
-
-                                    return (
-                                        <button
-                                            key={q.id}
-                                            onClick={() => jumpToQuestion(idx)}
-                                            className={`
-                                                w-12 h-12 rounded shadow-sm font-bold flex items-center justify-center transition text-lg
-                                                ${isFlagged ? 'bg-yellow-100 text-yellow-700 border-2 border-yellow-400' :
-                                                isAnswered ? 'bg-blue-100 text-blue-700 border border-blue-200 hover:bg-blue-200' : 'bg-white border-2 border-red-300 text-red-500 hover:bg-red-50'}
-                                            `}
-                                        >
-                                            {isFlagged ? '🚩' : idx + 1}
-                                        </button>
-                                    );
-                                })}
-                            </div>
-
-                            <div className="flex justify-center gap-6 text-sm text-gray-600 mb-8">
-                                <span className="flex items-center gap-2"><div className="w-4 h-4 bg-white border-2 border-red-300 rounded"></div> Unanswered</span>
-                                <span className="flex items-center gap-2"><div className="w-4 h-4 bg-blue-100 border border-blue-200 rounded"></div> Answered</span>
-                                <span className="flex items-center gap-2"><div className="w-4 h-4 bg-yellow-100 border-2 border-yellow-400 rounded"></div> Flagged</span>
-                            </div>
-
-                            <div className="flex justify-center">
-                                <button
-                                    onClick={handleGradeExam}
-                                    disabled={isSubmitting}
-                                    className="px-8 py-4 bg-green-600 text-white text-lg font-bold rounded-lg hover:bg-green-700 transition shadow-lg w-full md:w-1/2"
-                                >
-                                    {isSubmitting ? 'Grading...' : 'Final Submission: Grade Exam'}
-                                </button>
-                            </div>
-                        </div>
+                        /* --- EXTRACTED REVIEW SUMMARY SCREEN --- */
+                        <ReviewSummaryScreen
+                            questions={questions}
+                            userAnswers={userAnswers}
+                            flagged={flagged}
+                            jumpToQuestion={jumpToQuestion}
+                            onGradeExam={handleGradeExam}
+                            isSubmitting={isSubmitting}
+                        />
                     ) : (
 
                         /*
@@ -409,50 +378,19 @@ export default function Quiz() {
                         </button>
                     </div>
                 )}
+
+                {/* --- EXTRACTED AI BYOK Settings Modal --- */}
+                <AiSettingsModal
+                    showModal={showApiKeyModal}
+                    apiKey={apiKey}
+                    setApiKey={setApiKey}
+                    aiError={aiError}
+                    onCancel={() => setShowApiKeyModal(false)}
+                    onSave={saveApiKey}
+                />
+
             </div>
 
-            {/* --- AI BYOK Settings Modal --- */}
-            {showApiKeyModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-                    <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md">
-                        <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                            ✨ AI Study Settings
-                        </h3>
-                        <p className="text-sm text-gray-600 mb-4">
-                            To use the AI Explanation feature, please provide your Google Gemini API key.
-                            This key is stored securely in your browser's session memory and is completely wiped when you close the tab.
-                        </p>
-
-                        {aiError && (
-                            <div className="mb-4 p-3 bg-red-50 text-red-700 text-sm border border-red-200 rounded">
-                                {aiError}
-                            </div>
-                        )}
-
-                        <input
-                            type="password"
-                            placeholder="AIzaSy..."
-                            value={apiKey}
-                            onChange={(e) => setApiKey(e.target.value)}
-                            className="w-full p-3 border border-gray-300 rounded mb-4 focus:ring-2 focus:ring-purple-500 focus:outline-none"
-                        />
-                        <div className="flex justify-end gap-3">
-                            <button
-                                onClick={() => setShowApiKeyModal(false)}
-                                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={() => saveApiKey(apiKey)}
-                                className="px-4 py-2 bg-purple-600 text-white font-bold rounded hover:bg-purple-700"
-                            >
-                                Save Key
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 
