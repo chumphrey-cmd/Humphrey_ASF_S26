@@ -5,6 +5,9 @@ import api from '../services/api';
 import QuestionCard from "../components/QuestionCard.jsx";
 import AiSettingsModal from "../components/AiSettingsModal.jsx";
 import ReviewSummaryScreen from "../components/ReviewSummaryScreen.jsx";
+import QuestionNavigator from "../components/QuestionNavigator.jsx";
+import QuizHeader from "../components/QuizHeader.jsx";
+import ResultsScreen from "../components/ResultsScreen.jsx";
 
 // Helper: Fisher-Yates Shuffler
 function shuffleArray(array) {
@@ -46,7 +49,6 @@ export default function Quiz() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // 1.
     useEffect(() => {
         const fetchQuiz = async () => {
             try {
@@ -77,9 +79,7 @@ export default function Quiz() {
         fetchQuiz();
     }, [id]);
 
-// 2. Input Handlers
-
-    // accepts 'questionId' directly from the mapped item
+    // Input Handlers accepts 'questionId' directly from the mapped item
     const handleOptionSelect = (questionId, option, isMulti) => {
         if (isGraded) return; // Lock inputs if already graded
 
@@ -204,46 +204,30 @@ export default function Quiz() {
     if (error) return <div className="min-h-screen bg-gray-100 p-8 text-center text-red-600 font-bold">{error}</div>;
     if (questions.length === 0) return <div className="min-h-screen bg-gray-100 p-8 text-center font-bold">No questions found.</div>;
 
-    // Calculate progress based on mode (from legacy exam.js logic)
+    // Progress percentage logic...
     const progressPercent = examMode === 'exam'
         ? ((currentIndex + 1) / questions.length) * 100
         : (Object.keys(userAnswers).length / questions.length) * 100;
+
+    const answeredCount = Object.keys(userAnswers).filter(id => userAnswers[id].length > 0).length;
 
     return (
         <div className="min-h-screen bg-gray-100 p-8">
             <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
 
-                {/* Header */}
-                <div className="flex justify-between items-center mb-6 border-b pb-4">
-                    <h1 className="text-2xl font-bold text-gray-800">{quiz.title}</h1>
-                    <div className="flex space-x-4 items-center">
-                        <select
-                            value={examMode}
-                            onChange={(e) => setExamMode(e.target.value)}
-                            disabled={isGraded}
-                            className="border rounded p-1 text-sm font-mono bg-blue-50 text-blue-800"
-                        >
-                            <option value="exam">EXAM MODE</option>
-                            <option value="study">STUDY MODE</option>
-                        </select>
-                        <span className="font-bold text-gray-600">
-                            {examMode === 'exam'
-                                ? `Q: ${currentIndex + 1} / ${questions.length}`
-                                : `${Object.keys(userAnswers).length} / ${questions.length} Answered`
-                            }
-                        </span>
-                    </div>
-                </div>
+                {/* --- EXTRACTED HEADER & PROGRESS BAR --- */}
+                <QuizHeader
+                    title={quiz?.title}
+                    examMode={examMode}
+                    setExamMode={setExamMode}
+                    currentIndex={currentIndex}
+                    totalQuestions={questions.length}
+                    answeredCount={answeredCount}
+                    isGraded={isGraded}
+                    progressPercent={progressPercent}
+                />
 
-                {/* Dynamic Progress Bar */}
-                <div className="w-full bg-gray-200 h-2 rounded mb-6">
-                    <div
-                        className="bg-blue-600 h-2 rounded transition-all duration-300"
-                        style={{ width: `${progressPercent}%` }}
-                    ></div>
-                </div>
-
-                {/* --- Question Navigator Panel --- */}
+                {/* --- THE TOGGLEABLE NAVIGATOR PANEL --- */}
                 <div className="mb-4">
                     <button
                         onClick={() => setShowNavigator(!showNavigator)}
@@ -253,37 +237,17 @@ export default function Quiz() {
                     </button>
 
                     {showNavigator && (
-                        <div className="mt-4 p-4 bg-gray-50 border rounded-lg">
-                            <h3 className="text-sm font-semibold text-gray-700 mb-3">Jump to Question:</h3>
-                            <div className="flex flex-wrap gap-2">
-                                {questions.map((q, idx) => {
-                                    const isAnswered = (userAnswers[q.id] || []).length > 0;
-                                    const isFlagged = flagged.has(q.id);
-                                    const isCurrent = examMode === 'exam' && currentIndex === idx;
-
-                                    return (
-                                        <button
-                                            key={q.id}
-                                            onClick={() => jumpToQuestion(idx)}
-                                            className={`
-                                                w-10 h-10 rounded shadow-sm font-bold flex items-center justify-center transition
-                                                ${isCurrent ? 'ring-2 ring-blue-500 ring-offset-2' : ''}
-                                                ${isFlagged ? 'bg-yellow-100 text-yellow-700 border-2 border-yellow-400' :
-                                                isAnswered ? 'bg-blue-100 text-blue-700 border border-blue-200' : 'bg-white border border-gray-300 text-gray-500 hover:bg-gray-100'}
-                                            `}
-                                            title={isFlagged ? 'Flagged for review' : isAnswered ? 'Answered' : 'Unanswered'}
-                                        >
-                                            {/* Show a tiny flag if flagged, otherwise show the number */}
-                                            {isFlagged ? '🚩' : idx + 1}
-                                        </button>
-                                    );
-                                })}
-                            </div>
-                            <div className="mt-4 flex gap-4 text-xs text-gray-500">
-                                <span className="flex items-center gap-1"><div className="w-3 h-3 bg-white border border-gray-300 rounded"></div> Unanswered</span>
-                                <span className="flex items-center gap-1"><div className="w-3 h-3 bg-blue-100 border border-blue-200 rounded"></div> Answered</span>
-                                <span className="flex items-center gap-1"><div className="w-3 h-3 bg-yellow-100 border-2 border-yellow-400 rounded"></div> Flagged</span>
-                            </div>
+                        <div className="mt-4">
+                            <QuestionNavigator
+                                questions={questions}
+                                userAnswers={userAnswers}
+                                flagged={flagged}
+                                jumpToQuestion={(idx) => {
+                                    jumpToQuestion(idx);
+                                    // To hide navigator after clicking
+                                    setShowNavigator(false);
+                                }}
+                            />
                         </div>
                     )}
                 </div>
@@ -367,16 +331,10 @@ export default function Quiz() {
                     )
                 ) : (
                     /* Results Screen */
-                    <div className="text-center py-10">
-                        <h2 className="text-3xl font-bold mb-4">Exam Complete!</h2>
-                        <div className="text-6xl font-black text-blue-600 mb-6">{finalScore}%</div>
-                        <button
-                            onClick={() => navigate('/dashboard')}
-                            className="px-6 py-3 bg-gray-800 text-white font-bold rounded hover:bg-gray-900 transition"
-                        >
-                            Return to Dashboard
-                        </button>
-                    </div>
+                    <ResultsScreen
+                        finalScore={finalScore}
+                        onReturnHome={() => navigate('/dashboard')}
+                    />
                 )}
 
                 {/* --- EXTRACTED AI BYOK Settings Modal --- */}
