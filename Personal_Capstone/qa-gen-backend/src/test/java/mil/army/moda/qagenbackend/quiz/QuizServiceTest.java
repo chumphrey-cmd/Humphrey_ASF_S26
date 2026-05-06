@@ -133,4 +133,18 @@ public class QuizServiceTest {
         // Verify
         verify(quizRepository).findById(missingUUID);
     }
+
+    @Test
+    public void shouldDeleteQuizWhenQuizExists() {
+
+        // Arrange
+        UUID targetQuizId = UUID.randomUUID();
+        when(quizRepository.existsById(targetQuizId)).thenReturn(true);
+
+        // Act
+        quizService.deleteQuiz(targetQuizId);
+
+        // Assert
+        verify(quizRepository, times(1)).deleteById(targetQuizId);
+    }
 }

@@ -59,5 +59,11 @@ public class QuizService {
 
     public void deleteQuiz(UUID id){
 
+        if (!quizRepository.existsById(id)){
+            throw new IllegalArgumentException("Cannot delete: Quiz not found");
+        }
+
+        quizRepository.deleteById(id);
+
     }
 }
