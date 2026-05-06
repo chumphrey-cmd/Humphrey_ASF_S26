@@ -17,80 +17,69 @@ export default function Quiz() {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    // Route State Catching for Timer!
+    // 1. Catch Route State & Initialize Settings
     const location = useLocation();
-
-    // Safely extract the config. If someone types the URL directly, fallback to defaults.
     const config = location.state || { mode: 'exam', timeLimit: 0 };
 
-    // Initialize our settings based on the modal
     const [examMode, setExamMode] = useState(config.mode);
     const [timeLimit, setTimeLimit] = useState(config.timeLimit);
-
-    // Convert minutes to seconds for the countdown timer
     const [timeLeft, setTimeLeft] = useState(config.timeLimit * 60);
 
-    // --- Timer Logic ---
-    useEffect(() => {
-        // Stop the clock if: no time limit exists, the exam is graded, or we are in review mode
-        if (timeLimit === 0 || isGraded || isReviewing) return;
+    // 2. UI Display Toggles (Fixes the showNavigator undefined error!)
+    const [showNavigator, setShowNavigator] = useState(false);
 
-        // Auto-submit when the clock hits zero
-        if (timeLeft <= 0) {
-            handleGradeExam();
-            return;
-        }
-
-        // Tick down every 1 second
-        const timerId = setInterval(() => {
-            setTimeLeft((prevTime) => prevTime - 1);
-        }, 1000);
-
-        // Cleanup function to prevent memory leaks
-        return () => clearInterval(timerId);
-    }, [timeLeft, timeLimit, isGraded, isReviewing, handleGradeExam]);
-
-    // Helper function to turn '90' seconds into '01:30' for the UI
-    const formatTime = (seconds) => {
-        const m = Math.floor(seconds / 60);
-        const s = seconds % 60;
-        return `${m}:${s.toString().padStart(2, '0')}`;
-    };
-
-    // Data Fetching Logic - /hooks
+    // 3. Data Hooks
     const { quiz, questions, isLoading, error } = useQuizData(id);
 
-    // Ai Tutor Logic - /hooks
+    // 4. Ai Tutor Hook
     const {
-        apiKey,
-        setApiKey,
-        showApiKeyModal,
-        setShowApiKeyModal,
-        aiExplanations,
-        loadingAiFor,
-        aiError,
-        handleExplain,
-        saveApiKey
+        apiKey, setApiKey, showApiKeyModal, setShowApiKeyModal,
+        aiExplanations, loadingAiFor, aiError, handleExplain, saveApiKey
     } = useAiTutor();
 
-    // Quiz Engine Logic - /hooks
+    // 5. Quiz Engine Hook (MUST be called BEFORE the Timer useEffect)
     const {
         currentIndex, setCurrentIndex, userAnswers, flagged,
         isGraded, isReviewing, setIsReviewing, finalScore, isSubmitting,
         jumpToQuestion, handleOptionSelect, toggleFlag, handleGradeExam
     } = useQuizEngine(id, questions, examMode);
 
-    // UI Elements
+    // 6. Timer Logic
+    useEffect(() => {
+        if (timeLimit === 0 || isGraded || isReviewing) return;
+
+        if (timeLeft <= 0) {
+            handleGradeExam();
+            return;
+        }
+
+        const timerId = setInterval(() => {
+            setTimeLeft((prev) => prev - 1);
+        }, 1000);
+
+        return () => clearInterval(timerId);
+    }, [timeLeft, timeLimit, isGraded, isReviewing, handleGradeExam]);
+
+    const formatTime = (seconds) => {
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+        return `${m}:${s.toString().padStart(2, '0')}`;
+    };
+
+    // 7. Loading / Error States
     if (isLoading) return <div className="min-h-screen bg-gray-100 p-8 text-center text-xl font-bold">Loading Arena...</div>;
     if (error) return <div className="min-h-screen bg-gray-100 p-8 text-center text-red-600 font-bold">{error}</div>;
     if (questions.length === 0) return <div className="min-h-screen bg-gray-100 p-8 text-center font-bold">No questions found.</div>;
 
-    // Progress percentage logic
-    const progressPercent = examMode === 'exam'
-        ? ((currentIndex + 1) / questions.length) * 100
-        : (Object.keys(userAnswers).length / questions.length) * 100;
+    // --- Safe Progress Calculation ---
+    // This ensures we only count questions that actually have a selected value
+    const answeredCount = Object.values(userAnswers).filter(ans => {
+        if (Array.isArray(ans)) return ans.length > 0; // For multi-select
+        return ans !== null && ans !== undefined && ans !== ''; // For single-select
+    }).length;
 
-    const answeredCount = Object.keys(userAnswers).filter(id => userAnswers[id].length > 0).length;
+    // Prevent dividing by zero and ensure a clean percentage
+    const progressPercent = questions.length > 0 ? (answeredCount / questions.length) * 100 : 0;
 
     return (
         <div className="min-h-screen bg-gray-100 p-8">
@@ -104,36 +93,36 @@ export default function Quiz() {
                     timeLeft={timeLimit > 0 ? formatTime(timeLeft) : null} // Passing our formatted time
                     currentIndex={currentIndex}
                     totalQuestions={questions.length}
-                    answeredCount={Object.keys(userAnswers).length}
+                    answeredCount={answeredCount}
                     isGraded={isGraded}
-                    progressPercent={(Object.keys(userAnswers).length / questions.length) * 100}
+                    progressPercent={progressPercent}
                 />
 
                 {/* --- THE TOGGLEABLE NAVIGATOR PANEL --- */}
-                <div className="mb-4">
-                    <button
-                        onClick={() => setShowNavigator(!showNavigator)}
-                        className="text-sm font-bold text-gray-600 hover:text-blue-600 flex items-center transition"
-                    >
-                        {showNavigator ? '▼ Hide Question Navigator' : '▶ Show Question Navigator & Flagged'}
-                    </button>
+                {(examMode === 'study' || isReviewing) && (
+                    <div className="mb-4">
+                        <button
+                            onClick={() => setShowNavigator(!showNavigator)}
+                            className="text-sm font-bold text-gray-600 hover:text-blue-600 flex items-center transition"
+                        >
+                            {showNavigator ? '▼ Hide Question Navigator' : '▶ Show Question Navigator & Flagged'}
+                        </button>
 
-                    {showNavigator && (
-
-                        <div className="mt-4">
-                            <QuestionNavigator
-                                questions={questions}
-                                userAnswers={userAnswers}
-                                flagged={flagged}
-                                jumpToQuestion={(idx) => {
-                                    jumpToQuestion(idx);
-                                    // To hide navigator after clicking
-                                    setShowNavigator(false);
-                                }}
-                            />
-                        </div>
-                    )}
-                </div>
+                        {showNavigator && (
+                            <div className="mt-4">
+                                <QuestionNavigator
+                                    questions={questions}
+                                    userAnswers={userAnswers}
+                                    flagged={flagged}
+                                    jumpToQuestion={(idx) => {
+                                        jumpToQuestion(idx);
+                                        setShowNavigator(false);
+                                    }}
+                                />
+                            </div>
+                        )}
+                    </div>
+                )}
 
                 {/* Question UI & Review Screen */}
                 {!isGraded ? (

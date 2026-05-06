@@ -19,7 +19,6 @@ const QuizHeader = ({
                 </h1>
 
                 <div className="flex flex-wrap items-center gap-3">
-                    {/* NEW: The Countdown Timer Badge */}
                     {/* Only renders if a time limit was set AND the exam isn't over */}
                     {timeLeft && !isGraded && (
                         <div className="flex items-center gap-2 bg-red-50 text-red-700 px-4 py-2 rounded-lg border border-red-200 font-mono font-bold text-xl shadow-sm tracking-widest">
@@ -38,20 +37,20 @@ const QuizHeader = ({
                 </div>
             </div>
 
-            {/* 2. Progress Bar Section (Unchanged) */}
+            {/* 2. Progress Bar Section */}
             <div className="bg-white p-4 rounded-lg shadow-sm border mb-6">
                 <div className="flex justify-between text-sm text-gray-600 mb-2">
                     <span className="font-medium">
-                        {isGraded ? 'Final Review' : `Question ${currentIndex + 1} of ${totalQuestions}`}
+                        {isGraded ? 'Final Review' : `Question ${(currentIndex || 0) + 1} of ${totalQuestions}`}
                     </span>
-                    <span className="font-medium">
+                    <span className="font-medium text-blue-600">
                         {answeredCount} of {totalQuestions} Answered
                     </span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2.5">
+                <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
                     <div
-                        className="bg-blue-600 h-2.5 rounded-full transition-all duration-500 ease-out"
-                        style={{width: `${progressPercent}%`}}
+                        className="bg-blue-600 h-full transition-all duration-500 ease-out min-w-[2px]"
+                        style={{ width: `${progressPercent}%` }}
                     ></div>
                 </div>
             </div>
