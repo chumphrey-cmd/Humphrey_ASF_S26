@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 import { useQuizData } from "../hooks/useQuizData.js";
 import { useAiTutor } from '../hooks/useAiTutor.js';
@@ -16,6 +16,46 @@ import ResultsScreen from "../components/ResultsScreen.jsx";
 export default function Quiz() {
     const { id } = useParams();
     const navigate = useNavigate();
+
+    // Route State Catching for Timer!
+    const location = useLocation();
+
+    // Safely extract the config. If someone types the URL directly, fallback to defaults.
+    const config = location.state || { mode: 'exam', timeLimit: 0 };
+
+    // Initialize our settings based on the modal
+    const [examMode, setExamMode] = useState(config.mode);
+    const [timeLimit, setTimeLimit] = useState(config.timeLimit);
+
+    // Convert minutes to seconds for the countdown timer
+    const [timeLeft, setTimeLeft] = useState(config.timeLimit * 60);
+
+    // --- Timer Logic ---
+    useEffect(() => {
+        // Stop the clock if: no time limit exists, the exam is graded, or we are in review mode
+        if (timeLimit === 0 || isGraded || isReviewing) return;
+
+        // Auto-submit when the clock hits zero
+        if (timeLeft <= 0) {
+            handleGradeExam();
+            return;
+        }
+
+        // Tick down every 1 second
+        const timerId = setInterval(() => {
+            setTimeLeft((prevTime) => prevTime - 1);
+        }, 1000);
+
+        // Cleanup function to prevent memory leaks
+        return () => clearInterval(timerId);
+    }, [timeLeft, timeLimit, isGraded, isReviewing, handleGradeExam]);
+
+    // Helper function to turn '90' seconds into '01:30' for the UI
+    const formatTime = (seconds) => {
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+        return `${m}:${s.toString().padStart(2, '0')}`;
+    };
 
     // Data Fetching Logic - /hooks
     const { quiz, questions, isLoading, error } = useQuizData(id);
@@ -38,12 +78,9 @@ export default function Quiz() {
         currentIndex, setCurrentIndex, userAnswers, flagged,
         isGraded, isReviewing, setIsReviewing, finalScore, isSubmitting,
         jumpToQuestion, handleOptionSelect, toggleFlag, handleGradeExam
-    } = useQuizEngine(id, questions);
+    } = useQuizEngine(id, questions, examMode);
 
-    // UI display toggles
-    const [showNavigator, setShowNavigator] = useState(false);
-    const [examMode, setExamMode] = useState('exam');
-
+    // UI Elements
     if (isLoading) return <div className="min-h-screen bg-gray-100 p-8 text-center text-xl font-bold">Loading Arena...</div>;
     if (error) return <div className="min-h-screen bg-gray-100 p-8 text-center text-red-600 font-bold">{error}</div>;
     if (questions.length === 0) return <div className="min-h-screen bg-gray-100 p-8 text-center font-bold">No questions found.</div>;
@@ -61,14 +98,15 @@ export default function Quiz() {
 
                 {/* --- EXTRACTED HEADER & PROGRESS BAR --- */}
                 <QuizHeader
-                    title={quiz?.title}
+                    title={quiz.title}
                     examMode={examMode}
-                    setExamMode={setExamMode}
+                    // Notice we deleted setExamMode={setExamMode} here!
+                    timeLeft={timeLimit > 0 ? formatTime(timeLeft) : null} // Passing our formatted time
                     currentIndex={currentIndex}
                     totalQuestions={questions.length}
-                    answeredCount={answeredCount}
+                    answeredCount={Object.keys(userAnswers).length}
                     isGraded={isGraded}
-                    progressPercent={progressPercent}
+                    progressPercent={(Object.keys(userAnswers).length / questions.length) * 100}
                 />
 
                 {/* --- THE TOGGLEABLE NAVIGATOR PANEL --- */}
@@ -81,6 +119,7 @@ export default function Quiz() {
                     </button>
 
                     {showNavigator && (
+
                         <div className="mt-4">
                             <QuestionNavigator
                                 questions={questions}

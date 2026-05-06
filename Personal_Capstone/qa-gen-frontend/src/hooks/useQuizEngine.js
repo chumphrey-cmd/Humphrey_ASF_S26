@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import api from "../services/api.js";
 
-export const useQuizEngine = (quizId, questions) => {
+export const useQuizEngine = (quizId, questions, examMode) => {
     // Core Engine State
     const [currentIndex, setCurrentIndex] = useState(0);
     const [userAnswers, setUserAnswers] = useState({});
@@ -71,7 +71,9 @@ export const useQuizEngine = (quizId, questions) => {
         const score = Math.round((correctCount / questions.length) * 100);
 
         try {
-            await api.put(`/api/quizzes/${quizId}/score`, { lastScore : score });
+            if(examMode === 'exam') {
+                await api.put(`/api/quizzes/${quizId}/score`, { lastScore : score });
+            }
         }catch (error) {
             console.error("Failed to save final score to database: ", error);
         }

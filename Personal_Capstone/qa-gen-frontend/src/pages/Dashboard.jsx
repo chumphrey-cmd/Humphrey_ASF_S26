@@ -1,12 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../services/api';
+import QuizConfigModal from '../components/QuizConfigModal.jsx';
 
 export default function Dashboard() {
     // 1. State Management
     const [quizzes, setQuizzes] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
+
+    // --- Phase 6 Modal State ---
+    const [showConfigModal, setShowConfigModal] = useState(false);
+    const [selectedQuizId, setSelectedQuizId] = useState(null);
 
     const navigate = useNavigate();
 
@@ -27,25 +32,29 @@ export default function Dashboard() {
         fetchQuizzes();
     }, []);
 
-    // 3. Delete Handler Logic
+    // 3. Delete Handler Logic (From Phase 4)
     const handleDelete = async (id) => {
-        // Native browser confirmation step for MVP safety
         const isConfirmed = window.confirm("Are you sure you want to delete this quiz? This action cannot be undone.");
-
-        // If they click 'Cancel', exit the function early
         if (!isConfirmed) return;
 
         try {
-            // Hit the backend DELETE endpoint
             await api.delete(`/api/quizzes/${id}`);
-
-            // Instantly update the UI by filtering out the deleted quiz from our state array
             setQuizzes((prevQuizzes) => prevQuizzes.filter((quiz) => quiz.id !== id));
         } catch (err) {
             console.error("Error deleting quiz:", err);
-            // Re-use the existing error state to show a banner if deletion fails
             setError("Failed to delete the quiz. Please try again.");
         }
+    };
+
+    // Handlers
+    const handleOpenModal = (quizId) => {
+        setSelectedQuizId(quizId);
+        setShowConfigModal(true);
+    };
+
+    // Catches the config object passed up from our new child component!
+    const handleStartQuiz = (config) => {
+        navigate(`/quiz/${selectedQuizId}`, { state: config });
     };
 
     // 4. UI Renders
@@ -54,7 +63,7 @@ export default function Dashboard() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-100 p-8">
+        <div className="min-h-screen bg-gray-100 p-8 relative">
             <div className="max-w-5xl mx-auto">
 
                 {/* Header Section */}
@@ -90,18 +99,14 @@ export default function Dashboard() {
                     {quizzes.map((quiz) => (
                         <div key={quiz.id} className="bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition flex flex-col">
 
-                            {/* Flex container to align title and delete button on the same row */}
                             <div className="flex justify-between items-start mb-2">
                                 <h3 className="text-xl font-bold text-gray-800 truncate pr-4" title={quiz.title}>
                                     {quiz.title}
                                 </h3>
-
-                                {/* Delete Button */}
                                 <button
                                     onClick={() => handleDelete(quiz.id)}
                                     className="text-gray-400 hover:text-red-500 transition-colors p-1"
                                     title="Delete Quiz"
-                                    aria-label="Delete Quiz"
                                 >
                                     🗑️
                                 </button>
@@ -111,8 +116,9 @@ export default function Dashboard() {
                                 Last Score: <span className="font-bold text-gray-700">{quiz.lastScore !== null ? `${quiz.lastScore}%` : 'Not taken yet'}</span>
                             </div>
 
+                            {/* Open Modal Instead of Direct Navigation */}
                             <button
-                                onClick={() => navigate(`/quiz/${quiz.id}`)}
+                                onClick={() => handleOpenModal(quiz.id)}
                                 className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition mt-auto"
                             >
                                 Take Quiz
@@ -122,6 +128,13 @@ export default function Dashboard() {
                 </div>
 
             </div>
+
+            {/* The Extracted Modal Component */}
+            <QuizConfigModal
+                isOpen={showConfigModal}
+                onClose={() => setShowConfigModal(false)}
+                onStart={handleStartQuiz}
+            />
         </div>
     );
 }
