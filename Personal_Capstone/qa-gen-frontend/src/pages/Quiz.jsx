@@ -138,31 +138,53 @@ export default function Quiz() {
                         />
                     ) : (
 
-                        /*
-                        * --- THE STANDARD QUESTION RENDERER ---
-                        * Handles question card, AI explanation, exam vs multiple choice setup...
-                        */
 
+
+
+                        // Question card rendering for Quiz/Exam modes
                         <div>
 
-                            <div className={examMode === 'study' ? "space-y-8 h-[60vh] overflow-y-auto pr-4 mb-6" : "mb-6"}>
-                                {(examMode === 'exam' ? [questions[currentIndex]] : questions).map((q) => {
-                                    return (
-                                        <QuestionCard
-                                            key={q.id}
-                                            q={q}
-                                            examMode={examMode}
-                                            currentSelections={userAnswers[q.id] || []}
-                                            isFlagged={flagged.has(q.id)}
-                                            isAiLoading={loadingAiFor === q.id}
-                                            aiExplanation={aiExplanations[q.id]}
-                                            onOptionSelect={handleOptionSelect}
-                                            onToggleFlag={toggleFlag}
-                                            onExplain={handleExplain}
-                                        />
-                                    );
-                                })}
-                            </div>
+                            {/* Quiz Render Area */}
+                            {examMode === 'exam' ? (
+
+                                /* EXAM MODE: Single Question, Paginated */
+                                <div className="mb-6">
+                                    <QuestionCard
+                                        q={questions[currentIndex]}
+                                        displayNumber={currentIndex + 1}
+                                        examMode={examMode}
+                                        currentSelections={userAnswers[questions[currentIndex].id] || []}
+                                        isFlagged={flagged.has(questions[currentIndex].id)}
+                                        isAiLoading={loadingAiFor === questions[currentIndex].id}
+                                        aiExplanation={aiExplanations[questions[currentIndex].id]}
+                                        onOptionSelect={handleOptionSelect}
+                                        onToggleFlag={toggleFlag}
+                                        onExplain={handleExplain}
+                                    />
+                                </div>
+                            ) : (
+
+                                /* STUDY MODE: All Questions, Scrolling */
+                                <div className="space-y-8 h-[60vh] overflow-y-auto pr-4 mb-6">
+                                    {questions.map((q, index) => {
+                                        return (
+                                            <QuestionCard
+                                                key={q.id}
+                                                q={q}
+                                                displayNumber={index + 1}
+                                                examMode={examMode}
+                                                currentSelections={userAnswers[q.id] || []}
+                                                isFlagged={flagged.has(q.id)}
+                                                isAiLoading={loadingAiFor === q.id}
+                                                aiExplanation={aiExplanations[q.id]}
+                                                onOptionSelect={handleOptionSelect}
+                                                onToggleFlag={toggleFlag}
+                                                onExplain={handleExplain}
+                                            />
+                                        );
+                                    })}
+                                </div>
+                            )}
 
                             {/* Navigation & Submission Actions */}
                             <ExamFooterActions

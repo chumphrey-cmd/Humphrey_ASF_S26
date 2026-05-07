@@ -2,6 +2,7 @@ import React from 'react';
 
 const QuestionCard = ({
                           q,
+                          displayNumber,
                           examMode,
                           currentSelections,
                           isFlagged,
@@ -14,11 +15,14 @@ const QuestionCard = ({
     // Calculate if it's a multi-select question for this specific card
     const isMulti = q.correctAnswers.length > 1;
 
+    // Removes any leading numbers and periods (e.g., "1. What is..." becomes "What is...")
+    const cleanQuestionText = q.questionText.replace(/^\d+\.\s*/, '');
+
     return (
         <div id={`question-${q.id}`} className="p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
             <div className="flex justify-between items-start mb-4">
                 <h2 className="text-xl text-gray-800 font-medium">
-                    {q.questionNumber}. {q.questionText}
+                    {displayNumber}. {cleanQuestionText}
                 </h2>
                 <button
                     onClick={() => onToggleFlag(q.id)}
