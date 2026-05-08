@@ -18,7 +18,7 @@ public class OpenAiProvider implements AiProvider {
         // 1. Pass the dynamic BYOK key into the new Options builder
         OpenAiChatOptions options = OpenAiChatOptions.builder()
                 .apiKey(apiKey)
-                .model("gpt-4o-mini")
+                .model("gpt-4o-2024-08-06")
                 .build();
 
         // 2. Build the model. It automatically sets up the official OpenAI client using your options.
