@@ -33,8 +33,7 @@ export default function Quiz() {
 
     // 4. Ai Tutor Hook
     const {
-        apiKey, setApiKey, showApiKeyModal, setShowApiKeyModal,
-        aiExplanations, loadingAiFor, aiError, handleExplain, saveApiKey
+        aiProvider, apiKey, showSettingsModal, setShowSettingsModal, aiExplanations, loadingAiFor, aiError, handleExplain, saveAiSettings
     } = useAiTutor();
 
     // 5. Quiz Engine Hook (MUST be called BEFORE the Timer useEffect)
@@ -207,13 +206,14 @@ export default function Quiz() {
                 )}
 
                 {/*  AI BYOK Settings Modal */}
+
                 <AiSettingsModal
-                    showModal={showApiKeyModal}
-                    apiKey={apiKey}
-                    setApiKey={setApiKey}
+                    showModal={showSettingsModal}
+                    currentProvider={aiProvider}
+                    currentApiKey={apiKey}
                     aiError={aiError}
-                    onCancel={() => setShowApiKeyModal(false)}
-                    onSave={saveApiKey}
+                    onCancel={() => setShowSettingsModal(false)}
+                    onSave={saveAiSettings}           
                 />
 
             </div>

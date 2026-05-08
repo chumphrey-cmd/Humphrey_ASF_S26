@@ -2,15 +2,20 @@ import { useState } from 'react';
 import api from '../services/api';
 
 export const useAiTutor = () => {
-    const [apiKey, setApiKey] = useState(sessionStorage.getItem('gemini_api_key') || '');
-    const [showApiKeyModal, setShowApiKeyModal] = useState(false);
+    // We now track both the key and the provider in state
+    const [aiProvider, setAiProvider] = useState(sessionStorage.getItem('ai_provider') || 'gemini');
+    const [apiKey, setApiKey] = useState(sessionStorage.getItem('ai_api_key') || '');
+
+    // Renamed for clarity since it will now hold provider AND key settings
+    const [showSettingsModal, setShowSettingsModal] = useState(false);
+
     const [aiExplanations, setAiExplanations] = useState({});
     const [loadingAiFor, setLoadingAiFor] = useState(null);
     const [aiError, setAiError] = useState(null);
 
     const handleExplain = async (questionId) => {
         if (!apiKey) {
-            setShowApiKeyModal(true);
+            setShowSettingsModal(true);
             return;
         }
 
@@ -18,11 +23,9 @@ export const useAiTutor = () => {
         setAiError(null);
 
         try {
-            const response = await api.get(`http://localhost:8080/api/questions/${questionId}/explain`, {
-                headers: {
-                    'X-API-Key': apiKey
-                }
-            });
+            // We use a relative path (baseURL is handled by Axios) and NO manual headers.
+            // The api.js interceptor automatically catches this and injects the headers.
+            const response = await api.get(`/api/questions/${questionId}/explain`);
 
             setAiExplanations(prev => ({
                 ...prev,
@@ -31,9 +34,9 @@ export const useAiTutor = () => {
 
         } catch (error) {
             console.error("AI Error:", error);
-            if (error.response?.status === 401) {
-                setAiError("Invalid API Key. Please check your settings.");
-                setShowApiKeyModal(true);
+            if (error.response?.status === 401 || error.response?.status === 400) {
+                setAiError("Invalid AI Provider or API Key. Please check your settings.");
+                setShowSettingsModal(true);
             } else {
                 setAiError("Failed to fetch explanation. Please try again.");
             }
@@ -42,22 +45,30 @@ export const useAiTutor = () => {
         }
     };
 
-    const saveApiKey = (key) => {
+    // Updated to handle both provider and key
+    const saveAiSettings = (provider, key) => {
+        setAiProvider(provider);
         setApiKey(key);
-        sessionStorage.setItem('gemini_api_key', key);
-        setShowApiKeyModal(false);
+
+        sessionStorage.setItem('ai_provider', provider);
+        sessionStorage.setItem('ai_api_key', key);
+
+        // Clean up the old gemini-specific key from the user's browser if it exists
+        sessionStorage.removeItem('gemini_api_key');
+
+        setShowSettingsModal(false);
         setAiError(null);
     };
 
     return {
+        aiProvider,
         apiKey,
-        setApiKey,
-        showApiKeyModal,
-        setShowApiKeyModal,
+        showSettingsModal,
+        setShowSettingsModal,
         aiExplanations,
         loadingAiFor,
         aiError,
         handleExplain,
-        saveApiKey
+        saveAiSettings
     };
 };
