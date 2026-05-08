@@ -1,4 +1,4 @@
-package mil.army.moda.qagenbackend.ai;
+package mil.army.moda.qagenbackend.ai.gemini;
 
 import mil.army.moda.qagenbackend.question.Question;
 import mil.army.moda.qagenbackend.question.QuestionRepository;

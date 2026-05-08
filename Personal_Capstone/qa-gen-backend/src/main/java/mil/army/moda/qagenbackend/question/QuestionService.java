@@ -80,8 +80,13 @@ public class QuestionService {
 
     }
 
-    // Basic implementation for now, here we are overloading the previous saveQuestions method for a simple check with our QuizControllerTest.
-//    public void saveQuestions(Object questions){
-//
-//    }
+    // Fetches a single question by its ID, used by our AiController to only send one question to our front end.
+    public Question getQuestionById(UUID id) {
+        return questionRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Question not found."));
+    }
+
+    public void saveQuestion(Question question){
+        questionRepository.save(question);
+    }
 }
