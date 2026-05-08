@@ -1,8 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import {useAiSettings} from "../context/AiSettingsContext.jsx";
 
 // Added onOpenAiSettings prop to trigger the modal from anywhere
-export default function Navbar({ onOpenAiSettings }) {
+export default function Navbar() {
     const { isAuthenticated, logout } = useAuth();
     const navigate = useNavigate();
 
@@ -12,6 +13,8 @@ export default function Navbar({ onOpenAiSettings }) {
         logout(); // Wipes session entirely and redirects back to log in screen.
         navigate('/login');
     };
+
+    const { setShowSettingsModal } = useAiSettings();
 
     return (
         <nav className="bg-gray-800 text-white p-4 shadow-md">
@@ -30,15 +33,13 @@ export default function Navbar({ onOpenAiSettings }) {
                     </Link>
 
                     {/* New AI Settings Trigger Button */}
-                    {onOpenAiSettings && (
-                        <button
-                            onClick={onOpenAiSettings}
-                            className="flex items-center gap-2 hover:text-purple-300 transition font-medium"
-                            title="Configure AI Tutor Settings"
-                        >
-                            <span>⚙️</span> AI Settings
-                        </button>
-                    )}
+                    <button
+                        onClick={() => setShowSettingsModal(true)}
+                        className="flex items-center gap-2 hover:text-purple-300 transition font-medium"
+                        title="Configure AI Tutor Settings"
+                    >
+                        <span>⚙️</span> AI Settings
+                    </button>
 
                     <button
                         onClick={handleLogout}

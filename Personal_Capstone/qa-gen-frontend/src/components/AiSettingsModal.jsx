@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import {useAiSettings} from "../context/AiSettingsContext.jsx";
 
 const AiSettingsModal = ({
                              showModal,
