@@ -1,27 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import {useAiSettings} from "../context/AiSettingsContext.jsx";
 
-const AiSettingsModal = ({
-                             showModal,
-                             currentProvider,
-                             currentApiKey,
-                             aiError,
-                             onCancel,
-                             onSave
-                         }) => {
-    // Local state so we don't mutate the actual settings until they click "Save"
+const AiSettingsModal = () => {
+
+    const {
+        showSettingsModal,
+        setShowSettingsModal,
+        aiProvider,
+        apiKey: globalApiKey,
+        saveSettings
+    } = useAiSettings();
+
     const [provider, setProvider] = useState('gemini');
     const [apiKey, setApiKey] = useState('');
 
-    // When the modal opens, populate it with whatever is currently saved in the hook/sessionStorage
     useEffect(() => {
-        if (showModal) {
-            setProvider(currentProvider || 'gemini');
-            setApiKey(currentApiKey || '');
+        if (showSettingsModal) {
+            setProvider(aiProvider || 'gemini');
+            setApiKey(globalApiKey || '');
         }
-    }, [showModal, currentProvider, currentApiKey]);
+    }, [showSettingsModal, aiProvider, globalApiKey]);
 
-    if (!showModal) return null;
+    if (!showSettingsModal) return null;
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
@@ -33,12 +33,6 @@ const AiSettingsModal = ({
                     Select your preferred AI Provider and enter your API key.
                     This key is securely stored in your browser's session and is wiped when you close the tab.
                 </p>
-
-                {aiError && (
-                    <div className="mb-4 p-3 bg-red-50 text-red-700 text-sm border border-red-200 rounded">
-                        {aiError}
-                    </div>
-                )}
 
                 {/* Provider Selection Dropdown */}
                 <div className="mb-4">
@@ -67,14 +61,13 @@ const AiSettingsModal = ({
 
                 <div className="flex justify-end gap-3">
                     <button
-                        onClick={onCancel}
+                        onClick={() => setShowSettingsModal(false)}
                         className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded font-semibold transition"
                     >
                         Cancel
                     </button>
                     <button
-                        // Pass both the provider and the key back up to the hook
-                        onClick={() => onSave(provider, apiKey)}
+                        onClick={() => saveSettings(provider, apiKey)}
                         className="px-4 py-2 bg-purple-600 text-white font-bold rounded hover:bg-purple-700 transition shadow-sm"
                     >
                         Save Settings
