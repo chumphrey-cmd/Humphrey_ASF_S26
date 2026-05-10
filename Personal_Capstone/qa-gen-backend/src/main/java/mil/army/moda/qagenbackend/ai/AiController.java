@@ -98,4 +98,51 @@ public class AiController {
                     .body(Map.of("error", "AI Generation Failed: " + e.getMessage()));
         }
     }
+
+    /**
+     * Socratic Tutor Endpoint: Handles follow-up questions for a specific question ID.
+     * Note: This endpoint is ephemeral. We DO NOT save the chat history to the global database
+     * to prevent polluting the standardized question cache.
+     */
+    @PostMapping("/{id}/chat")
+    public ResponseEntity<?> chatWithTutor(
+            @PathVariable UUID id,
+            @RequestBody mil.army.moda.qagenbackend.dto.ChatRequestDTO chatRequest,
+            @RequestHeader(value = "X-AI-Provider", defaultValue = "gemini") String providerName,
+            @RequestHeader(value = "X-API-Key", required = false) String apiKey) {
+
+        try {
+            // 1. Validate BYOK configuration
+            if (apiKey == null || apiKey.trim().isEmpty()) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(Map.of("error", "API Key is missing. Please provide a valid API key."));
+            }
+
+            // 2. Ensure payload is valid
+            if (chatRequest.getMessages() == null || chatRequest.getMessages().isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(Map.of("error", "Chat history cannot be empty."));
+            }
+
+            // 3. Token Protection Guardrail: Prevent infinite loops and high API costs
+            // A size of 21 represents the system prompt + 10 user questions + 10 AI responses.
+            if (chatRequest.getMessages().size() > 21) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(Map.of("error", "Conversation limit reached. Please start a new question."));
+            }
+
+            // 4. Route request to selected provider
+            String response = aiSwitchboardService.chat(chatRequest.getMessages(), providerName, apiKey);
+
+            // 5. Return payload shape expected by React frontend
+            return ResponseEntity.ok(Map.of("reply", response));
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "AI Chat Failed: " + e.getMessage()));
+        }
+    }
 }

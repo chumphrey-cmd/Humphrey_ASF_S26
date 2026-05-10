@@ -22,4 +22,13 @@ public interface AiProvider {
      * @return The AI-generated explanation.
      */
     String generateExplanation(String prompt, String apiKey);
+
+    /**
+     * Generates a conversational response based on a history of messages.
+     *
+     * @param messages The history of the conversation (System, User, and Model messages).
+     * @param apiKey The specific API key provided by the user.
+     * @return The AI-generated chat response.
+     */
+    String generateChatResponse(java.util.List<mil.army.moda.qagenbackend.dto.ChatMessage> messages, String apiKey);
 }

@@ -1,9 +1,21 @@
 package mil.army.moda.qagenbackend.ai.openai;
 
+import com.google.genai.Client;
 import mil.army.moda.qagenbackend.ai.AiProvider;
+import mil.army.moda.qagenbackend.dto.ChatMessage;
+import org.springframework.ai.chat.messages.AssistantMessage;
+import org.springframework.ai.chat.messages.Message;
+import org.springframework.ai.chat.messages.SystemMessage;
+import org.springframework.ai.chat.messages.UserMessage;
+import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.google.genai.GoogleGenAiChatModel;
+import org.springframework.ai.google.genai.GoogleGenAiChatOptions;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Objects;
 
 @Component
 public class OpenAiProvider implements AiProvider {
@@ -28,5 +40,36 @@ public class OpenAiProvider implements AiProvider {
 
         // 3. Call the model and return the static explanation
         return chatModel.call(prompt);
+    }
+
+    @Override
+    public String generateChatResponse(List<ChatMessage> incomingMessages, String apiKey) {
+        // 1. Pass the dynamic BYOK key into the Options builder for this specific request
+        OpenAiChatOptions options = OpenAiChatOptions.builder()
+                .apiKey(apiKey)
+                .model("gpt-4o-2024-08-06")
+                .build();
+
+        // 2. Build the model. Spring AI handles the raw REST calls to OpenAI natively.
+        OpenAiChatModel chatModel = OpenAiChatModel.builder()
+                .options(options)
+                .build();
+
+        // 3. Map DTOs to Spring AI Messages, explicitly defining the Message interface
+        List<Message> springAiMessages = incomingMessages.stream().map(msg -> {
+            Message springMsg = switch (msg.getRole().toLowerCase()) {
+                case "system" -> new SystemMessage(msg.getContent());
+                case "assistant", "model" -> new AssistantMessage(msg.getContent());
+                default -> new UserMessage(msg.getContent());
+            };
+            return springMsg;
+        }).toList();
+
+        // 4. Wrap the formatted conversation history in a Prompt object
+        Prompt prompt = new Prompt(springAiMessages);
+
+        // 5. FIX 2: Call the model and extract the text.
+        // Note: If your IDE highlights .getContent() red, change it to .getText()
+        return Objects.requireNonNull(chatModel.call(prompt).getResult()).getOutput().getText();
     }
 }

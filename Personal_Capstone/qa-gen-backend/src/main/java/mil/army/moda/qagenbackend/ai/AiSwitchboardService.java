@@ -31,4 +31,18 @@ public class AiSwitchboardService {
         // 2. Route the request to that specific implementation
         return selectedProvider.generateExplanation(prompt, apiKey);
     }
+
+    /**
+     * Routes the conversational AI request to the correct provider.
+     * Because 'providers' is populated via Spring Dependency Injection,
+     * this method never needs to change, even if you add 10 new AI models!
+     */
+    public String chat(List<mil.army.moda.qagenbackend.dto.ChatMessage> messages, String providerName, String apiKey) {
+        AiProvider selectedProvider = providers.stream()
+                .filter(p -> p.getProviderName().equalsIgnoreCase(providerName))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Unsupported AI Provider: " + providerName));
+
+        return selectedProvider.generateChatResponse(messages, apiKey);
+    }
 }
