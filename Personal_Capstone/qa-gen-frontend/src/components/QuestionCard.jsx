@@ -113,26 +113,28 @@ const QuestionCard = ({
             {isChatOpen && aiExplanation && (
                 <div className="mt-4 bg-gray-50 border border-gray-200 rounded-lg flex flex-col h-[400px]">
 
-                {/* Chat History Area */}
+                    {/* Chat History Area */}
                     <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                        {chatHistory.map((msg, index) => (
-                            <div
-                                key={index}
-                                className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                            >
-                                <div className={`max-w-[80%] p-3 rounded-lg text-sm ${
-                                    msg.role === 'user'
-                                        ? 'bg-purple-600 text-white rounded-br-none'
-                                        : 'bg-white border border-gray-200 text-gray-800 rounded-bl-none shadow-sm prose prose-sm max-w-none'
-                                }`}>
-                                    {msg.role === 'user' ? (
-                                        msg.content
-                                    ) : (
-                                        <ReactMarkdown>{msg.content}</ReactMarkdown>
-                                    )}
+                        {chatHistory
+                            .filter(msg => msg.role !== 'system')
+                            .map((msg, index) => (
+                                <div
+                                    key={index}
+                                    className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                                >
+                                    <div className={`max-w-[80%] p-3 rounded-lg text-sm ${
+                                        msg.role === 'user'
+                                            ? 'bg-purple-600 text-white rounded-br-none'
+                                            : 'bg-white border border-gray-200 text-gray-800 rounded-bl-none shadow-sm prose prose-sm max-w-none'
+                                    }`}>
+                                        {msg.role === 'user' ? (
+                                            msg.content
+                                        ) : (
+                                            <ReactMarkdown>{msg.content}</ReactMarkdown>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
 
                         {/* Floating Dots Loading Indicator */}
                         {isChatLoading && (
