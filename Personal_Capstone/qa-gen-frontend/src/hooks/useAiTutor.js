@@ -14,7 +14,7 @@ export const useAiTutor = () => {
     // Maps questionId to an array of messages: { 'uuid-123': [{role: 'user', content: '...'}, {role: 'model', content: '...'}] }
     const [chatHistories, setChatHistories] = useState({});
     const [isChatLoadingFor, setIsChatLoadingFor] = useState(null);
-    
+
     const handleExplain = async (questionId) => {
         if (!apiKey) {
             setShowSettingsModal(true);
@@ -72,9 +72,17 @@ export const useAiTutor = () => {
 
         try {
             // 3. Send the entire history array to Spring Boot DTO
-            const response = await api.post(`/api/questions/${questionId}/chat`, {
-                messages: updatedHistory
-            });
+            // Pass a third argument to explicitly set the headers, so that it doesn't get dropped by interceptor POST requests.
+            const response = await api.post(`/api/questions/${questionId}/chat`,
+                {
+                    messages: updatedHistory
+                },
+                {
+                    headers: {
+                        'X-API-Key': apiKey
+                    }
+                }
+            );
 
             // 4. Append the AI's successful response
             const modelReply = { role: "model", content: response.data.reply };

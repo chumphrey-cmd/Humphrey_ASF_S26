@@ -100,7 +100,7 @@ const QuestionCard = ({
                                     onClick={() => setIsChatOpen(!isChatOpen)}
                                     className="text-purple-700 text-sm font-semibold hover:underline"
                                 >
-                                    {isChatOpen ? 'Hide Discussion' : '💬 Discuss Further'}
+                                    {isChatOpen ? 'Hide Discussion' : 'Discuss Further'}
                                 </button>
                             </div>
                         </div>
