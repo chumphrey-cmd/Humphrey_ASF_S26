@@ -1,12 +1,13 @@
 package mil.army.moda.qagenbackend.ai;
 
+import mil.army.moda.qagenbackend.dto.ChatMessage;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 public class AiSwitchboardService {
 
-    // Spring automatically injects every @Component that implements AiProvider here!
+    // Spring automatically injects every @Component that implements AiProvider here
     private final List<AiProvider> providers;
 
     public AiSwitchboardService(List<AiProvider> providers) {
@@ -37,7 +38,7 @@ public class AiSwitchboardService {
      * Because 'providers' is populated via Spring Dependency Injection,
      * this method never needs to change, even if you add 10 new AI models!
      */
-    public String chat(List<mil.army.moda.qagenbackend.dto.ChatMessage> messages, String providerName, String apiKey) {
+    public String chat(List<ChatMessage> messages, String providerName, String apiKey) {
         AiProvider selectedProvider = providers.stream()
                 .filter(p -> p.getProviderName().equalsIgnoreCase(providerName))
                 .findFirst()

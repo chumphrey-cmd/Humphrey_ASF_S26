@@ -7,7 +7,6 @@ import { useQuizEngine } from "../hooks/useQuizEngine.js";
 
 import ExamFooterActions from "../components/ExamFooterActions.jsx";
 import QuestionCard from "../components/QuestionCard.jsx";
-import AiSettingsModal from "../components/AiSettingsModal.jsx";
 import ReviewSummaryScreen from "../components/ReviewSummaryScreen.jsx";
 import QuestionNavigator from "../components/QuestionNavigator.jsx";
 import QuizHeader from "../components/QuizHeader.jsx";
@@ -35,8 +34,10 @@ export default function Quiz() {
     const {
         aiExplanations,
         loadingAiFor,
-        aiError,
-        handleExplain
+        handleExplain,
+        chatHistories,
+        isChatLoadingFor,
+        handleSocraticChat
     } = useAiTutor();
 
     // 5. Quiz Engine Hook (MUST be called BEFORE the Timer useEffect)
@@ -182,6 +183,9 @@ export default function Quiz() {
                                                 onOptionSelect={handleOptionSelect}
                                                 onToggleFlag={toggleFlag}
                                                 onExplain={handleExplain}
+                                                chatHistory={chatHistories[q.id] || []}
+                                                isChatLoading={isChatLoadingFor === q.id}
+                                                onSendChatMessage={handleSocraticChat}
                                             />
                                         );
                                     })}

@@ -86,7 +86,7 @@ public class SecurityConfig {
         // We MUST explicitly allow the "Authorization" header so our JWTs can pass through.
         // Content-Type: so JSON payloads aren't blocked.
         // X-API-Key: for Bring Your Own Key and so that the headers inside of AiController aren't blocked.
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-API-Key", "X-AI-PROVIDER"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-API-Key", "X-AI-Provider"));
 
         // Allow credentials (like cookies or authorization headers) to be sent cross-origin
         configuration.setAllowCredentials(true);

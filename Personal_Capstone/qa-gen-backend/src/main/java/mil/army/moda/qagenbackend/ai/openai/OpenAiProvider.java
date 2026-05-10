@@ -68,8 +68,6 @@ public class OpenAiProvider implements AiProvider {
         // 4. Wrap the formatted conversation history in a Prompt object
         Prompt prompt = new Prompt(springAiMessages);
 
-        // 5. FIX 2: Call the model and extract the text.
-        // Note: If your IDE highlights .getContent() red, change it to .getText()
         return Objects.requireNonNull(chatModel.call(prompt).getResult()).getOutput().getText();
     }
 }
