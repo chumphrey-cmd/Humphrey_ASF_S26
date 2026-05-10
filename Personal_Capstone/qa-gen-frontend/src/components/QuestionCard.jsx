@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import ReactMarkdown from 'react-markdown';
 
 const QuestionCard = ({
@@ -22,7 +22,7 @@ const QuestionCard = ({
     // Removes any leading numbers and periods (e.g., "1. What is..." becomes "What is...")
     const cleanQuestionText = q.questionText.replace(/^\d+\.\s*/, '');
 
-    // NEW STATE: Toggle for the Socratic Chat
+    // Toggle for the Socratic Chat
     const [isChatOpen, setIsChatOpen] = useState(false);
     const [chatInput, setChatInput] = useState("");
 
@@ -30,7 +30,8 @@ const QuestionCard = ({
         e.preventDefault();
         if (!chatInput.trim() || isChatLoading) return;
 
-        onSendChatMessage(q.id, chatInput);
+        // Because 'q' is a prop passed down to this card, it contains the full database record (q.questionText and q.correctAnswers) that the hook needs to build the context.
+        onSendChatMessage(q.id, chatInput, q);
         setChatInput(""); // Clear input after sending
     };
 
@@ -51,7 +52,7 @@ const QuestionCard = ({
 
             {isMulti && <p className="text-sm text-gray-500 mb-4 italic">(Select all that apply)</p>}
 
-            {/* RESTORED: The Multiple Choice Options! */}
+            {/* The Multiple Choice Options */}
             <div className="space-y-3 mb-4">
                 {q.options.map((option, idx) => (
                     <label
@@ -110,9 +111,9 @@ const QuestionCard = ({
 
             {/* Phase 8: The Socratic Chat Interface */}
             {isChatOpen && aiExplanation && (
-                <div className="mt-4 bg-gray-50 border border-gray-200 rounded-lg flex flex-col h-80">
+                <div className="mt-4 bg-gray-50 border border-gray-200 rounded-lg flex flex-col h-[400px]">
 
-                    {/* Chat History Area */}
+                {/* Chat History Area */}
                     <div className="flex-1 overflow-y-auto p-4 space-y-4">
                         {chatHistory.map((msg, index) => (
                             <div
@@ -141,12 +142,14 @@ const QuestionCard = ({
                                     <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
                                     <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                                 </div>
+
+
                             </div>
                         )}
                     </div>
 
                     {/* Chat Input Box */}
-                    <div className="p-3 bg-white border-t border-gray-200 rounded-b-lg">
+                    <div className="p-3 bg-white border-t border-gray-200 rounded-b-lg shrink-0">
                         <form onSubmit={handleChatSubmit} className="flex gap-2">
                             <input
                                 type="text"

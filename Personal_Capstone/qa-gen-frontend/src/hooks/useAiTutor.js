@@ -44,7 +44,7 @@ export const useAiTutor = () => {
     };
 
     // --- Socratic Chat Function ---
-    const handleSocraticChat = async (questionId, userMessage) => {
+    const handleSocraticChat = async (questionId, userMessage, questionContext) => {
         if (!apiKey) {
             setShowSettingsModal(true);
             return;
@@ -52,16 +52,36 @@ export const useAiTutor = () => {
 
         const currentHistory = chatHistories[questionId] || [];
 
-        // 1. Frontend Guardrail: Max 10 turns (20 messages total) to protect BYOK tokens
+        // Frontend Guardrail: Max 10 turns (20 messages total) to protect BYOK tokens
         if (currentHistory.length >= 20) {
             setAiError("Maximum conversation limit reached for this question.");
             return;
         }
 
-        // 2. Format the new message and optimistically add it to the history
-        const newMessage = { role: "user", content: userMessage };
-        const updatedHistory = [...currentHistory, newMessage];
+        let updatedHistory = [...currentHistory];
 
+        // --- THE CONTEXT INJECTION ---
+        // If the array is empty, this is the very first message!
+        // We MUST give the AI the exact question and correct answer here, otherwise the stateless LLM has no idea what the user is asking about.
+        if (updatedHistory.length === 0) {
+            const systemPrompt = {
+                role: "system",
+                content: `You are an expert AI Socratic Tutor. 
+                The user is asking follow-up questions about this specific quiz question: "${questionContext.questionText}"
+                The correct answer(s) to this question are: ${questionContext.correctAnswers.join(', ')}.
+                The user has already been given a basic explanation of the correct answer.
+                Your goal now is to answer follow-up questions using a Socratic teaching style. 
+                Do NOT give the answer away directly if they ask; instead, guide the user to understand the underlying concepts.`
+            };
+            // Push the system instructions to the very beginning of the chat history
+            updatedHistory.push(systemPrompt);
+        }
+
+        // Append the user's actual typed message AFTER the system prompt
+        const newMessage = { role: "user", content: userMessage };
+        updatedHistory.push(newMessage);
+
+        // Optimistically update the UI so the user sees their message instantly
         setChatHistories(prev => ({
             ...prev,
             [questionId]: updatedHistory
@@ -71,20 +91,16 @@ export const useAiTutor = () => {
         setAiError(null);
 
         try {
-            // 3. Send the entire history array to Spring Boot DTO
-            // Pass a third argument to explicitly set the headers, so that it doesn't get dropped by interceptor POST requests.
-            const response = await api.post(`/api/questions/${questionId}/chat`,
-                {
-                    messages: updatedHistory
-                },
-                {
-                    headers: {
-                        'X-API-Key': apiKey
-                    }
+            // Send the entire history array (including our new system prompt) to Spring Boot
+            const response = await api.post(`/api/questions/${questionId}/chat`, {
+                messages: updatedHistory
+            }, {
+                headers: {
+                    'X-API-Key': apiKey
                 }
-            );
+            });
 
-            // 4. Append the AI's successful response
+            // Append the AI's successful response
             const modelReply = { role: "model", content: response.data.reply };
 
             setChatHistories(prev => ({
