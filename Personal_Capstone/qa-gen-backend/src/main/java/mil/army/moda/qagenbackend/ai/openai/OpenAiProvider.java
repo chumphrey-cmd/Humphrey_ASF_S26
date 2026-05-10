@@ -48,6 +48,9 @@ public class OpenAiProvider implements AiProvider {
         OpenAiChatOptions options = OpenAiChatOptions.builder()
                 .apiKey(apiKey)
                 .model("gpt-4o-2024-08-06")
+                .temperature(0.7)        // Creativity
+                .maxTokens(250)          // Forces concise, Socratic questions
+                .frequencyPenalty(0.5)   // Prevents repetitive "robot" phrasing
                 .build();
 
         // 2. Build the model. Spring AI handles the raw REST calls to OpenAI natively.

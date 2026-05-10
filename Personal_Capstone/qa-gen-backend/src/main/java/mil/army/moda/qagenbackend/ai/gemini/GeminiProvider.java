@@ -47,16 +47,23 @@ public class GeminiProvider implements AiProvider {
 
     @Override
     public String generateChatResponse(List<ChatMessage> incomingMessages, String apiKey) {
-        // 1. Initialize BYOK Client for this specific request
+        // Initialize BYOK Client for this specific request
         Client genAiClient = Client.builder().apiKey(apiKey).build();
-        GoogleGenAiChatOptions options = GoogleGenAiChatOptions.builder().model("gemini-2.5-flash-lite").build();
+
+        // Add our new Socratic Tutor configurations here!
+        GoogleGenAiChatOptions options = GoogleGenAiChatOptions.builder()
+                .model("gemini-2.5-flash-lite")
+                .temperature(0.7) // Increases creativity for conversational responses
+                .maxTokens(250)   // Keeps the AI concise and protects BYOK quota
+                .build();
+
+        // Build the Spring AI Chat Model wrapper
         GoogleGenAiChatModel chatModel = GoogleGenAiChatModel.builder()
                 .genAiClient(genAiClient)
                 .defaultOptions(options)
                 .build();
 
-        // 2. Map our custom DTOs into Spring AI's official Message types.
-        // This is crucial because Spring AI handles formatting these for Gemini natively.
+        // Map our custom DTOs into Spring AI's official Message types.
         List<Message> springAiMessages = incomingMessages.stream().map(msg -> {
             Message springMsg = switch (msg.getRole().toLowerCase()) {
                 case "system" -> new SystemMessage(msg.getContent());
@@ -65,8 +72,8 @@ public class GeminiProvider implements AiProvider {
             };
             return springMsg;
         }).toList();
-        
-        // 3. Wrap the messages in a Prompt and execute the call
+
+        // Wrap the messages in a Prompt and execute the call
         Prompt prompt = new Prompt(springAiMessages);
         return Objects.requireNonNull(chatModel.call(prompt).getResult()).getOutput().getText();
     }
