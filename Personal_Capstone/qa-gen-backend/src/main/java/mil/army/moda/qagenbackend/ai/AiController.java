@@ -53,14 +53,18 @@ public class AiController {
                 **CRITICAL SHUFFLE RULE:** The options will be shuffled dynamically for the user. Therefore, you MUST NOT use letters (like A, B, C, D, etc.) or numbers (1, 2, steps, etc.) to refer to the options. You must refer to them using their EXACT TEXT.
 
                 **Output Structure & Formatting:**
+                
                 * **Essential Concept (Optional - Max 1 Sentence):** If a single core principle differentiates the answers.
+                
                 * **Answer Analysis:**
                     * **Correct Answer - [Insert Exact Option Text Here]:** Succinctly explain why this option is correct.
                     * **Incorrect Answers:** For each incorrect option:
                         * **[Insert Exact Option Text Here]:** Briefly state why it is wrong.
+                        
                 * **Key Term Definition(s) (Optional):** Briefly define crucial, unfamiliar technical terms.
 
                 **Constraints & Rules:**
+                
                 * Extreme Conciseness & Directness: Get straight to the point. No introductory filler.
                 * Mandatory Structure: Adhere strictly to the format above.
                 * DO NOT restate the provided question.
