@@ -32,13 +32,13 @@ export default function Navbar() {
                         Create Quiz
                     </Link>
 
-                    {/* New AI Settings Trigger Button */}
+                    {/* AI Settings Trigger Button */}
                     <button
                         onClick={() => setShowSettingsModal(true)}
-                        className="flex items-center gap-2 hover:text-purple-300 transition font-medium"
+                        className="flex items-center gap-2 hover:text-gray-300 transition font-medium"
                         title="Configure AI Tutor Settings"
                     >
-                        <span>⚙️</span> AI Settings
+                        AI Settings
                     </button>
 
                     <button
