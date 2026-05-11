@@ -20,14 +20,14 @@ function App() {
                     <Navbar/>
 
                     <Routes>
-                        {/* Public Routes */}
-                        <Route path="/" element={<Login/>}/>
-                        <Route path="/login" element={<Login/>}/>
-                        <Route path="/register" element={<Register/>}/>
+                         Public Routes
+                        {/*<Route path="/" element={<Login/>}/>*/}
+                        {/*<Route path="/login" element={<Login/>}/>*/}
+                        {/*<Route path="/register" element={<Register/>}/>*/}
 
-                        {/*<Route path="/" element={<Auth/>}/>*/}
-                        {/*<Route path="/login" element={<Auth/>}/>*/}
-                        {/*<Route path="/register" element={<Auth/>}/>*/}
+                        <Route path="/" element={<Auth/>}/>
+                        <Route path="/login" element={<Auth/>}/>
+                        <Route path="/register" element={<Auth/>}/>
 
                         {/* Protected Routes */}
                         <Route path="/dashboard" element={

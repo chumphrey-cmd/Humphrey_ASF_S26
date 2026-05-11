@@ -44,11 +44,7 @@ export default function Login() {
         // Wrapper: centers the card on the screen with our new page background color
         <div className="min-h-screen bg-page flex items-center justify-center p-4">
 
-            {/* The Card: This uses the Neobrutalist "Big Dodo" style.
-              - bg-container: Uses light/dark mode background.
-              - border-2 border-textMain: Thick solid border referencing the main text color.
-              - shadow-brutal: Our custom 4px offset solid shadow defined in tailwind config.
-            */}
+            {/* Card */}
             <div className="bg-container p-8 rounded-md w-full max-w-md border-2 border-textMain shadow-brutal transition-colors duration-300">
                 <h2 className="text-3xl font-black text-center mb-6 text-textMain">Welcome Back</h2>
 
@@ -58,7 +54,7 @@ export default function Login() {
                     </div>
                 )}
 
-                <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                <form onSubmit={handleSubmit} className="flex flex-col gap-5" id={"loginForm"}>
                     {/* Email Input Group */}
                     <div className="flex flex-col gap-1">
                         <label className="font-semibold text-textMain">Email</label>

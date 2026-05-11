@@ -74,13 +74,10 @@ export default function Register() {
                         />
                     </div>
 
-                    {/* Submit Button:
-                      - bg-secondary: Uses our secondary green color for visual distinction.
-                      - active:translate-x-[3px] active:translate-y-[3px]: The physical "push down" effect.
-                    */}
+                    {/* Submit Button:*/}
                     <button
                         type="submit"
-                        className="mt-4 w-full h-12 rounded-md border-2 border-textMain bg-secondary text-textMain font-bold text-lg shadow-brutal cursor-pointer active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
+                        className="mt-4 w-full h-12 rounded-md border-2 border-textMain bg-primary text-textMain font-bold text-lg shadow-brutal cursor-pointer active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
                     >
                         Register
                     </button>

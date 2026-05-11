@@ -118,13 +118,12 @@ export default function Auth() {
                             height: '20px',
                             transform: isFlipped ? 'translateX(26px)' : 'translateX(0px)'
                         }}
-                        className={`absolute -left-[2px] -bottom-[2px] border-2 border-textMain rounded-[5px] shadow-[0_3px_0_var(--main-border)] transition-transform duration-300 ${isFlipped ? 'bg-inputFocus' : 'bg-container'}`}
+                        className={`absolute -left-[2px] -bottom-[-8px] border-2 border-textMain rounded-[5px] shadow-[0_3px_0_var(--main-border)] transition-transform duration-300 ${isFlipped ? 'bg-inputFocus' : 'bg-container'}`}
                     ></div>
                 </button>
             </div>
 
             {/* --- The 3D Flip Card Container --- */}
-            {/* We force the dimensions and perspective natively so Tailwind can't ignore them */}
             <div
                 className="relative bg-transparent"
                 style={{ width: '320px', height: '400px', perspective: '1000px' }}
@@ -142,7 +141,7 @@ export default function Auth() {
                         className="absolute w-full h-full p-5 bg-container rounded-md border-2 border-textMain shadow-brutal flex flex-col justify-center items-center gap-5"
                         style={{ backfaceVisibility: 'hidden' }}
                     >
-                        <h2 className="text-2xl font-black text-textMain mb-2">Log in</h2>
+                        <h2 className="text-4xl font-black text-textMain mb-4">Log in</h2>
                         <form onSubmit={handleLogin} className="flex flex-col items-center gap-4 w-full">
                             <input
                                 type="email"
@@ -164,7 +163,7 @@ export default function Auth() {
                                 type="submit"
                                 className="mt-4 w-[120px] h-10 rounded border-2 border-textMain bg-primary text-textMain font-bold text-lg shadow-brutal cursor-pointer active:translate-x-[3px] active:translate-y-[3px] active:shadow-none transition-all"
                             >
-                                Let's go!
+                                Sign In!
                             </button>
                         </form>
                     </div>
@@ -177,7 +176,7 @@ export default function Auth() {
                             transform: 'rotateY(180deg)'
                         }}
                     >
-                        <h2 className="text-2xl font-black text-textMain mb-2">Sign up</h2>
+                        <h2 className="text-4xl font-black text-textMain mb-4">Sign up</h2>
                         <form onSubmit={handleRegister} className="flex flex-col items-center gap-4 w-full">
                             <input
                                 type="email"

@@ -6,7 +6,7 @@
     /* Core Palette */
     --primary-color: #d8ff43;
     --primary-color-rgb: 216, 255, 67;
-    --secondary-color: #c4e63c;
+    --secondary-color: #d8ff43;
     --text-on-primary: #121212;
     --message-color: #65a30d;
 
@@ -14,7 +14,7 @@
     --error-color: #ef4444;
     --success-color: #22c55e;
 
-    /* Base Colors for Neobrutalism */
+    /* Base Colors */
     --main-border: #323232;
     --input-focus: #2d8cf0;
 
