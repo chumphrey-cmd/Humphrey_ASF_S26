@@ -63,73 +63,63 @@ export default function Dashboard() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-100 p-8 relative">
-            <div className="max-w-5xl mx-auto">
+        <div className="min-h-screen bg-page p-6 sm:p-10 transition-colors duration-300">
+            <div className="max-w-6xl mx-auto">
 
-                {/* Header Section */}
-                <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-3xl font-bold text-gray-800">My Quizzes</h1>
-                    <Link
-                        to="/create"
-                        className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition"
+                {/* - mb-10: Large bottom margin for clear separation.
+                   - items-end: Aligns the "New Quiz" button to the bottom of the title row.
+                */}
+                <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-6 mb-12">
+                    <div>
+                        <h1 className="text-3xl font-black text-textMain tracking-tighter uppercase">Your Quizzes</h1>
+                    </div>
+
+                    <button
+                        onClick={() => navigate('/create')}
+                        className="bg-primary text-textMain border-[3px] border-textMain px-4 py-2 font-black text-xl shadow-brutal active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all uppercase"
                     >
-                        + Create New Quiz
-                    </Link>
+                        + NEW QUIZ
+                    </button>
                 </div>
 
-                {/* Error Banner */}
-                {error && (
-                    <div className="bg-red-100 border-l-4 border-red-500 p-4 mb-6 text-red-700">
-                        {error}
-                    </div>
-                )}
+                {error && <div className="bg-red-100 border-[3px] border-red-500 p-4 mb-6 font-bold shadow-brutal-sm">{error}</div>}
 
-                {/* Empty State */}
-                {!error && quizzes.length === 0 && (
-                    <div className="bg-white p-8 rounded-lg shadow text-center">
-                        <h2 className="text-xl text-gray-600 mb-4">You haven't created any quizzes yet.</h2>
-                        <Link to="/create" className="text-blue-600 font-bold hover:underline">
-                            Click here to parse your first quiz!
-                        </Link>
-                    </div>
-                )}
-
-                {/* The Quiz Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* - grid-cols-1 md:grid-cols-2 lg:grid-cols-3: Responsive columns.
+                   - gap-8: Generous spacing between cards.
+                */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {quizzes.map((quiz) => (
-                        <div key={quiz.id} className="bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition flex flex-col">
-
-                            <div className="flex justify-between items-start mb-2">
-                                <h3 className="text-xl font-bold text-gray-800 truncate pr-4" title={quiz.title}>
-                                    {quiz.title}
-                                </h3>
+                        /* - shadow-brutal: Our signature 4px hard shadow.
+                           - hover:-translate-y-1: Subtle "lift" when hovering over a card.
+                        */
+                        <div
+                            key={quiz.id}
+                            className="bg-container border-[3px] border-textMain p-6 flex flex-col shadow-brutal hover:-translate-y-1 transition-all duration-200"
+                        >
+                            <div className="flex justify-between items-start mb-4">
+                                <h3 className="text-2xl font-black text-textMain leading-tight uppercase">{quiz.title}</h3>
                                 <button
                                     onClick={() => handleDelete(quiz.id)}
-                                    className="text-gray-400 hover:text-red-500 transition-colors p-1"
-                                    title="Delete Quiz"
+                                    className="border-2 border-textMain p-1 hover:bg-red-500 hover:text-white transition-colors"
                                 >
-                                    🗑️
                                 </button>
                             </div>
 
-                            <div className="text-sm text-gray-500 mb-4 flex-grow">
-                                Last Score: <span className="font-bold text-gray-700">{quiz.lastScore !== null ? `${quiz.lastScore}%` : 'Not taken yet'}</span>
+                            <div className="text-md font-bold text-textSub mb-8 flex-grow">
+                                Last Score: <span className="text-textMain">{quiz.lastScore !== null ? `${quiz.lastScore}%` : 'N/A'}</span>
                             </div>
 
-                            {/* Open Modal Instead of Direct Navigation */}
                             <button
                                 onClick={() => handleOpenModal(quiz.id)}
-                                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition mt-auto"
+                                className="w-full bg-primary border-[3px] border-textMain py-3 font-black text-lg shadow-brutal active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all uppercase tracking-widest"
                             >
                                 Take Quiz
                             </button>
                         </div>
                     ))}
                 </div>
-
             </div>
 
-            {/* The Extracted Modal Component */}
             <QuizConfigModal
                 isOpen={showConfigModal}
                 onClose={() => setShowConfigModal(false)}
