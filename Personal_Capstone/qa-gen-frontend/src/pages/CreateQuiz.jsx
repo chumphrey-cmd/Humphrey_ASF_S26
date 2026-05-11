@@ -35,86 +35,97 @@ export default function CreateQuiz() {
             // STEP C: Construct the exact payload Spring Boot expects (CreateQuizRequestDTO)
             const payload = {
                 title: title,
-                questions: parseResult.data
+                questions: parseResult.questions
             };
 
-            // STEP D: Fire it off to the backend using our Axios interceptor
-
-            /// Sanity check for JSON formatting...
-            // console.log("PAYLOAD SENDING TO BACKEND:", JSON.stringify(payload, null, 2));
+            // STEP D: POST to the backend
             await api.post('/api/quizzes', payload);
 
-            // STEP E: If successful, kick them back to the Dashboard
+            // Redirect back home on success
             navigate('/dashboard');
-
         } catch (err) {
-            // This catches server errors (e.g., Spring Boot rejects it, database is down)
-            console.error("Failed to save quiz to database:", err);
-            setErrors(["Failed to connect to the server or save the quiz."]);
-        } finally {
-            // Always unlock the button when finished
+            console.error("Error saving quiz:", err);
+            setErrors(["Failed to save quiz. Please ensure your backend is running."]);
             setIsSubmitting(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 p-8">
-            <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
+        /* bg-page: Maps to our theme's background color.
+           transition-colors: Ensures smooth switching if we toggle Dark Mode. */
+        <div className="min-h-screen bg-page p-6 sm:p-10 transition-colors duration-300">
 
-                <h1 className="text-3xl font-bold mb-6 text-gray-800">Create New Quiz</h1>
+            {/* Main Card:
+                - border-[3px]: The signature thick border.
+                - shadow-brutal: Our 4px hard solid shadow.
+                - max-w-4xl: Keeps the form readable and centered.
+            */}
+            <div className="max-w-4xl mx-auto bg-container border-[3px] border-textMain p-8 shadow-brutal">
 
-                {/* 3. The Error Display Box */}
-                {/* Only renders if our errors array has items inside it */}
+                <h2 className="text-4xl font-black text-textMain mb-2 uppercase tracking-tighter">
+                    Create New Quiz
+                </h2>
+
+                {/* Error Section: Styled as a "Brutal" alert box */}
                 {errors.length > 0 && (
-                    <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
-                        <h3 className="text-red-800 font-bold mb-2">Formatting Errors Found:</h3>
-                        <ul className="list-disc pl-5 text-red-700 space-y-1">
-                            {/* Loop through the array and render a bullet point for each error */}
-                            {errors.map((error, index) => (
-                                <li key={index}>{error}</li>
+                    <div className="bg-red-100 border-[3px] border-red-500 p-4 mb-8 shadow-brutal-sm">
+                        <p className="font-black text-red-700 uppercase mb-2">Parsing Errors Found:</p>
+                        <ul className="list-disc list-inside text-red-700 font-bold">
+                            {errors.map((err, idx) => (
+                                <li key={idx}>{err}</li>
                             ))}
                         </ul>
                     </div>
                 )}
 
-                {/* 4. The Form */}
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="flex flex-col gap-8">
 
-                    {/* Title Input */}
-                    <div>
-                        <label className="block text-gray-700 font-bold mb-2">Quiz Title</label>
+                    {/* Title Input Group */}
+                    <div className="flex flex-col gap-2">
+                        <label className="text-xl font-black text-textMain uppercase">Quiz Title</label>
                         <input
                             type="text"
                             required
-                            placeholder="e.g., Chapter 4: Geography"
-                            className="w-full border border-gray-300 p-3 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="e.g., Demo Quiz 1"
+                            /* shadow-brutal-sm: A 2px hard shadow for a tactile feel.
+                               focus:translate-x: Moves the input slightly when clicked to feel "pressed". */
+                            className="w-full h-14 px-4 border-[3px] border-textMain bg-container text-textMain font-bold text-lg shadow-brutal-sm focus:outline-none focus:border-inputFocus focus:translate-x-[2px] focus:translate-y-[2px] focus:shadow-none transition-all placeholder:text-textSub placeholder:opacity-50"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                         />
                     </div>
 
-                    {/* Raw Text Area */}
-                    <div>
-                        <label className="block text-gray-700 font-bold mb-2">Paste Quiz Text</label>
-                        <p className="text-sm text-gray-500 mb-2">
-                            Format: "1. Question text" followed by "A. Option", indicating the correct answer with an asterisk (*).
-                        </p>
+                    {/* Text Area Group */}
+                    <div className="flex flex-col gap-2">
+                        <label className="text-xl font-black text-textMain uppercase">Paste Quiz Text</label>
+
+                        {/* Instructional Tip Box */}
+                        <div className="bg-yellow-50 border-2 border-textMain p-3 mb-2 shadow-brutal-sm text-sm font-bold text-textMain italic">
+                            Format Tip: "1. Question" → "A. Option" → "*" for correct answer.
+                        </div>
+
                         <textarea
                             required
-                            rows="15"
+                            rows="12"
                             placeholder="1. What is the capital of France?&#10;A. Berlin&#10;B. Madrid&#10;C. Paris*&#10;D. Rome"
-                            className="w-full border border-gray-300 p-3 rounded font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            /* font-mono: Makes formatted text easier to read for structural checks. */
+                            className="w-full border-[3px] border-textMain p-4 bg-container text-textMain font-mono text-base shadow-brutal-sm focus:outline-none focus:border-inputFocus focus:translate-x-[2px] focus:translate-y-[2px] focus:shadow-none transition-all placeholder:text-textSub placeholder:opacity-40"
                             value={rawText}
                             onChange={(e) => setRawText(e.target.value)}
                         />
                     </div>
 
-                    {/* Submit Button */}
+                    {/* Submit Button:
+                        - bg-primary: Uses your vibrant Lime Green.
+                        - active:translate-x-[4px]: The physical "push-down" button effect.
+                    */}
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className={`w-full py-3 rounded text-white font-bold transition duration-200 
-                            ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
+                        className={`w-full py-5 border-[3px] border-textMain font-black text-2xl uppercase tracking-widest transition-all shadow-brutal
+                            ${isSubmitting
+                            ? 'bg-textSub cursor-not-allowed opacity-50'
+                            : 'bg-primary text-textMain hover:bg-secondary active:translate-x-[4px] active:translate-y-[4px] active:shadow-none cursor-pointer'}`}
                     >
                         {isSubmitting ? 'Parsing & Saving...' : 'Save Quiz'}
                     </button>
