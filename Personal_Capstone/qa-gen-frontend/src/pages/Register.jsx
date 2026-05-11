@@ -30,47 +30,67 @@ export default function Register() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-            <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-                <h2 className="text-2xl font-bold text-center mb-6">Create an Account</h2>
+        // Wrapper: centers the card on the screen with our theme background color
+        <div className="min-h-screen bg-page flex items-center justify-center p-4 transition-colors duration-300">
+
+            {/* The Card: Neobrutalist "Big Dodo" style.
+              - bg-container: Uses light/dark mode background.
+              - border-2 border-textMain: Thick solid border.
+              - shadow-brutal: Custom 4px offset solid shadow.
+            */}
+            <div className="bg-container p-8 rounded-md w-full max-w-md border-2 border-textMain shadow-brutal transition-colors duration-300">
+                <h2 className="text-3xl font-black text-center mb-6 text-textMain">Create an Account</h2>
 
                 {error && (
-                    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    <div className="bg-red-100 border-2 border-red-500 text-red-700 font-bold px-4 py-3 rounded-md mb-6 shadow-brutal-sm">
                         {error}
                     </div>
                 )}
 
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label className="block text-gray-700 mb-1">Email</label>
+                <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                    {/* Email Input Group */}
+                    <div className="flex flex-col gap-1">
+                        <label className="font-semibold text-textMain">Email</label>
                         <input
                             type="email"
                             required
-                            className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="user@example.com"
+                            className="w-full h-10 px-3 rounded-md border-2 border-textMain bg-container text-textMain shadow-brutal focus:outline-none focus:border-inputFocus transition-colors placeholder:text-textSub placeholder:opacity-70"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
-                    <div>
-                        <label className="block text-gray-700 mb-1">Password</label>
+
+                    {/* Password Input Group */}
+                    <div className="flex flex-col gap-1">
+                        <label className="font-semibold text-textMain">Password</label>
                         <input
                             type="password"
                             required
-                            className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="••••••••"
+                            className="w-full h-10 px-3 rounded-md border-2 border-textMain bg-container text-textMain shadow-brutal focus:outline-none focus:border-inputFocus transition-colors placeholder:text-textSub placeholder:opacity-70"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
+
+                    {/* Submit Button:
+                      - bg-secondary: Uses our secondary green color for visual distinction.
+                      - active:translate-x-[3px] active:translate-y-[3px]: The physical "push down" effect.
+                    */}
                     <button
                         type="submit"
-                        className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition duration-200"
+                        className="mt-4 w-full h-12 rounded-md border-2 border-textMain bg-secondary text-textMain font-bold text-lg shadow-brutal cursor-pointer active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
                     >
                         Register
                     </button>
                 </form>
 
-                <p className="text-center mt-4 text-gray-600">
-                    Already have an account? <Link to="/login" className="text-blue-600 hover:underline">Sign in</Link>
+                <p className="text-center mt-6 font-medium text-textSub">
+                    Already have an account?{' '}
+                    <Link to="/login" className="text-textMain font-bold underline decoration-2 hover:text-inputFocus transition-colors">
+                        Sign in
+                    </Link>
                 </p>
             </div>
         </div>

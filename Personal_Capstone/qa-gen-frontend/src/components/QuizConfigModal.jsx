@@ -66,7 +66,7 @@ export default function QuizConfigModal({ isOpen, onClose, onStart }) {
                         className="w-full border border-gray-300 rounded p-2 text-gray-700 bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
                         value={timeLimit}
                         onChange={(e) => setTimeLimit(e.target.value)}
-                        disabled={mode === 'study'} // Optional UX: Disable timer input in study mode
+                        // disabled={mode === 'study'}
                     />
                     <p className="text-xs text-gray-400 mt-1">Enter 0 for no time limit.</p>
                 </div>
@@ -83,7 +83,7 @@ export default function QuizConfigModal({ isOpen, onClose, onStart }) {
                         onClick={handleStartClick}
                         className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded font-bold transition shadow-md"
                     >
-                        Start Engine
+                        Begin
                     </button>
                 </div>
             </div>

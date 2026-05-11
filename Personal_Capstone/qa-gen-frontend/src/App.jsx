@@ -6,6 +6,7 @@ import AiSettingsModal from './components/AiSettingsModal';
 import ProtectedRoute from './components/ProtectedRoutes.jsx';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Auth from "./pages/Auth.jsx";
 import Dashboard from './pages/Dashboard';
 import CreateQuiz from './pages/CreateQuiz';
 import Quiz from './pages/Quiz';
@@ -23,6 +24,10 @@ function App() {
                         <Route path="/" element={<Login/>}/>
                         <Route path="/login" element={<Login/>}/>
                         <Route path="/register" element={<Register/>}/>
+
+                        {/*<Route path="/" element={<Auth/>}/>*/}
+                        {/*<Route path="/login" element={<Auth/>}/>*/}
+                        {/*<Route path="/register" element={<Auth/>}/>*/}
 
                         {/* Protected Routes */}
                         <Route path="/dashboard" element={
