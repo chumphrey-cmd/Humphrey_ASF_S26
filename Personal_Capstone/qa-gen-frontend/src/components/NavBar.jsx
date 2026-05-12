@@ -38,11 +38,11 @@ export default function Navbar() {
                        - hover:border-textMain: Shows the border only when hovered.
                     */}
                     <Link to="/dashboard" className="font-bold text-textMain px-3 py-1 border-2 border-transparent hover:border-textMain hover:bg-primary rounded transition-all">
-                        Dashboard
+                        DASHBOARD
                     </Link>
 
                     <Link to="/create" className="font-bold text-textMain px-3 py-1 border-2 border-transparent hover:border-textMain hover:bg-primary rounded transition-all">
-                        Create
+                        CREATE
                     </Link>
 
                     {/* AI Settings Toggle */}
@@ -50,7 +50,7 @@ export default function Navbar() {
                         onClick={() => setShowSettingsModal(true)}
                         className="font-bold text-textMain px-3 py-1 border-2 border-transparent hover:border-textMain hover:bg-primary rounded transition-all"
                     >
-                        AI Tutor
+                        SETTINGS
                     </button>
 
                     {/* - shadow-brutal-sm: Our custom 2px hard shadow.
@@ -61,7 +61,7 @@ export default function Navbar() {
                         onClick={handleLogout}
                         className="ml-4 bg-red-500 text-white px-4 py-2 border-2 border-textMain font-bold shadow-brutal-sm active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
                     >
-                        Logout
+                        LOGOUT
                     </button>
                 </div>
             </div>

@@ -33,7 +33,7 @@ const QuestionNavigator = ({ questions, userAnswers, flagged, jumpToQuestion }) 
                             `}
                             title={isFlagged ? `Question ${idx + 1} (Flagged)` : `Question ${idx + 1}`}
                         >
-                            {isFlagged ? '🚩' : idx + 1}
+                            {isFlagged ? '' : idx + 1}
                         </button>
                     );
                 })}

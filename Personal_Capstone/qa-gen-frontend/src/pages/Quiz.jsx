@@ -102,17 +102,21 @@ export default function Quiz() {
                 />
 
                 {/* --- THE TOGGLEABLE NAVIGATOR PANEL --- */}
-                {(examMode === 'study' || isReviewing) && (
-                    <div className="mb-4">
+                {(examMode === 'study' || !isReviewing) && (
+                    <div className="mb-8">
+
+                        {/* Toggle Button */}
                         <button
                             onClick={() => setShowNavigator(!showNavigator)}
-                            className="text-sm font-bold text-gray-600 hover:text-blue-600 flex items-center transition"
+                            className="px-6 py-3 border-[3px] border-textMain bg-container text-textMain font-black uppercase tracking-wider shadow-brutal-sm hover:bg-primary active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all flex items-center gap-3 w-full sm:w-auto justify-center"
                         >
-                            {showNavigator ? '▼ Hide Question Navigator' : '▶ Show Question Navigator & Flagged'}
+                            {/* Added a dynamic icon for better tactile feel */}
+                            <span className="text-xl leading-none">{showNavigator ? '▼' : '▶'}</span>
+                            {showNavigator ? 'Hide Question Map' : 'Show Question Map & Flags'}
                         </button>
 
                         {showNavigator && (
-                            <div className="mt-4">
+                            <div className="mt-6 transition-all">
                                 <QuestionNavigator
                                     questions={questions}
                                     userAnswers={userAnswers}
@@ -140,10 +144,7 @@ export default function Quiz() {
                             isSubmitting={isSubmitting}
                         />
                     ) : (
-
-
-
-
+                        
                         // Question card rendering for Quiz/Exam modes
                         <div>
 
