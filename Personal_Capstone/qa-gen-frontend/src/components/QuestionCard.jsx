@@ -36,7 +36,8 @@ const QuestionCard = ({
     };
 
     return (
-        <div id={`question-${q.id}`} className="bg-container border-[3px] border-textMain shadow-brutal p-6 md:p-8 mb-8 transition-colors">
+        <div id={`question-${q.id}`} className="bg-transparent py-4 md:py-8 mb-8 transition-colors">
+            
             {/* Top Question Header and Flag */}
             <div className="flex justify-between items-start mb-6 border-b-[3px] border-textMain pb-4">
                 <h2 className="text-2xl font-black text-textMain">
