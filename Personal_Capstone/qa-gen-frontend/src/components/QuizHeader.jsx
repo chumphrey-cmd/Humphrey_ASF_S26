@@ -11,26 +11,27 @@ const QuizHeader = ({
                         progressPercent
                     }) => {
     return (
-        <div className="mb-6">
+        <div className="mb-8">
             {/* 1. Header Row: Title & Status Badges */}
-            <div className="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
-                <h1 className="text-3xl font-bold text-gray-800">
+            <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+
+                {/* Heavy, uppercase, tight tracking */}
+                <h1 className="text-4xl font-black text-textMain uppercase tracking-tighter">
                     {title || "Assessment"}
                 </h1>
 
-                <div className="flex flex-wrap items-center gap-3">
+                <div className="flex flex-wrap items-center gap-4">
                     {/* Only renders if a time limit was set AND the exam isn't over */}
                     {timeLeft && !isGraded && (
-                        <div className="flex items-center gap-2 bg-red-50 text-red-700 px-4 py-2 rounded-lg border border-red-200 font-mono font-bold text-xl shadow-sm tracking-widest">
-                            ⏱️ {timeLeft}
+                        /* Timer: Chunky red alert style */
+                        <div className="flex items-center gap-2 bg-red-100 text-red-700 px-4 py-1 border-[3px] border-red-500 font-mono font-bold text-lg shadow-brutal-sm tracking-widest">
+                            {timeLeft}
                         </div>
                     )}
 
-                    {/* Locked Mode Badge (Replaced the Dropdown) */}
-                    <div className={`px-4 py-2 rounded-lg border shadow-sm font-bold text-sm uppercase tracking-wider
-                        ${examMode === 'exam'
-                        ? 'bg-purple-50 text-purple-700 border-purple-200'
-                        : 'bg-green-50 text-green-700 border-green-200'}`}
+                    {/* Locked Mode Badge: Physical tag appearance */}
+                    <div className={`px-4 py-2 border-[3px] border-textMain shadow-brutal-sm font-black text-sm uppercase tracking-wider text-textMain
+                        ${examMode === 'exam' ? 'bg-primary' : 'bg-secondary'}`}
                     >
                         {examMode} MODE
                     </div>
@@ -38,18 +39,23 @@ const QuizHeader = ({
             </div>
 
             {/* 2. Progress Bar Section */}
-            <div className="bg-white p-4 rounded-lg shadow-sm border mb-6">
-                <div className="flex justify-between text-sm text-gray-600 mb-2">
-                    <span className="font-medium">
+            {/* Themed Container: Thick border and solid shadow */}
+            <div className="bg-container p-5 border-[3px] border-textMain shadow-brutal">
+
+                <div className="flex justify-between text-sm md:text-base font-black text-textMain mb-3 uppercase tracking-wide">
+                    <span>
                         {isGraded ? 'Final Review' : `Question ${(currentIndex || 0) + 1} of ${totalQuestions}`}
                     </span>
-                    <span className="font-medium text-blue-600">
+                    <span>
                         {answeredCount} of {totalQuestions} Answered
                     </span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+
+                {/* Progress Bar: Square corners, high contrast track/fill */}
+                <div className="w-full bg-page border-[3px] border-textMain h-6 relative overflow-hidden">
                     <div
-                        className="bg-blue-600 h-full transition-all duration-500 ease-out min-w-[2px]"
+                        /* The Fill: Uses our lime green, with a hard right border to look like a physical block sliding over */
+                        className="bg-primary h-full transition-all duration-500 ease-out border-r-[3px] border-textMain"
                         style={{ width: `${progressPercent}%` }}
                     ></div>
                 </div>

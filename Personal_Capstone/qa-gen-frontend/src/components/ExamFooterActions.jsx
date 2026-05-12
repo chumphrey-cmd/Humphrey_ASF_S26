@@ -9,34 +9,45 @@ const ExamFooterActions = ({
                                onReview
                            }) => {
     return (
-        <div className="flex justify-between items-center border-t pt-4">
+        /* Thick top border acts as a visual separator for the footer area */
+        <div className="flex justify-between items-center border-t-[3px] border-textMain pt-6 mt-8">
+
             {/* Next/Prev buttons ONLY show in Exam Mode */}
             {examMode === 'exam' ? (
-                <div className="space-x-3">
+                <div className="flex gap-4">
+                    {/* PREVIOUS BUTTON
+                        - disabled state: flattens the shadow and lowers opacity so it looks unclickable.
+                    */}
                     <button
                         onClick={onPrevious}
                         disabled={currentIndex === 0}
-                        className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50"
+                        className="px-6 py-3 bg-container border-[3px] border-textMain text-textMain font-black uppercase tracking-wider shadow-brutal-sm hover:bg-page active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all disabled:opacity-50 disabled:shadow-none disabled:translate-x-[4px] disabled:translate-y-[4px] disabled:cursor-not-allowed"
                     >
                         Previous
                     </button>
+
+                    {/* NEXT BUTTON
+                        - Uses Primary Lime Green
+                    */}
                     <button
                         onClick={onNext}
                         disabled={currentIndex === totalQuestions - 1}
-                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+                        className="px-8 py-3 bg-primary border-[3px] border-textMain text-textMain font-black uppercase tracking-wider shadow-brutal-sm active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all disabled:opacity-50 disabled:shadow-none disabled:translate-x-[4px] disabled:translate-y-[4px] disabled:cursor-not-allowed"
                     >
                         Next
                     </button>
                 </div>
             ) : (
-                <div>{/* Empty placeholder to keep Submit button pushed right */}</div>
+                <div>{/* Empty placeholder to keep Submit button pushed right using flex-between */}</div>
             )}
 
-            {/* Submit Button NOW GOES TO REVIEW SUMMARY */}
+            {/* Submit / Review Summary Button
+                - Uses Secondary Green to distinguish it as a final/different action type
+            */}
             {(examMode === 'study' || currentIndex === totalQuestions - 1) && (
                 <button
                     onClick={onReview}
-                    className="px-6 py-2 bg-blue-600 text-white font-bold rounded hover:bg-blue-700 transition shadow-md"
+                    className="px-8 py-3 bg-secondary border-[3px] border-textMain text-textMain font-black uppercase tracking-wider shadow-brutal hover:bg-primary active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
                 >
                     Review Summary
                 </button>
