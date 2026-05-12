@@ -48,10 +48,10 @@ const AiSettingsModal = () => {
         }
     };
 
-    // [UPDATE 3]: Find the current provider object so we can use its label and placeholder dynamically
+    // Find the current provider object so we can use its label and placeholder dynamically
     const currentProvider = AI_PROVIDERS.find(p => p.id === provider) || AI_PROVIDERS[0];
 
-    // [UPDATE 4]: Validation Handler before saving
+    // Validation Handler before saving
     const handleSave = () => {
         if (!apiKey || apiKey.trim() === '') {
             setError('An API Key is required to use the AI Tutor.');
@@ -84,7 +84,7 @@ const AiSettingsModal = () => {
                     </div>
                 </div>
 
-                {/* [UPDATE 5]: Themed Error Banner */}
+                {/* Themed Error Banner */}
                 {error && (
                     <div className="bg-red-100 border-[3px] border-red-500 p-3 mb-6 shadow-brutal-sm flex items-center gap-2">
                         <span className="text-red-700 font-black text-xl">!</span>
@@ -136,7 +136,7 @@ const AiSettingsModal = () => {
                     <label className="block text-lg font-black text-textMain mb-2 uppercase">API Key</label>
                     <input
                         type="password"
-                        /* [UPDATE 8]: Dynamically render the placeholder based on the current selection */
+                        /* Dynamically render the placeholder based on the current selection */
                         placeholder={currentProvider.placeholder}
                         value={apiKey}
                         onChange={(e) => {
