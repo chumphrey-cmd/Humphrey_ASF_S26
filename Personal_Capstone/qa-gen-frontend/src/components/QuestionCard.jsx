@@ -36,70 +36,104 @@ const QuestionCard = ({
     };
 
     return (
-        <div id={`question-${q.id}`} className="p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
-            {/* Top Question Header */}
-            <div className="flex justify-between items-start mb-4">
-                <h2 className="text-xl text-gray-800 font-medium">
+        <div id={`question-${q.id}`} className="bg-container border-[3px] border-textMain shadow-brutal p-6 md:p-8 mb-8 transition-colors">
+            {/* Top Question Header and Flag */}
+            <div className="flex justify-between items-start mb-6 border-b-[3px] border-textMain pb-4">
+                <h2 className="text-2xl font-black text-textMain">
                     {displayNumber}. {cleanQuestionText}
                 </h2>
                 <button
                     onClick={() => onToggleFlag(q.id)}
-                    className={`ml-4 p-2 rounded transition ${isFlagged ? 'bg-yellow-100 text-yellow-700 font-bold' : 'text-gray-400 hover:bg-gray-100'}`}
+                    className={`p-2 border-[3px] border-textMain font-black text-lg shadow-brutal-sm transition-all active:translate-x-[2px] active:translate-y-[2px] active:shadow-none
+                        ${isFlagged ? 'bg-yellow-300 text-textMain' : 'bg-container hover:bg-page'}`}
+                    title="Flag for review"
                 >
-                    🚩 {isFlagged ? 'Flagged' : 'Flag'}
+                    {isFlagged ? 'FLAGGED' : 'FLAG'}
                 </button>
             </div>
 
-            {isMulti && <p className="text-sm text-gray-500 mb-4 italic">(Select all that apply)</p>}
+            {isMulti && <p className="w-fit ml-4 mb-6 bg-secondary border-[3px] border-textMain shadow-brutal-sm px-3 py-1 font-black text-xs uppercase tracking-widest text-textMain"> (Select all that apply)</p>}
 
             {/* The Multiple Choice Options */}
             <div className="space-y-3 mb-4">
-                {q.options.map((option, idx) => (
-                    <label
-                        key={idx}
-                        className={`block p-4 border rounded cursor-pointer transition 
-                            ${currentSelections.includes(option) ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:bg-gray-50'}`}
-                    >
-                        <input
-                            type={isMulti ? "checkbox" : "radio"}
-                            name={`question-${q.id}`}
-                            value={option}
-                            checked={currentSelections.includes(option)}
-                            onChange={() => onOptionSelect(q.id, option, isMulti)}
-                            className="mr-3 cursor-pointer"
-                        />
-                        {option}
-                    </label>
-                ))}
+                {q.options.map((option, idx) => {
+                    const isSelected = currentSelections.includes(option);
+
+                    return (
+                        <label
+                            key={idx}
+                            // Added 'cursor-pointer' so the user knows the whole block is clickable
+                            className={`cursor-pointer w-full text-left p-4 border-[3px] border-textMain font-bold text-lg flex items-center transition-all 
+                            ${isSelected
+                                ? 'bg-primary translate-x-[2px] translate-y-[2px] shadow-none'
+                                : 'bg-container shadow-brutal-sm hover:bg-page active:translate-x-[2px] active:translate-y-[2px] active:shadow-none'
+                            }`}
+                        >
+                            {/* Input here is hidden visually, but keeps the logic perfectly intact */}
+                            <input
+                                type={isMulti ? "checkbox" : "radio"}
+                                name={`question-${q.id}`}
+                                value={option}
+                                checked={isSelected}
+                                onChange={() => onOptionSelect(q.id, option, isMulti)}
+                                className="sr-only"
+                            />
+
+                            {/* 2. Visual Box/Circle */}
+                            <div className={`
+                            mr-4 flex items-center justify-center shrink-0 border-[3px] border-textMain transition-colors
+                            ${isMulti ? 'w-4 h-4' : 'w-4 h-4 rounded-full'} 
+                            ${isSelected ? 'bg-textMain' : 'bg-container'}
+                        `}>
+                                {/* The "Check" or "Dot" that appears when selected */}
+                                {isSelected && (
+                                    isMulti
+                                        ? <span className="text-page font-black text-xl leading-none -mt-1"></span>
+                                        : <div className="w-2 h-2 bg-page rounded-full"></div>
+                                )}
+                            </div>
+
+                            {/* 3. The Option Text */}
+                            <span className="text-textMain">{option}</span>
+                        </label>
+                    );
+                })}
             </div>
 
-            {/* AI Explain Button & Result (Phase 7) */}
+            {/* AI Explain Button */}
             {examMode === 'study' && (
-                <div className="border-t pt-4 mt-4">
+                <div className="border-t-[3px] border-textMain pt-6 mt-6">
                     {!aiExplanation ? (
                         <button
                             onClick={() => onExplain(q.id)}
                             disabled={isAiLoading}
-                            className="px-4 py-2 border border-purple-500 text-purple-600 font-semibold rounded hover:bg-purple-50 transition text-sm disabled:opacity-50 flex items-center gap-2"
+                            // Retained your exact button styling, just added a disabled state so it visually flattens when loading
+                            className="w-full py-4 bg-secondary border-[3px] border-textMain text-textMain font-black uppercase tracking-wider shadow-brutal-sm hover:bg-primary active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all disabled:opacity-50 disabled:shadow-none disabled:translate-x-[4px] disabled:translate-y-[4px] disabled:cursor-not-allowed"
                         >
-                            {isAiLoading ? '✨ Analyzing...' : '✨ Explain with AI'}
+                            {isAiLoading ? 'Analyzing...' : 'Explain with AI'}
                         </button>
                     ) : (
-                        <div className="bg-purple-50 border border-purple-100 rounded-lg p-5 mt-2">
-                            <div className="flex justify-between items-center mb-3">
-                                <h4 className="font-bold text-purple-800 flex items-center gap-2">✨ AI Explanation</h4>
+
+                        <div className="bg-gray-300 border-[3px] border-textMain shadow-brutal p-5 mt-2">
+
+                            {/* Header with thick bottom border separator */}
+                            <div className="flex justify-between items-center mb-4 border-b-[3px] border-textMain pb-3">
+                                <h4 className="font-black text-xl text-textMain uppercase flex items-center gap-2">
+                                    Explanation
+                                </h4>
                             </div>
 
-                            {/* Replaced standard text with ReactMarkdown */}
-                            <div className="text-gray-800 text-sm leading-relaxed prose prose-purple max-w-none">
+                            {/* Markdown text converted to heavy, bold text rather than soft gray prose */}
+                            <div className="text-textMain text-base leading-relaxed">
                                 <ReactMarkdown>{aiExplanation}</ReactMarkdown>
                             </div>
 
                             {/* Phase 8: Discuss Further Toggle */}
-                            <div className="mt-4 pt-4 border-t border-purple-200">
+                            <div className="mt-6 pt-4 border-t-[3px] border-textMain flex justify-end">
+                                {/* Toggle button */}
                                 <button
                                     onClick={() => setIsChatOpen(!isChatOpen)}
-                                    className="text-purple-700 text-sm font-semibold hover:underline"
+                                    className="px-6 py-2 bg-page border-[3px] border-textMain text-textMain font-black uppercase tracking-wider shadow-brutal-sm hover:bg-primary active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
                                 >
                                     {isChatOpen ? 'Hide Discussion' : 'Discuss Further'}
                                 </button>
@@ -111,7 +145,7 @@ const QuestionCard = ({
 
             {/* Phase 8: The Socratic Chat Interface */}
             {isChatOpen && aiExplanation && (
-                <div className="mt-4 bg-gray-50 border border-gray-200 rounded-lg flex flex-col h-[400px]">
+                <div className="border-[3px] border-textMain shadow-brutal-sm bg-container mt-4 flex flex-col overflow-hidden">
 
                     {/* Chat History Area */}
                     <div className="flex-1 overflow-y-auto p-4 space-y-4">
@@ -122,10 +156,10 @@ const QuestionCard = ({
                                     key={index}
                                     className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                                 >
-                                    <div className={`max-w-[80%] p-3 rounded-lg text-sm ${
+                                    <div className={`p-3 border-[3px] border-textMain shadow-brutal-sm max-w-[85%] font-bold ${
                                         msg.role === 'user'
-                                            ? 'bg-purple-600 text-white rounded-br-none'
-                                            : 'bg-white border border-gray-200 text-gray-800 rounded-bl-none shadow-sm prose prose-sm max-w-none'
+                                            ? 'bg-primary self-end'
+                                            : 'bg-container self-start'
                                     }`}>
                                         {msg.role === 'user' ? (
                                             msg.content
@@ -139,10 +173,10 @@ const QuestionCard = ({
                         {/* Floating Dots Loading Indicator */}
                         {isChatLoading && (
                             <div className="flex justify-start">
-                                <div className="bg-white border border-gray-200 p-4 rounded-lg rounded-bl-none shadow-sm flex space-x-1">
-                                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                                <div className="bg-container border-[3px] border-textMain p-3 shadow-brutal-sm self-start font-black uppercase flex items-center gap-2">
+                                    <div className="w-2 h-2 bg-textMain animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                                    <div className="w-2 h-2 bg-textMain animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                                    <div className="w-2 h-2 bg-textMain animate-bounce" style={{ animationDelay: '300ms' }}></div>
                                 </div>
 
 
@@ -159,12 +193,12 @@ const QuestionCard = ({
                                 onChange={(e) => setChatInput(e.target.value)}
                                 disabled={isChatLoading}
                                 placeholder="Ask a follow-up question..."
-                                className="flex-1 border border-gray-300 rounded-full px-4 py-2 text-sm focus:outline-none focus:border-purple-500 disabled:bg-gray-100"
+                                className="flex-1 border-[3px] border-textMain px-4 py-2 font-bold text-sm shadow-brutal-sm focus:outline-none focus:translate-x-[2px] focus:translate-y-[2px] focus:shadow-none transition-all disabled:opacity-50 disabled:bg-page text-textMain"
                             />
                             <button
                                 type="submit"
                                 disabled={isChatLoading || !chatInput.trim()}
-                                className="bg-purple-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-purple-700 transition disabled:opacity-50"
+                                className="bg-textMain text-white border-[3px] border-textMain px-6 py-2 font-black uppercase tracking-wider shadow-brutal-sm active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 Send
                             </button>

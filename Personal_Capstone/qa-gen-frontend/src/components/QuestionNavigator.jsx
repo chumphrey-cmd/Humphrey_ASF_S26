@@ -2,26 +2,42 @@ import React from 'react';
 
 const QuestionNavigator = ({ questions, userAnswers, flagged, jumpToQuestion }) => {
     return (
-        <div className="flex flex-wrap justify-center gap-3 mb-10 p-6 bg-gray-50 border rounded-lg max-h-96 overflow-y-auto">
-            {questions.map((q, idx) => {
-                // Determine the state of each question for styling
-                const isAnswered = (userAnswers[q.id] || []).length > 0;
-                const isFlagged = flagged.has(q.id);
+        /* The thick frame around the navigator grid */
+        <div className="mb-10 p-6 bg-container border-[3px] border-textMain shadow-brutal max-h-96 overflow-y-auto">
 
-                return (
-                    <button
-                        key={q.id}
-                        onClick={() => jumpToQuestion(idx)}
-                        className={`
-                            w-12 h-12 rounded shadow-sm font-bold flex items-center justify-center transition text-lg
-                            ${isFlagged ? 'bg-yellow-100 text-yellow-700 border-2 border-yellow-400' :
-                            isAnswered ? 'bg-blue-100 text-blue-700 border border-blue-200 hover:bg-blue-200' : 'bg-white border-2 border-red-300 text-red-500 hover:bg-red-50'}
-                        `}
-                    >
-                        {isFlagged ? '🚩' : idx + 1}
-                    </button>
-                );
-            })}
+            <h3 className="font-black text-xl text-textMain uppercase mb-6 tracking-tighter border-b-[3px] border-textMain pb-2">
+                Question Map
+            </h3>
+
+            <div className="flex flex-wrap justify-start gap-3 md:gap-4">
+                {questions.map((q, idx) => {
+                    // Determine the state of each question for styling
+                    const isAnswered = (userAnswers[q.id] || []).length > 0;
+                    const isFlagged = flagged.has(q.id);
+
+                    return (
+                        <button
+                            key={q.id}
+                            onClick={() => jumpToQuestion(idx)}
+                            /* The Grid Buttons:
+                               - Base: 3px borders, solid shadow, physical translation on click.
+                               - State logic: Overrides colors based on Answered / Flagged status.
+                            */
+                            className={`
+                                w-12 h-12 md:w-14 md:h-14 border-[3px] border-textMain font-black text-xl flex items-center justify-center transition-all shadow-brutal-sm active:translate-x-[2px] active:translate-y-[2px] active:shadow-none
+                                ${isFlagged
+                                ? 'bg-yellow-300 hover:bg-yellow-400 text-textMain'
+                                : isAnswered
+                                    ? 'bg-primary hover:bg-secondary text-textMain'
+                                    : 'bg-container hover:bg-page text-textMain'}
+                            `}
+                            title={isFlagged ? `Question ${idx + 1} (Flagged)` : `Question ${idx + 1}`}
+                        >
+                            {isFlagged ? '🚩' : idx + 1}
+                        </button>
+                    );
+                })}
+            </div>
         </div>
     );
 };
