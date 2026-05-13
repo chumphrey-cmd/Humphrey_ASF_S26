@@ -85,8 +85,8 @@ export default function Quiz() {
     const progressPercent = questions.length > 0 ? (answeredCount / questions.length) * 100 : 0;
 
     return (
-        <div className="min-h-screen bg-gray-100 p-8">
-            <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
+        <div className="min-h-screen bg-page text-textMain flex flex-col font-sans transition-colors">
+            <div className="w-full max-w-4xl mx-auto px-4 py-8 md:py-12 flex-1 flex flex-col">
 
                 {/* --- EXTRACTED HEADER & PROGRESS BAR --- */}
                 <QuizHeader
@@ -169,7 +169,7 @@ export default function Quiz() {
                             ) : (
 
                                 /* STUDY MODE: All Questions, Scrolling */
-                                <div className="space-y-8 h-[60vh] overflow-y-auto pr-4 mb-6">
+                                <div className="space-y-8 flex-1 overflow-y-auto pr-4 mb-6">
                                     {questions.map((q, index) => {
                                         return (
                                             <QuestionCard
