@@ -1,4 +1,6 @@
-package mil.army.moda.qagenbackend.ai;
+package io.chumahumphrey.qagen.qagenbackend.ai;
+
+import io.chumahumphrey.qagen.qagenbackend.dto.ChatMessage;
 
 /**
  * The core contract for all AI integrations.
@@ -30,5 +32,5 @@ public interface AiProvider {
      * @param apiKey The specific API key provided by the user.
      * @return The AI-generated chat response.
      */
-    String generateChatResponse(java.util.List<mil.army.moda.qagenbackend.dto.ChatMessage> messages, String apiKey);
+    String generateChatResponse(java.util.List<ChatMessage> messages, String apiKey);
 }

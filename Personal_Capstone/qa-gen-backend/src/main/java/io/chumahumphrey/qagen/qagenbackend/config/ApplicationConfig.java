@@ -1,6 +1,6 @@
-package mil.army.moda.qagenbackend.config;
+package io.chumahumphrey.qagen.qagenbackend.config;
 
-import mil.army.moda.qagenbackend.user.UserRepository;
+import io.chumahumphrey.qagen.qagenbackend.user.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

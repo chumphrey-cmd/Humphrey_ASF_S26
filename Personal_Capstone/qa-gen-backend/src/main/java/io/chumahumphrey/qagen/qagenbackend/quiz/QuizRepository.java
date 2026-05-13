@@ -1,4 +1,4 @@
-package mil.army.moda.qagenbackend.quiz;
+package io.chumahumphrey.qagen.qagenbackend.quiz;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

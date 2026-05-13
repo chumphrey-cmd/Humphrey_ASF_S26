@@ -1,13 +1,12 @@
-package mil.army.moda.qagenbackend.config;
+package io.chumahumphrey.qagen.qagenbackend.config;
 
-import mil.army.moda.qagenbackend.user.User;
-import mil.army.moda.qagenbackend.user.UserRepository;
+import io.chumahumphrey.qagen.qagenbackend.user.User;
+import io.chumahumphrey.qagen.qagenbackend.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

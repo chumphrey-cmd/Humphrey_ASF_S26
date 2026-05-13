@@ -1,4 +1,4 @@
-package mil.army.moda.qagenbackend.auth;
+package io.chumahumphrey.qagen.qagenbackend.auth;
 
 /**
  * A Data Transfer Object (DTO) used to securely catch incoming JSON requests.

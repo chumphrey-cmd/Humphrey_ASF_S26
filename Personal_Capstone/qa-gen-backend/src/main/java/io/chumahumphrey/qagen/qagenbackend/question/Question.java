@@ -1,8 +1,8 @@
-package mil.army.moda.qagenbackend.question;
+package io.chumahumphrey.qagen.qagenbackend.question;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import mil.army.moda.qagenbackend.quiz.Quiz;
+import io.chumahumphrey.qagen.qagenbackend.quiz.Quiz;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import java.util.List;

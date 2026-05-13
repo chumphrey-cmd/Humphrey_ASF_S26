@@ -1,4 +1,4 @@
-package mil.army.moda.qagenbackend.user;
+package io.chumahumphrey.qagen.qagenbackend.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -1,4 +1,4 @@
-package mil.army.moda.qagenbackend;
+package io.chumahumphrey.qagen.qagenbackend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

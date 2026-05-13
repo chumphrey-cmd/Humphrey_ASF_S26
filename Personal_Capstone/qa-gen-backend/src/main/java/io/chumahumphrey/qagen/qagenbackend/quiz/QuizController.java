@@ -1,12 +1,12 @@
-package mil.army.moda.qagenbackend.quiz;
+package io.chumahumphrey.qagen.qagenbackend.quiz;
 
-import mil.army.moda.qagenbackend.dto.CreateQuizRequestDTO;
-import mil.army.moda.qagenbackend.dto.QuestionDTO;
-import mil.army.moda.qagenbackend.dto.QuizResponseDTO;
-import mil.army.moda.qagenbackend.question.Question;
-import mil.army.moda.qagenbackend.question.QuestionService;
-import mil.army.moda.qagenbackend.user.User;
-import mil.army.moda.qagenbackend.user.UserRepository;
+import io.chumahumphrey.qagen.qagenbackend.dto.CreateQuizRequestDTO;
+import io.chumahumphrey.qagen.qagenbackend.dto.QuestionDTO;
+import io.chumahumphrey.qagen.qagenbackend.dto.QuizResponseDTO;
+import io.chumahumphrey.qagen.qagenbackend.question.Question;
+import io.chumahumphrey.qagen.qagenbackend.question.QuestionService;
+import io.chumahumphrey.qagen.qagenbackend.user.User;
+import io.chumahumphrey.qagen.qagenbackend.user.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

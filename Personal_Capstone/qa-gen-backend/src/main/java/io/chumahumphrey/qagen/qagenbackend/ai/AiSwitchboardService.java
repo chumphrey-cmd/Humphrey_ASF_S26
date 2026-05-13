@@ -1,6 +1,6 @@
-package mil.army.moda.qagenbackend.ai;
+package io.chumahumphrey.qagen.qagenbackend.ai;
 
-import mil.army.moda.qagenbackend.dto.ChatMessage;
+import io.chumahumphrey.qagen.qagenbackend.dto.ChatMessage;
 import org.springframework.stereotype.Service;
 import java.util.List;
 

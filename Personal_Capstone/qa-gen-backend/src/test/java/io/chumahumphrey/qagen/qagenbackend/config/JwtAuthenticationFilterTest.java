@@ -1,4 +1,4 @@
-package mil.army.moda.qagenbackend.config;
+package io.chumahumphrey.qagen.qagenbackend.config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

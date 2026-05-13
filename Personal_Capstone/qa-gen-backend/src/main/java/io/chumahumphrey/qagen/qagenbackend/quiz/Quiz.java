@@ -1,9 +1,9 @@
-package mil.army.moda.qagenbackend.quiz;
+package io.chumahumphrey.qagen.qagenbackend.quiz;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import mil.army.moda.qagenbackend.question.Question;
-import mil.army.moda.qagenbackend.user.User;
+import io.chumahumphrey.qagen.qagenbackend.question.Question;
+import io.chumahumphrey.qagen.qagenbackend.user.User;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;

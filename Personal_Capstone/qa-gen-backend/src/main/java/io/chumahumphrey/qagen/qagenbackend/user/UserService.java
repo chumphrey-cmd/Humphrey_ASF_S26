@@ -1,4 +1,4 @@
-package mil.army.moda.qagenbackend.user;
+package io.chumahumphrey.qagen.qagenbackend.user;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

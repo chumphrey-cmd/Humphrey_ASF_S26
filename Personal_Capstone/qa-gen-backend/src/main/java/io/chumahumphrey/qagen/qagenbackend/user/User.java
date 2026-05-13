@@ -1,7 +1,7 @@
-package mil.army.moda.qagenbackend.user;
+package io.chumahumphrey.qagen.qagenbackend.user;
 
 import jakarta.persistence.*;
-import mil.army.moda.qagenbackend.quiz.Quiz;
+import io.chumahumphrey.qagen.qagenbackend.quiz.Quiz;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

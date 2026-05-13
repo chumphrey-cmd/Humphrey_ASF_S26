@@ -1,4 +1,4 @@
-package mil.army.moda.qagenbackend.dto;
+package io.chumahumphrey.qagen.qagenbackend.dto;
 
 /**
  * Represents a single message in a conversational AI chat.

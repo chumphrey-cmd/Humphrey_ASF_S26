@@ -1,7 +1,8 @@
-package mil.army.moda.qagenbackend.ai;
+package io.chumahumphrey.qagen.qagenbackend.ai;
 
-import mil.army.moda.qagenbackend.question.Question;
-import mil.army.moda.qagenbackend.question.QuestionService;
+import io.chumahumphrey.qagen.qagenbackend.dto.ChatRequestDTO;
+import io.chumahumphrey.qagen.qagenbackend.question.Question;
+import io.chumahumphrey.qagen.qagenbackend.question.QuestionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -111,7 +112,7 @@ public class AiController {
     @PostMapping("/{id}/chat")
     public ResponseEntity<?> chatWithTutor(
             @PathVariable UUID id,
-            @RequestBody mil.army.moda.qagenbackend.dto.ChatRequestDTO chatRequest,
+            @RequestBody ChatRequestDTO chatRequest,
             @RequestHeader(value = "X-AI-Provider", defaultValue = "gemini") String providerName,
             @RequestHeader(value = "X-API-Key", required = false) String apiKey) {
 

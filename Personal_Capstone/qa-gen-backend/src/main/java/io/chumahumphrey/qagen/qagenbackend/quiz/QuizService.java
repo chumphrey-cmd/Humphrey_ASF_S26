@@ -1,12 +1,10 @@
-package mil.army.moda.qagenbackend.quiz;
+package io.chumahumphrey.qagen.qagenbackend.quiz;
 
-import mil.army.moda.qagenbackend.user.User;
-import mil.army.moda.qagenbackend.user.UserRepository;
+import io.chumahumphrey.qagen.qagenbackend.user.User;
+import io.chumahumphrey.qagen.qagenbackend.user.UserRepository;
 import org.springframework.stereotype.Service;
-import tools.jackson.databind.ObjectMapper;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Service

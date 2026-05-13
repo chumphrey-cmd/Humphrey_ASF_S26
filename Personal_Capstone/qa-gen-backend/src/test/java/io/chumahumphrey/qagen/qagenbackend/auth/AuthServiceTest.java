@@ -1,8 +1,8 @@
-package mil.army.moda.qagenbackend.auth;
+package io.chumahumphrey.qagen.qagenbackend.auth;
 
-import mil.army.moda.qagenbackend.config.JwtService;
-import mil.army.moda.qagenbackend.user.User;
-import mil.army.moda.qagenbackend.user.UserRepository;
+import io.chumahumphrey.qagen.qagenbackend.config.JwtService;
+import io.chumahumphrey.qagen.qagenbackend.user.User;
+import io.chumahumphrey.qagen.qagenbackend.user.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

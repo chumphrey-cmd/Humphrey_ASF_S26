@@ -1,8 +1,8 @@
-package mil.army.moda.qagenbackend.ai.gemini;
+package io.chumahumphrey.qagen.qagenbackend.ai.gemini;
 
 import com.google.genai.Client;
-import mil.army.moda.qagenbackend.ai.AiProvider;
-import mil.army.moda.qagenbackend.dto.ChatMessage;
+import io.chumahumphrey.qagen.qagenbackend.ai.AiProvider;
+import io.chumahumphrey.qagen.qagenbackend.dto.ChatMessage;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.messages.SystemMessage;

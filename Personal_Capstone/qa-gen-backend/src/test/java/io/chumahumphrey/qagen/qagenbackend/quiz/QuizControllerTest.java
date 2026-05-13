@@ -1,9 +1,9 @@
-package mil.army.moda.qagenbackend.quiz;
+package io.chumahumphrey.qagen.qagenbackend.quiz;
 
-import mil.army.moda.qagenbackend.config.JwtService;
-import mil.army.moda.qagenbackend.dto.QuizResponseDTO;
-import mil.army.moda.qagenbackend.question.QuestionService;
-import mil.army.moda.qagenbackend.user.UserRepository;
+import io.chumahumphrey.qagen.qagenbackend.config.JwtService;
+import io.chumahumphrey.qagen.qagenbackend.dto.QuizResponseDTO;
+import io.chumahumphrey.qagen.qagenbackend.question.QuestionService;
+import io.chumahumphrey.qagen.qagenbackend.user.UserRepository;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import mil.army.moda.qagenbackend.user.User;
+import io.chumahumphrey.qagen.qagenbackend.user.User;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;

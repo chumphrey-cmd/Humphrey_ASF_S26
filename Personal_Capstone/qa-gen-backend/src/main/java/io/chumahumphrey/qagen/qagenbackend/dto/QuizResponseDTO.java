@@ -1,4 +1,4 @@
-package mil.army.moda.qagenbackend.dto;
+package io.chumahumphrey.qagen.qagenbackend.dto;
 import java.util.UUID;
 
 public class QuizResponseDTO {

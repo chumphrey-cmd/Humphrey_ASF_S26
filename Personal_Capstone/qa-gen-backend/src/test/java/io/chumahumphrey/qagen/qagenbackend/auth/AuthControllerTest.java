@@ -1,6 +1,6 @@
-package mil.army.moda.qagenbackend.auth;
+package io.chumahumphrey.qagen.qagenbackend.auth;
 
-import mil.army.moda.qagenbackend.config.JwtService;
+import io.chumahumphrey.qagen.qagenbackend.config.JwtService;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
